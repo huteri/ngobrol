@@ -5,7 +5,7 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "com.chitchat.app"
+        applicationId "com.mymonas.ngobrol"
         minSdkVersion 14
         targetSdkVersion 20
         versionCode 1

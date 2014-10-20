@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.chitchat.app.ui.PostActivity" >
+    tools:context="com.mymonas.ngobrol.ui.PostActivity" >
     <item android:id="@+id/action_new"
         android:title="@string/action_settings"
         android:orderInCategory="300"
