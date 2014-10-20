@@ -1,0 +1,145 @@
+package com.chitchat.app.ui;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.chitchat.app.R;
+import com.chitchat.app.io.RestClient;
+import com.chitchat.app.io.model.UserLoginCallback;
+import com.dd.processbutton.iml.ActionProcessButton;
+import com.micromobs.android.floatlabel.FloatLabelEditText;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+public class LoginActivity extends Activity {
+
+    private static final int BTN_START_PROGRESS = 1;
+    private static final int BTN_NORMAL = 0;
+    private static final int BTN_SUCCESS = 100;
+    private FloatLabelEditText mEtAccountName;
+    private FloatLabelEditText mEtAccountPass;
+    private ActionProcessButton mBtnSubmit;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mEtAccountName = (FloatLabelEditText) findViewById(R.id.accountName);
+        mEtAccountPass = (FloatLabelEditText) findViewById(R.id.accountPassword);
+        mBtnSubmit = (ActionProcessButton) findViewById(R.id.submit);
+
+        mBtnSubmit.setMode(ActionProcessButton.Mode.ENDLESS);
+        mBtnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submit();
+            }
+        });
+
+        Button btnRegister = (Button) findViewById(R.id.register);
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+
+    private void submit() {
+        final String userEmail = mEtAccountName.getText().toString();
+        final String userPass = mEtAccountPass.getText().toString();
+
+        if(userEmail.length()<1) {
+            mEtAccountName.getFloatingLabel().setText(getString(R.string.register_error_username_required));
+            mEtAccountName.getFloatingLabel().setTextColor(Color.RED);
+            mEtAccountName.setIsCustomText(true);
+            mEtAccountName.showFloatingLabel();
+            return;
+        } else if(userPass.length() < 1) {
+            mEtAccountPass.getFloatingLabel().setText(getString(R.string.register_error_password_required));
+            mEtAccountPass.getFloatingLabel().setTextColor(Color.RED);
+            mEtAccountPass.setIsCustomText(true);
+            mEtAccountPass.showFloatingLabel();
+            return;
+        }
+
+        doLoginTask(userEmail, userPass);
+    }
+
+    private void doLoginTask(final String userEmail, String userPass) {
+
+        String androidName = Build.MODEL;
+        String androidId = Build.ID;
+
+        mEtAccountName.setEnabled(false);
+        mEtAccountPass.setEnabled(false);
+        mBtnSubmit.setProgress(BTN_START_PROGRESS);
+
+        RestClient.get().logUser(userEmail, userPass, androidName, androidId, new Callback<UserLoginCallback>() {
+            @Override
+            public void success(UserLoginCallback userLoginCallback, Response response) {
+               if(userLoginCallback.getSuccess() == 1) {
+                   mBtnSubmit.setProgress(BTN_SUCCESS);
+
+                   SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                   SharedPreferences.Editor edit = prefs.edit();
+                   edit.putString("username", userEmail);
+                   edit.putInt("userId", userLoginCallback.getData().getId());
+                   edit.putString("api", userLoginCallback.getData().getApi());
+                   edit.commit();
+
+                   Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                   startActivity(intent);
+                   LoginActivity.this.finish();
+
+               } else {
+                   Toast.makeText(LoginActivity.this, userLoginCallback.getMessage(), Toast.LENGTH_SHORT).show();
+                   mBtnSubmit.setProgress(BTN_NORMAL);
+               }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                mBtnSubmit.setProgress(BTN_NORMAL);
+            }
+        });
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+}

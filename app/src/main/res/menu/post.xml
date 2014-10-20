@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.chitchat.app.ui.PostActivity" >
+    <item android:id="@+id/action_new"
+        android:title="@string/action_settings"
+        android:orderInCategory="300"
+        android:icon="@drawable/ic_post_new"
+        android:showAsAction="always" />
+    <item android:id="@+id/action_first"
+        android:title="@string/post_first"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_post_first"
+        android:showAsAction="always" />
+    <item android:id="@+id/action_last"
+        android:title="@string/post_last"
+        android:orderInCategory="200"
+        android:icon="@drawable/ic_post_last"
+        android:showAsAction="always" />
+</menu>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Chitchat</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="general_signin">Login</string>
+    <string name="login_button_success">Success</string>
+    <string name="login_button_signing">Logging in..</string>
+    <string name="general_register">Register</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="general_username">Username</string>
+    <string name="general_password">Password</string>
+    <string name="register_confirm_password">Confirm Password</string>
+    <string name="register_button">Register</string>
+    <string name="register_on_progress">Registering...</string>
+    <string name="register_error_confirm_password">Both password should be the same</string>
+    <string name="register_error_password_required">Password is required</string>
+    <string name="register_error_username_required">Username is required</string>
+    <string name="register_success">You are successfully registered. Please login now</string>
+    <string name="general_logout">Logout</string>
+    <string name="logout_progress">Logging out...</string>
+    <string name="general_noaccount">No account</string>
+    <string name="title_activity_post">PostActivity</string>
+    <string name="general_page">Page </string>
+    <string name="post_last">Last Post</string>
+    <string name="post_first">First post</string>
+
+</resources>

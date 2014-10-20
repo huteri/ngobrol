@@ -1,0 +1,85 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:processbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:floatlabel="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <com.micromobs.android.floatlabel.FloatLabelEditText
+                android:id="@+id/accountName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                floatlabel:fitScreenWidth="full"
+                floatlabel:hint="@string/general_username"
+                floatlabel:textColorHintFocused="@color/accent_color"
+                floatlabel:textColorHintUnFocused="@android:color/darker_gray" />
+
+            <com.micromobs.android.floatlabel.FloatLabelEditText
+                android:id="@+id/accountPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                floatlabel:fitScreenWidth="full"
+                floatlabel:hint="@string/general_password"
+                floatlabel:inputType="textPassword"
+                floatlabel:textColorHintFocused="@color/accent_color"
+                floatlabel:textColorHintUnFocused="@android:color/darker_gray" />
+
+            <com.dd.processbutton.iml.ActionProcessButton
+                android:id="@+id/submit"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/general_signin"
+                android:textColor="@android:color/white"
+                processbutton:pb_colorComplete="@color/pb_colorComplete"
+                processbutton:pb_colorNormal="@color/theme_color"
+                processbutton:pb_colorPressed="@color/accent_color"
+                processbutton:pb_colorProgress="@color/accent_color"
+                processbutton:pb_textComplete="@string/login_button_success"
+                processbutton:pb_textProgress="@string/login_button_signing" />
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/google_signin"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginBottom="10dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:id="@+id/border_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/register"
+        android:background="#20000000" />
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/selectable_background_grey"
+        android:padding="10dp"
+        android:text="@string/general_register"
+        android:textColor="@android:color/background_dark"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>

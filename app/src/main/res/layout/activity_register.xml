@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:floatlabel="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <com.micromobs.android.floatlabel.FloatLabelEditText
+        android:id="@+id/accountName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        floatlabel:fitScreenWidth="full"
+        floatlabel:hint="@string/general_username"
+        floatlabel:textColorHintFocused="@color/accent_color"
+        floatlabel:textColorHintUnFocused="@android:color/darker_gray" />
+
+    <com.micromobs.android.floatlabel.FloatLabelEditText
+        android:id="@+id/accountPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        floatlabel:fitScreenWidth="full"
+        floatlabel:hint="@string/general_password"
+        floatlabel:inputType="textPassword"
+        floatlabel:textColorHintFocused="@color/accent_color"
+        floatlabel:textColorHintUnFocused="@android:color/darker_gray" />
+
+    <com.micromobs.android.floatlabel.FloatLabelEditText
+        android:id="@+id/accountRePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        floatlabel:fitScreenWidth="full"
+        floatlabel:hint="@string/register_confirm_password"
+        floatlabel:inputType="textPassword"
+        floatlabel:textColorHintFocused="@color/accent_color"
+        floatlabel:textColorHintUnFocused="@android:color/darker_gray" />
+
+    <com.dd.processbutton.iml.ActionProcessButton
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/register_button"
+        android:textColor="@android:color/white"
+        custom:pb_colorComplete="@color/pb_colorComplete"
+        custom:pb_colorNormal="@color/theme_color"
+        custom:pb_colorPressed="@color/accent_color"
+        custom:pb_colorProgress="@color/accent_color"
+        custom:pb_textComplete="@string/login_button_success"
+        custom:pb_textProgress="@string/register_on_progress" />
+
+
+</LinearLayout>
