@@ -31,7 +31,12 @@ public class PostAdapter extends ArrayAdapter<PostData> {
         View view = inflater.inflate(R.layout.post_item, parent, false);
 
         TextView tvText = (TextView) view.findViewById(R.id.text);
+        TextView tvName = (TextView) view.findViewById(R.id.name);
+        TextView tvDate = (TextView) view.findViewById(R.id.date);
+
         tvText.setText(mPostData.get(position).getText());
+        tvName.setText(mPostData.get(position).getUser().getUsername());
+        tvDate.setText(mPostData.get(position).getDateCreated());
 
         return view;
 

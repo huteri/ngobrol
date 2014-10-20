@@ -57,7 +57,7 @@ public class PostFragment extends Fragment {
         mIndicator.setViewPager(mViewPager);
         mIndicator.setTextColor(getResources().getColor(R.color.pressed_grey));
         mIndicator.setSelectedColor(getResources().getColor(R.color.accent_color));
-        mIndicator.setFooterColor(getResources().getColor(R.color.accent_color));
+        mIndicator.setFooterColor(getResources().getColor(R.color.divider));
         mIndicator.setFooterIndicatorStyle(TitlePageIndicator.IndicatorStyle.Triangle);
 
         mPostData = new ArrayList<PostData>();

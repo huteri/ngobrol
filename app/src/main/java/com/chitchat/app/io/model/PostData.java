@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class PostData implements Serializable{
     private int id;
     private String text;
+    private String dateCreated;
     private UserData user;
     private ThreadItem thread;
 
@@ -43,5 +44,13 @@ public class PostData implements Serializable{
 
     public void setThread(ThreadItem thread) {
         this.thread = thread;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
     }
 }
