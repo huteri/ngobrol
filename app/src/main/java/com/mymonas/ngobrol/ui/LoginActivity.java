@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,7 +88,7 @@ public class LoginActivity extends Activity {
     private void doLoginTask(final String userEmail, String userPass) {
 
         String androidName = Build.MODEL;
-        String androidId = Build.ID;
+        String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         mEtAccountName.setEnabled(false);
         mEtAccountPass.setEnabled(false);

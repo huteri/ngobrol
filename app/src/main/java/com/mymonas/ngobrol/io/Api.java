@@ -20,8 +20,9 @@ public interface Api {
     @GET("/thread.php")
     void getThreads(@Query("action") String actionName, Callback<ThreadCallback> callback);
 
-    @GET("/post.php")
+    @GET("/post.php?action=get_posts")
     void getPosts(@Query("threadId") int threadId, @Query("limit") int limit, @Query("p") int page, Callback<PostCallback> callback);
+
     @FormUrlEncoded
     @POST("/user.php?action=register")
     void regUser(@Field("username") String username, @Field("password") String password, Callback<BaseCallback> callback);
