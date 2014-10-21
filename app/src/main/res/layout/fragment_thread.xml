@@ -1,22 +1,17 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mymonas.ngobrol.ui.ThreadFragment">
+    android:orientation="vertical"
+    >
 
-   <ListView
-       android:id="@+id/thread_list"
-       android:layout_width="match_parent"
-       android:clipToPadding="false"
-       android:divider="@android:color/transparent"
-       android:scrollbarStyle="outsideOverlay"
-       android:layout_height="match_parent" />
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dip" />
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-</FrameLayout>
+</LinearLayout>
