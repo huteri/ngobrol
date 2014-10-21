@@ -1,6 +1,7 @@
 package com.mymonas.ngobrol.io;
 
 import com.mymonas.ngobrol.io.model.BaseCallback;
+import com.mymonas.ngobrol.io.model.CategoryCallback;
 import com.mymonas.ngobrol.io.model.PostCallback;
 import com.mymonas.ngobrol.io.model.ThreadCallback;
 import com.mymonas.ngobrol.io.model.UserLoginCallback;
@@ -23,6 +24,9 @@ public interface Api {
     @GET("/post.php?action=get_posts")
     void getPosts(@Query("threadId") int threadId, @Query("limit") int limit, @Query("p") int page, Callback<PostCallback> callback);
 
+    @GET("/category.php?action=get_categories")
+    void getCategories(Callback<CategoryCallback> callback);
+
     @FormUrlEncoded
     @POST("/user.php?action=register")
     void regUser(@Field("username") String username, @Field("password") String password, Callback<BaseCallback> callback);
@@ -34,6 +38,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("/user.php?action=logout")
     void logoutUser(@Field("userId") int userId, @Field("api") String api, Callback<BaseCallback> callback);
+
+
 
 
 }
