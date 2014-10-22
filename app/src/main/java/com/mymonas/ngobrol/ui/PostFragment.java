@@ -1,6 +1,8 @@
 package com.mymonas.ngobrol.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,13 +12,18 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.RestClient;
+import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.io.model.PostCallback;
 import com.mymonas.ngobrol.io.model.PostData;
 import com.mymonas.ngobrol.util.Clog;
+import com.mymonas.ngobrol.util.UserUtil;
 import com.viewpagerindicator.TitlePageIndicator;
 
 import java.util.ArrayList;
@@ -41,6 +48,7 @@ public class PostFragment extends Fragment {
     private boolean mIsLastData = false;
     private int mTotalPostData = 0;
     private ProgressBar mProgressBar;
+    private UserUtil mUserUtil;
 
     public PostFragment() {
 
@@ -63,6 +71,7 @@ public class PostFragment extends Fragment {
         mPostData = new ArrayList<PostData>();
         mArgs = getArguments();
         mThreadId = Integer.valueOf(mArgs.getString("threadId"));
+        mUserUtil = new UserUtil(getActivity());
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
@@ -121,16 +130,66 @@ public class PostFragment extends Fragment {
             case R.id.action_last:
                 if (mTotalPostData > 0) {
                     int totalPage = (int) Math.ceil(mTotalPostData / (float) NUM_POST_PER_PAGE);
-                    mIndicator.onPageSelected(totalPage);
+                    mViewPager.setCurrentItem(totalPage);
                 }
                 break;
             case R.id.action_first:
                 mIndicator.onPageSelected(0);
                 break;
             case R.id.action_new:
+                addNewPost();
                 break;
         }
         return true;
+    }
+
+    private void addNewPost() {
+        // error on no user available
+        if(!mUserUtil.isAvailable()) {
+            Toast.makeText(getActivity(), getActivity().getString(R.string.message_no_user), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle(getActivity().getString(R.string.post_add_new));
+
+        final View view = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.dialog_post_add_new, null);
+        TextView whoPost = (TextView) view.findViewById(R.id.whopost);
+        whoPost.setText(getActivity().getString(R.string.dialog_whopost)+" "+mUserUtil.getUsername());
+
+        dialog.setView(view);
+
+        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialogInterface, int i) {
+                ProgressBar pBar = (ProgressBar) view.findViewById(R.id.pBar);
+                EditText text = (EditText) view.findViewById(R.id.text);
+                pBar.setVisibility(View.VISIBLE);
+
+                RestClient.get().submitPost(mThreadId, mUserUtil.getUserId(), mUserUtil.getAPI(), mUserUtil.getAndroidId(), text.getText().toString(), new Callback<BaseCallback>() {
+                    @Override
+                    public void success(BaseCallback baseCallback, Response response) {
+                        if(baseCallback.getSuccess() == 1) {
+                            Toast.makeText(getActivity(), getActivity().getString(R.string.post_success), Toast.LENGTH_SHORT).show();
+                            dialogInterface.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+            }
+        });
+        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        dialog.create();
+        dialog.show();
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.mymonas.ngobrol.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 
 /**
  * Created by Huteri on 10/17/2014.
@@ -35,6 +36,11 @@ public class UserUtil {
    public boolean isAvailable() {
        return (mPrefs.getInt(ARG_USERID, 0) > 0) ? true:false;
    }
+
+    public String getAndroidId() {
+        return Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
+
 
     public void clear() {
         SharedPreferences.Editor editor = mPrefs.edit();

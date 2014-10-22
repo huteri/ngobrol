@@ -29,5 +29,10 @@
     <string name="general_page">Page </string>
     <string name="post_last">Last Post</string>
     <string name="post_first">First post</string>
+    <string name="post_add_new">Add New Post</string>
+    <string name="message_no_user">Please login first.</string>
+    <string name="post_success">New post added.</string>
+    <string name="dialog_post_hint">Put your message here</string>
+    <string name="dialog_whopost">Posted as</string>
 
 </resources>

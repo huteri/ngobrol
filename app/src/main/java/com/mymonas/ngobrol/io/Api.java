@@ -39,7 +39,8 @@ public interface Api {
     @POST("/user.php?action=logout")
     void logoutUser(@Field("userId") int userId, @Field("api") String api, Callback<BaseCallback> callback);
 
-
-
+    @FormUrlEncoded
+    @POST("/post.php?action=submit_post")
+    void submitPost(@Query("threadId") int threadId, @Field("userId") int userId, @Field("api") String api,@Field("androidId") String androidId, @Field("text") String text, Callback<BaseCallback> callback);
 
 }
