@@ -38,7 +38,7 @@ import retrofit.client.Response;
 public class PostFragment extends Fragment {
     public static final int NUM_POST_PER_PAGE = 5;
     private static final int NUM_POST_REQUEST = 0;
-    private Integer currentPage = 1;
+    private Integer mCurrentRequestedPage = 1;
     private Bundle mArgs;
     private ViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
@@ -86,7 +86,7 @@ public class PostFragment extends Fragment {
         Clog.d("");
         if (mPostData.size() == 0 || mTotalPostData > mPostData.size()) {
             mProgressBar.setVisibility(View.VISIBLE);
-            RestClient.get().getPosts(mThreadId, NUM_POST_REQUEST, currentPage, new Callback<PostCallback>() {
+            RestClient.get().getPosts(mThreadId, NUM_POST_REQUEST, mCurrentRequestedPage, new Callback<PostCallback>() {
                 @Override
                 public void success(PostCallback postCallback, Response response) {
                     mProgressBar.setVisibility(View.GONE);
@@ -98,13 +98,20 @@ public class PostFragment extends Fragment {
                             int numPage = (int) Math.ceil(postCallback.getCount() / (float) NUM_POST_PER_PAGE);
                             Clog.d("numPage : " + postCallback.getCount() + "/" + NUM_POST_PER_PAGE + " = " + numPage);
 
-                            Bundle args = new Bundle();
-                            args.putSerializable("data", mPostData);
-                            int size = mPagerAdapter.getCount();
-                            for (int i = size; i < size + numPage; i++)
-                                mPagerAdapter.addPage(getActivity().getString(R.string.general_page) + " " + (i + 1), args);
+                            Bundle args;
+                            ArrayList<PostData> tempList;
 
-                            mPagerAdapter.notifyDataSetChanged();
+                            int size = mPagerAdapter.getCount();
+                            for (int i = size; i < size + numPage; i++) {
+                                Clog.d("Add page with position : " + i);
+                                tempList = getPostDataBasedOnPosition(i);
+
+                                args = new Bundle();
+                                args.putSerializable("data", tempList);
+
+                                mPagerAdapter.addPage(getActivity().getString(R.string.general_page) + " " + (i + 1), args);
+                            }
+
                         } else {
                             mIsLastData = true;
                         }
@@ -120,6 +127,22 @@ public class PostFragment extends Fragment {
                 }
             });
         }
+    }
+
+    private ArrayList<PostData> getPostDataBasedOnPosition(int pos) {
+        int offset = pos * NUM_POST_PER_PAGE;
+        ArrayList<PostData> currentPostData = new ArrayList<PostData>();
+
+        int nextSet;
+        if ((offset + NUM_POST_PER_PAGE) > mPostData.size())
+            nextSet = mPostData.size();
+        else
+            nextSet = offset + NUM_POST_PER_PAGE;
+
+        for (int j = offset; j < nextSet; j++) {
+            currentPostData.add(mPostData.get(j));
+        }
+        return currentPostData;
     }
 
 
@@ -145,7 +168,7 @@ public class PostFragment extends Fragment {
 
     private void addNewPost() {
         // error on no user available
-        if(!mUserUtil.isAvailable()) {
+        if (!mUserUtil.isAvailable()) {
             Toast.makeText(getActivity(), getActivity().getString(R.string.message_no_user), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -154,7 +177,7 @@ public class PostFragment extends Fragment {
 
         final View view = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.dialog_post_add_new, null);
         TextView whoPost = (TextView) view.findViewById(R.id.whopost);
-        whoPost.setText(getActivity().getString(R.string.dialog_whopost)+" "+mUserUtil.getUsername());
+        whoPost.setText(getActivity().getString(R.string.dialog_whopost) + " " + mUserUtil.getUsername());
 
         dialog.setView(view);
 
@@ -168,7 +191,7 @@ public class PostFragment extends Fragment {
                 RestClient.get().submitPost(mThreadId, mUserUtil.getUserId(), mUserUtil.getAPI(), mUserUtil.getAndroidId(), text.getText().toString(), new Callback<BaseCallback>() {
                     @Override
                     public void success(BaseCallback baseCallback, Response response) {
-                        if(baseCallback.getSuccess() == 1) {
+                        if (baseCallback.getSuccess() == 1) {
                             Toast.makeText(getActivity(), getActivity().getString(R.string.post_success), Toast.LENGTH_SHORT).show();
                             dialogInterface.dismiss();
                         }
@@ -230,10 +253,9 @@ public class PostFragment extends Fragment {
 
         @Override
         public Fragment getItem(int i) {
+            Clog.d(i);
             PagerInfo info = mPager.get(i);
             Bundle args = info.getArgs();
-            args.putInt("position", i);
-
 
             return PagePostFragment.newInstance(mContext, args);
         }
@@ -245,12 +267,12 @@ public class PostFragment extends Fragment {
 
         @Override
         public void onPageSelected(int i) {
-            Clog.d(i + " mPager.size() : " + mPager.size());
+            Clog.d(i);
 
             mViewPager.setCurrentItem(i);
 
             if (i == mPager.size() - 1 && !mIsLastData) {
-                currentPage++;
+                mCurrentRequestedPage++;
                 getCurrentPostData();
             }
         }

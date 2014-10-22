@@ -21,9 +21,11 @@ import java.util.ArrayList;
  */
 public class PagePostFragment extends Fragment {
 
+    private Bundle mArgs = null;
     private ListView mPostListView;
 
     public PagePostFragment() {
+
 
     }
 
@@ -36,28 +38,11 @@ public class PagePostFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_page_post, container, false);
+        mArgs = getArguments();
+        ArrayList<PostData> postData = (ArrayList<PostData>) mArgs.getSerializable("data");
+        Clog.d(postData.get(0).getText());
 
-        Bundle args = getArguments();
-
-        ArrayList<PostData> postData = (ArrayList<PostData>) args.getSerializable("data");
-        Clog.d(postData.toString());
-
-        int currentPage = args.getInt("position");
-        int offset = (currentPage) * PostFragment.NUM_POST_PER_PAGE;
-        Clog.d("Current Page :"+currentPage);
-        ArrayList<PostData> currentPostData = new ArrayList<PostData>();
-
-        int nextSet;
-        if((offset+PostFragment.NUM_POST_PER_PAGE) > postData.size())
-            nextSet = postData.size();
-        else
-            nextSet = offset+PostFragment.NUM_POST_PER_PAGE;
-
-        for (int i = offset; i < nextSet; i++) {
-                currentPostData.add(postData.get(i));
-        }
-
-        PostAdapter postAdapter = new PostAdapter(getActivity(), currentPostData);
+        PostAdapter postAdapter = new PostAdapter(getActivity(), postData);
 
         mPostListView = (ListView) view.findViewById(R.id.post_lv);
         mPostListView.setAdapter(postAdapter);

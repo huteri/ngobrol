@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.model.PostData;
+import com.mymonas.ngobrol.util.Clog;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,8 @@ public class PostAdapter extends ArrayAdapter<PostData> {
         TextView tvText = (TextView) view.findViewById(R.id.text);
         TextView tvName = (TextView) view.findViewById(R.id.name);
         TextView tvDate = (TextView) view.findViewById(R.id.date);
+
+        Clog.d(mPostData.get(position).getText());
 
         tvText.setText(mPostData.get(position).getText());
         tvName.setText(mPostData.get(position).getUser().getUsername());
