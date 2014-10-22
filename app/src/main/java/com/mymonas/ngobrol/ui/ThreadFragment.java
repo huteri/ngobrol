@@ -40,10 +40,9 @@ public class ThreadFragment extends Fragment{
         tabs.setDividerColor(getResources().getColor(R.color.divider));
         tabs.setTextColor(getResources().getColor(R.color.theme_color));
         tabs.setIndicatorColor(getResources().getColor(R.color.theme_color));
-        tabs.setShouldExpand(true);
         tabs.setViewPager(mViewPager);
 
-
+        mViewPager.setCurrentItem(1);
 
         return view;
     }

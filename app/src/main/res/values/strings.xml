@@ -34,5 +34,7 @@
     <string name="post_success">New post added.</string>
     <string name="dialog_post_hint">Put your message here</string>
     <string name="dialog_whopost">Posted as</string>
+    <string name="general_ok">OK</string>
+    <string name="general_cancel">Cancel</string>
 
 </resources>

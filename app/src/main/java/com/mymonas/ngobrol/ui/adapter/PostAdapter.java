@@ -35,8 +35,6 @@ public class PostAdapter extends ArrayAdapter<PostData> {
         TextView tvName = (TextView) view.findViewById(R.id.name);
         TextView tvDate = (TextView) view.findViewById(R.id.date);
 
-        Clog.d(mPostData.get(position).getText());
-
         tvText.setText(mPostData.get(position).getText());
         tvName.setText(mPostData.get(position).getUser().getUsername());
         tvDate.setText(mPostData.get(position).getDateCreated());

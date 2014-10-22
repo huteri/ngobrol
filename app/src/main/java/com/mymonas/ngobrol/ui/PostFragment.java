@@ -49,6 +49,7 @@ public class PostFragment extends Fragment {
     private int mTotalPostData = 0;
     private ProgressBar mProgressBar;
     private UserUtil mUserUtil;
+    private int mCurrentPage = 0;
 
     public PostFragment() {
 
@@ -102,15 +103,17 @@ public class PostFragment extends Fragment {
                             ArrayList<PostData> tempList;
 
                             int size = mPagerAdapter.getCount();
-                            for (int i = size; i < size + numPage; i++) {
+                            int maxPage = size+numPage;
+                            for (int i = size; i < maxPage; i++) {
                                 Clog.d("Add page with position : " + i);
                                 tempList = getPostDataBasedOnPosition(i);
 
                                 args = new Bundle();
                                 args.putSerializable("data", tempList);
 
-                                mPagerAdapter.addPage(getActivity().getString(R.string.general_page) + " " + (i + 1), args);
+                                mPagerAdapter.addPage(getActivity().getString(R.string.general_page) + " " + (i + 1)+ "/"+maxPage, args);
                             }
+
 
                         } else {
                             mIsLastData = true;
@@ -181,7 +184,7 @@ public class PostFragment extends Fragment {
 
         dialog.setView(view);
 
-        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton(getActivity().getString(R.string.general_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialogInterface, int i) {
                 ProgressBar pBar = (ProgressBar) view.findViewById(R.id.pBar);
@@ -192,8 +195,10 @@ public class PostFragment extends Fragment {
                     @Override
                     public void success(BaseCallback baseCallback, Response response) {
                         if (baseCallback.getSuccess() == 1) {
+                            reloadTheFragment();
                             Toast.makeText(getActivity(), getActivity().getString(R.string.post_success), Toast.LENGTH_SHORT).show();
                             dialogInterface.dismiss();
+
                         }
                     }
 
@@ -205,7 +210,7 @@ public class PostFragment extends Fragment {
 
             }
         });
-        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(getActivity().getString(R.string.general_cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -213,6 +218,13 @@ public class PostFragment extends Fragment {
         });
         dialog.create();
         dialog.show();
+    }
+
+    private void reloadTheFragment() {
+      mPostData.clear();
+      mPagerAdapter.removeAllPages();
+      getCurrentPostData();
+
     }
 
     @Override
@@ -268,7 +280,7 @@ public class PostFragment extends Fragment {
         @Override
         public void onPageSelected(int i) {
             Clog.d(i);
-
+            mCurrentPage = i;
             mViewPager.setCurrentItem(i);
 
             if (i == mPager.size() - 1 && !mIsLastData) {
@@ -287,6 +299,11 @@ public class PostFragment extends Fragment {
         @Override
         public int getCount() {
             return mPager.size();
+        }
+
+        public void removeAllPages() {
+            mPager.clear();
+            notifyDataSetChanged();
         }
 
         private class PagerInfo {

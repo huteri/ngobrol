@@ -12,7 +12,6 @@ import android.widget.ListView;
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.model.PostData;
 import com.mymonas.ngobrol.ui.adapter.PostAdapter;
-import com.mymonas.ngobrol.util.Clog;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,6 @@ public class PagePostFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_page_post, container, false);
         mArgs = getArguments();
         ArrayList<PostData> postData = (ArrayList<PostData>) mArgs.getSerializable("data");
-        Clog.d(postData.get(0).getText());
 
         PostAdapter postAdapter = new PostAdapter(getActivity(), postData);
 
