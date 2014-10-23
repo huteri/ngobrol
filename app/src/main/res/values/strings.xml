@@ -36,5 +36,11 @@
     <string name="dialog_whopost">Posted as</string>
     <string name="general_ok">OK</string>
     <string name="general_cancel">Cancel</string>
+    <string name="general_categories">Categories</string>
+    <string name="general_hot_threads">Hot Threads</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="profile_title">\'s profile</string>
+    <string name="menu_my_profile">My Profile</string>
+    <string name="menu_home">Home</string>
 
 </resources>

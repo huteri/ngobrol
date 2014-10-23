@@ -74,16 +74,21 @@ public class MainActivity extends FragmentActivity {
         drawerList = new ArrayList<DrawerListItem>();
         drawerAdapter = new DrawerListAdapter(MainActivity.this, drawerList);
 
-        int[] iconResources = {R.drawable.ic_drawer_home, 0};
-        String[] mDrawerTitles = {"Home", ""};
+        int[] iconResources = new int[3];
+        String[] mDrawerTitles = new String[3];
+
+        iconResources[0] = R.drawable.ic_drawer_home;
+        mDrawerTitles[0] = getString(R.string.menu_home);
 
         TextView mAccountDetail = (TextView) findViewById(R.id.account_detail);
         mUserUtil = new UserUtil(this);
 
         if (mUserUtil.isAvailable()) {
             mAccountDetail.setText(mUserUtil.getUsername());
-            iconResources[1] = R.drawable.ic_drawer_logout;
-            mDrawerTitles[1] = getString(R.string.general_logout);
+            iconResources[1] = R.drawable.ic_drawer_profile;
+            mDrawerTitles[1] = getString(R.string.menu_my_profile);
+            iconResources[2] = R.drawable.ic_drawer_logout;
+            mDrawerTitles[2] = getString(R.string.general_logout);
         } else {
             mAccountDetail.setText(getString(R.string.general_noaccount));
             iconResources[1] = R.drawable.ic_drawer_login;
@@ -137,12 +142,25 @@ public class MainActivity extends FragmentActivity {
         switch (pos) {
             case 1:
                 if (mUserUtil.isAvailable()) {
-                    doLogoutTask();
-                } else {
-                    Intent intent = new Intent(this, LoginActivity.class);
-                    startActivity(intent);
-                }
+                    startProfileActivity();
+                } else
+                    doLoginTask();
+                break;
+            case 2:
+                doLogoutTask();
+                break;
+
         }
+    }
+
+    private void startProfileActivity() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    private void doLoginTask() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     private void doLogoutTask() {

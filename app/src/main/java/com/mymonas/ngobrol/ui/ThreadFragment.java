@@ -33,8 +33,8 @@ public class ThreadFragment extends Fragment{
         mViewPager = (ViewPager) view.findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
 
-        mPagerAdapter.addPage("Categories", CategoryFragment.class, null);
-        mPagerAdapter.addPage("Hot Threads", HotThreadFragment.class, null);
+        mPagerAdapter.addPage(getActivity().getString(R.string.general_categories), CategoryFragment.class, null);
+        mPagerAdapter.addPage(getActivity().getString(R.string.general_hot_threads), HotThreadFragment.class, null);
 
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         tabs.setDividerColor(getResources().getColor(R.color.divider));
