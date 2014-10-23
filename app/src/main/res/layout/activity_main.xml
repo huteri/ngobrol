@@ -25,7 +25,7 @@
             />
 
         <com.makeramen.RoundedImageView
-            android:id="@+id/profile_image"
+            android:id="@+id/profile_img"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginTop="30dp"
@@ -39,8 +39,8 @@
              />
 
         <TextView
-            android:layout_alignTop="@+id/profile_image"
-            android:layout_toRightOf="@+id/profile_image"
+            android:layout_alignTop="@+id/profile_img"
+            android:layout_toRightOf="@+id/profile_img"
             android:id="@+id/account_detail"
             android:layout_width="match_parent"
             android:textStyle="bold"

@@ -2,6 +2,7 @@ package com.mymonas.ngobrol.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -10,10 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.makeramen.RoundedImageView;
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
@@ -21,8 +24,11 @@ import com.mymonas.ngobrol.ui.adapter.DrawerListAdapter;
 import com.mymonas.ngobrol.ui.model.DrawerListItem;
 import com.mymonas.ngobrol.util.Clog;
 import com.mymonas.ngobrol.util.UserUtil;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.util.ArrayList;
 
@@ -116,11 +122,41 @@ public class MainActivity extends FragmentActivity {
             getSupportFragmentManager().beginTransaction().add(R.id.main_frame, fragment, "fragment").commit();
         }
 
+        RoundedImageView profileImg = (RoundedImageView) findViewById(R.id.profile_img);
+        ImageView profileBg = (ImageView) findViewById(R.id.profile_bg);
+
         // init image loader
+
+        DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(R.drawable.nophoto)
+                .showImageOnFail(R.drawable.nophoto)
+                .showImageOnLoading(R.drawable.nophoto)
+                .resetViewBeforeLoading(true)
+                .cacheOnDisk(true)
+                .cacheInMemory(true)
+                .considerExifParams(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new FadeInBitmapDisplayer(300))
+                .build();
+
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.init(new ImageLoaderConfiguration.Builder(this)
+                .defaultDisplayImageOptions(imageOptions)
                 .writeDebugLogs()
                 .build());
+
+
+
+        imageLoader.displayImage(mUserUtil.getProfileUrl(), profileImg);
+        imageLoader.displayImage(mUserUtil.getProfileBg(), profileBg, new DisplayImageOptions.Builder()
+                .showImageOnFail(R.drawable.profile_bg)
+                .cacheOnDisk(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build());
+
+
+
 
     }
 
