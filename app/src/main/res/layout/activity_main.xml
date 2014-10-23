@@ -24,7 +24,7 @@
             android:background="@drawable/profile_bg"
             />
 
-        <com.pkmmte.view.CircularImageView
+        <com.makeramen.RoundedImageView
             android:id="@+id/profile_image"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -33,9 +33,10 @@
             android:layout_marginBottom="5dp"
             android:layout_alignParentLeft="true"
             android:src="@drawable/nophoto"
-            app:border_color="#000000"
-            app:border_width="4dp"
-            app:shadow="true" />
+            app:corner_radius="30dp"
+            app:border_width="2dp"
+            app:border_color="#FFFFFF"
+             />
 
         <TextView
             android:layout_alignTop="@+id/profile_image"

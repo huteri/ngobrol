@@ -5,7 +5,7 @@ package com.mymonas.ngobrol.io.model;
  */
 public class UserData {
         private int id;
-        private String api, username;
+        private String api, username, fullname, profileUrl, profileBg, aboutMe;
 
         public String getApi() {
             return api;
@@ -29,5 +29,37 @@ public class UserData {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+
+    public String getProfileBg() {
+        return profileBg;
+    }
+
+    public void setProfileBg(String profileBg) {
+        this.profileBg = profileBg;
+    }
+
+    public String getProfileUrl() {
+        return profileUrl;
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 }

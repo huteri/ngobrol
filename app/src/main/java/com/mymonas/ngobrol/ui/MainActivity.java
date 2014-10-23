@@ -21,6 +21,8 @@ import com.mymonas.ngobrol.ui.adapter.DrawerListAdapter;
 import com.mymonas.ngobrol.ui.model.DrawerListItem;
 import com.mymonas.ngobrol.util.Clog;
 import com.mymonas.ngobrol.util.UserUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 
@@ -113,6 +115,12 @@ public class MainActivity extends FragmentActivity {
             ThreadFragment fragment = new ThreadFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.main_frame, fragment, "fragment").commit();
         }
+
+        // init image loader
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.init(new ImageLoaderConfiguration.Builder(this)
+                .writeDebugLogs()
+                .build());
 
     }
 

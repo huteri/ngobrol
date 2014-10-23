@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.makeramen.RoundedImageView;
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.util.UserUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
 public class ProfileActivity extends Activity {
@@ -32,13 +36,26 @@ public class ProfileActivity extends Activity {
 
         mUserUtil = new UserUtil(this);
 
-        getActionBar().setTitle(mUserUtil.getUsername()+getString(R.string.profile_title));
+        getActionBar().setTitle(mUserUtil.getUsername() + getString(R.string.profile_title));
 
         TextView tvName = (TextView) findViewById(R.id.name);
         TextView tvAboutMe = (TextView) findViewById(R.id.about_me_text);
+        ImageView profilebg = (ImageView) findViewById(R.id.profile_bg);
+        RoundedImageView profileImg = (RoundedImageView) findViewById(R.id.profile_img);
 
-        tvName.setText(mUserUtil.getUsername());
 
+        if (mUserUtil.getFullName().length() > 0) {
+            tvName.setText(mUserUtil.getFullName());
+        } else
+            tvName.setText(mUserUtil.getUsername());
+
+        tvAboutMe.setText(mUserUtil.getAboutMe());
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).build();
+        imageLoader.init(imageLoaderConfiguration);
+        imageLoader.displayImage(mUserUtil.getProfileUrl(), profileImg);
+        imageLoader.displayImage(mUserUtil.getProfileBg(), profilebg);
     }
 
 

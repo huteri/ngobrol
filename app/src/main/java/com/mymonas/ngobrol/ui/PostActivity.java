@@ -26,7 +26,6 @@ public class PostActivity extends FragmentActivity {
             ft.add(R.id.post_fragment, fragment, "fragment").commit();
         }
 
-
         getActionBar().setHomeButtonEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }

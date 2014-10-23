@@ -8,15 +8,14 @@
     android:padding="5dp"
     android:layout_height="wrap_content">
 
-    <com.pkmmte.view.CircularImageView
+    <com.makeramen.RoundedImageView
         android:id="@+id/profile_img"
         android:layout_alignParentLeft="true"
         android:src="@drawable/nophoto"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:border_color="#000000"
-        app:border_width="4dp"
-        app:shadow="true" />
+        app:corner_radius="50dp"
+        app:oval="false" />
 
     <TextView
         android:id="@+id/name"

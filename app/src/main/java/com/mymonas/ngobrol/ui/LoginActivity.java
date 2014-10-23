@@ -105,6 +105,10 @@ public class LoginActivity extends Activity {
                    edit.putString("username", userEmail);
                    edit.putInt("userId", userLoginCallback.getData().getId());
                    edit.putString("api", userLoginCallback.getData().getApi());
+                   edit.putString("fullname", userLoginCallback.getData().getFullname());
+                   edit.putString("profileUrl", userLoginCallback.getData().getProfileUrl());
+                   edit.putString("profileBg", userLoginCallback.getData().getProfileBg());
+                   edit.putString("aboutMe", userLoginCallback.getData().getAboutMe());
                    edit.commit();
 
                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
