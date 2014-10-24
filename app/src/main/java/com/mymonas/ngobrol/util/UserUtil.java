@@ -68,6 +68,7 @@ public class UserUtil {
         editor.remove(ARG_API);
         editor.remove(ARG_USERNAME);
         editor.remove(ARG_USERID);
+
         editor.commit();
 
     }

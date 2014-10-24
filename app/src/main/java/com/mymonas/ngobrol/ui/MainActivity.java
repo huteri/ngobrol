@@ -150,14 +150,15 @@ public class MainActivity extends FragmentActivity {
 
         imageLoader.displayImage(mUserUtil.getProfileUrl(), profileImg);
         imageLoader.displayImage(mUserUtil.getProfileBg(), profileBg, new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(R.drawable.profile_bg)
                 .showImageOnFail(R.drawable.profile_bg)
                 .cacheOnDisk(true)
+                .cacheInMemory(true)
+                .displayer(new FadeInBitmapDisplayer(300))
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .resetViewBeforeLoading(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .build());
-
-
-
-
     }
 
     @Override

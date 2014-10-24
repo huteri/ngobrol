@@ -1,6 +1,7 @@
 package com.mymonas.ngobrol.ui;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,8 +13,10 @@ import android.widget.TextView;
 import com.makeramen.RoundedImageView;
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.util.UserUtil;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 
 public class ProfileActivity extends Activity {
@@ -54,8 +57,19 @@ public class ProfileActivity extends Activity {
         ImageLoader imageLoader = ImageLoader.getInstance();
         ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).build();
         imageLoader.init(imageLoaderConfiguration);
+
+
+        DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
+                .showImageOnFail(R.drawable.profile_bg)
+                .showImageForEmptyUri(R.drawable.profile_bg)
+                .cacheOnDisk(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .resetViewBeforeLoading(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+
         imageLoader.displayImage(mUserUtil.getProfileUrl(), profileImg);
-        imageLoader.displayImage(mUserUtil.getProfileBg(), profilebg);
+        imageLoader.displayImage(mUserUtil.getProfileBg(), profilebg, imageOptions);
     }
 
 

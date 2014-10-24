@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="72dp">
+
     <TextView
         android:id="@+id/title"
-        android:padding="10dp"
+        android:text="This is just sample title"
+        android:fontFamily="sans-serif"
         android:layout_width="match_parent"
+        android:textColor="@color/black87"
+        android:textSize="16sp"
         android:layout_height="wrap_content" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@color/divider"
-        />
-</LinearLayout>
+    <TextView
+        android:id="@+id/creator"
+        android:layout_alignLeft="@+id/title"
+        android:layout_below="@+id/title"
+        android:fontFamily="sans-serif"
+        android:text="by huteri"
+        android:textColor="@color/black55"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

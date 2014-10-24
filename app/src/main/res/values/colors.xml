@@ -5,6 +5,8 @@
     <color name="accent_color">#0091ea</color>
     <color name="pb_colorComplete">#03a9f4</color>
     <color name="pressed_grey">#3095a5a6</color>
-    <color name="divider">#12000000</color>
+    <color name="divider">#1A000000</color>
     <color name="text_color">#85000000</color>
+    <color name="black87">#D9000000</color>
+    <color name="black55">#8C000000</color>
 </resources>
