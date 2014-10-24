@@ -42,10 +42,10 @@ public class MainActivity extends FragmentActivity {
     private CharSequence mDrawerTitle;
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
+    private ListView mDrawerListView;
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private ArrayList<DrawerListItem> drawerList;
+    private ArrayList<DrawerListItem> mDrawerList;
     private DrawerListAdapter drawerAdapter;
     private RelativeLayout mNavLayout;
     private UserUtil mUserUtil;
@@ -60,7 +60,7 @@ public class MainActivity extends FragmentActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavLayout = (RelativeLayout) findViewById(R.id.nav_layout);
-        mDrawerList = (ListView) findViewById(R.id.nav_drawer);
+        mDrawerListView = (ListView) findViewById(R.id.nav_drawer);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_navigation_drawer, R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -79,14 +79,14 @@ public class MainActivity extends FragmentActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        drawerList = new ArrayList<DrawerListItem>();
-        drawerAdapter = new DrawerListAdapter(MainActivity.this, drawerList);
+        mDrawerList = new ArrayList<DrawerListItem>();
+        drawerAdapter = new DrawerListAdapter(MainActivity.this, mDrawerList);
 
-        int[] iconResources = new int[3];
-        String[] mDrawerTitles = new String[3];
+        int[] iconResources = new int[10];
+        String[] mDrawerTitles = new String[10];
 
-        iconResources[0] = R.drawable.ic_drawer_home;
-        mDrawerTitles[0] = getString(R.string.menu_home);
+        iconResources[4] = R.drawable.ic_drawer_setting;
+        mDrawerTitles[4] = getString(R.string.general_settings);
 
         TextView mAccountDetail = (TextView) findViewById(R.id.account_detail);
         mUserUtil = new UserUtil(this);
@@ -95,24 +95,27 @@ public class MainActivity extends FragmentActivity {
             mAccountDetail.setText(mUserUtil.getUsername());
             iconResources[1] = R.drawable.ic_drawer_profile;
             mDrawerTitles[1] = getString(R.string.menu_my_profile);
-            iconResources[2] = R.drawable.ic_drawer_logout;
-            mDrawerTitles[2] = getString(R.string.general_logout);
+            iconResources[6] = R.drawable.ic_drawer_logout;
+            mDrawerTitles[6] = getString(R.string.general_logout);
         } else {
             mAccountDetail.setText(getString(R.string.general_noaccount));
-            iconResources[1] = R.drawable.ic_drawer_login;
-            mDrawerTitles[1] = getString(R.string.general_signin);
+            iconResources[5] = R.drawable.ic_drawer_login;
+            mDrawerTitles[5] = getString(R.string.general_signin);
         }
 
         for (int i = 0; i < mDrawerTitles.length; i++) {
-            DrawerListItem d = new DrawerListItem();
-            d.setTitle(mDrawerTitles[i]);
-            d.setRes(iconResources[i]);
-            drawerList.add(d);
+            if (mDrawerTitles[i] != null) {
+                DrawerListItem d = new DrawerListItem();
+                d.setId(i);
+                d.setTitle(mDrawerTitles[i]);
+                d.setRes(iconResources[i]);
+                mDrawerList.add(d);
+            }
         }
 
-        mDrawerList.setAdapter(drawerAdapter);
+        mDrawerListView.setAdapter(drawerAdapter);
 
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerListView.setOnItemClickListener(new DrawerItemClickListener());
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
@@ -145,7 +148,6 @@ public class MainActivity extends FragmentActivity {
                 .defaultDisplayImageOptions(imageOptions)
                 .writeDebugLogs()
                 .build());
-
 
 
         imageLoader.displayImage(mUserUtil.getProfileUrl(), profileImg);
@@ -184,14 +186,14 @@ public class MainActivity extends FragmentActivity {
 
     private void selectItem(int pos) {
 
-        switch (pos) {
+        switch (mDrawerList.get(pos).getId()) {
             case 1:
-                if (mUserUtil.isAvailable()) {
-                    startProfileActivity();
-                } else
-                    doLoginTask();
+                startProfileActivity();
                 break;
-            case 2:
+            case 5:
+                doLoginTask();
+                break;
+            case 6:
                 doLogoutTask();
                 break;
 

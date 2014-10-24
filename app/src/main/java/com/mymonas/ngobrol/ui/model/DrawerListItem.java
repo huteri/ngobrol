@@ -5,7 +5,7 @@ package com.mymonas.ngobrol.ui.model;
  */
 public class DrawerListItem {
 
-    private int res;
+    private int id, res;
     private String title;
 
     public int getRes() {
@@ -22,5 +22,13 @@ public class DrawerListItem {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
