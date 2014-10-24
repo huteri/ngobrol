@@ -1,6 +1,4 @@
-package com.mymonas.ngobrol.io.model;
-
-import com.mymonas.ngobrol.model.ThreadItem;
+package com.mymonas.ngobrol.model;
 
 import java.io.Serializable;
 

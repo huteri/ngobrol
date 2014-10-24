@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.mymonas.ngobrol.R;
-import com.mymonas.ngobrol.io.model.PostData;
+import com.mymonas.ngobrol.model.PostData;
 import com.mymonas.ngobrol.ui.adapter.PostAdapter;
 
 import java.util.ArrayList;

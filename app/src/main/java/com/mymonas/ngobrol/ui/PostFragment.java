@@ -21,7 +21,7 @@ import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.io.model.PostCallback;
-import com.mymonas.ngobrol.io.model.PostData;
+import com.mymonas.ngobrol.model.PostData;
 import com.mymonas.ngobrol.util.Clog;
 import com.mymonas.ngobrol.util.UserUtil;
 import com.viewpagerindicator.TitlePageIndicator;
@@ -49,7 +49,6 @@ public class PostFragment extends Fragment {
     private int mTotalPostData = 0;
     private ProgressBar mProgressBar;
     private UserUtil mUserUtil;
-    private int mCurrentPage = 0;
 
     public PostFragment() {
 
@@ -280,7 +279,6 @@ public class PostFragment extends Fragment {
         @Override
         public void onPageSelected(int i) {
             Clog.d(i);
-            mCurrentPage = i;
             mViewPager.setCurrentItem(i);
 
             if (i == mPager.size() - 1 && !mIsLastData) {

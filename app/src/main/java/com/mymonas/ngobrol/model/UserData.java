@@ -1,9 +1,11 @@
-package com.mymonas.ngobrol.io.model;
+package com.mymonas.ngobrol.model;
+
+import java.io.Serializable;
 
 /**
  * Created by Huteri on 10/19/2014.
  */
-public class UserData {
+public class UserData implements Serializable {
         private int id;
         private String api, username, fullname, profileUrl, profileBg, aboutMe;
 

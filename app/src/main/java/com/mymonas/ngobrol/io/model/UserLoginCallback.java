@@ -1,5 +1,7 @@
 package com.mymonas.ngobrol.io.model;
 
+import com.mymonas.ngobrol.model.UserData;
+
 /**
  * Created by Huteri on 10/18/2014.
  */

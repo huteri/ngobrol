@@ -200,6 +200,7 @@ public class MainActivity extends FragmentActivity {
 
     private void startProfileActivity() {
         Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra(ProfileActivity.KEY_EXTRA_USER_DATA, mUserUtil.getUserData());
         startActivity(intent);
     }
 

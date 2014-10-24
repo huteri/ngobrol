@@ -1,9 +1,11 @@
 package com.mymonas.ngobrol.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Huteri on 10/16/2014.
  */
-public class ThreadItem {
+public class ThreadItem implements Serializable{
     private String id, title, dateCreated, username;
 
     public String getTitle() {

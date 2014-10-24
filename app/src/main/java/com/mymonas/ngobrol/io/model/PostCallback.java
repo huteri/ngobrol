@@ -1,5 +1,7 @@
 package com.mymonas.ngobrol.io.model;
 
+import com.mymonas.ngobrol.model.PostData;
+
 import java.util.ArrayList;
 
 /**

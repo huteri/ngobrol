@@ -1,6 +1,7 @@
 package com.mymonas.ngobrol.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,8 @@ import android.widget.TextView;
 
 import com.makeramen.RoundedImageView;
 import com.mymonas.ngobrol.R;
-import com.mymonas.ngobrol.io.model.PostData;
+import com.mymonas.ngobrol.model.PostData;
+import com.mymonas.ngobrol.ui.ProfileActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -48,7 +50,7 @@ public class PostAdapter extends ArrayAdapter<PostData> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
         ViewHolder holder;
 
@@ -69,6 +71,15 @@ public class PostAdapter extends ArrayAdapter<PostData> {
         holder.tvText.setText(mPostData.get(position).getText());
         holder.tvName.setText(mPostData.get(position).getUser().getUsername());
         holder.tvDate.setText(mPostData.get(position).getDateCreated());
+
+        holder.profileImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ProfileActivity.class);
+                intent.putExtra(ProfileActivity.KEY_EXTRA_USER_DATA, mPostData.get(position).getUser());
+                mContext.startActivity(intent);
+            }
+        });
 
         ImageLoader.getInstance().displayImage(mPostData.get(position).getUser().getProfileUrl(), holder.profileImg, mImageOptions);
 

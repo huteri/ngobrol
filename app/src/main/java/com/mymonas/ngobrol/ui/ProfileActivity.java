@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.makeramen.RoundedImageView;
 import com.mymonas.ngobrol.R;
-import com.mymonas.ngobrol.util.UserUtil;
+import com.mymonas.ngobrol.model.UserData;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -21,7 +21,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 public class ProfileActivity extends Activity {
 
-    private UserUtil mUserUtil;
+    public static final String KEY_EXTRA_USER_DATA = "user_data";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +37,9 @@ public class ProfileActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-        mUserUtil = new UserUtil(this);
+        UserData userData = (UserData) getIntent().getSerializableExtra(KEY_EXTRA_USER_DATA);
 
-        getActionBar().setTitle(mUserUtil.getUsername() + getString(R.string.profile_title));
+        getActionBar().setTitle(userData.getUsername() + getString(R.string.profile_title));
 
         TextView tvName = (TextView) findViewById(R.id.name);
         TextView tvAboutMe = (TextView) findViewById(R.id.about_me_text);
@@ -47,12 +47,12 @@ public class ProfileActivity extends Activity {
         RoundedImageView profileImg = (RoundedImageView) findViewById(R.id.profile_img);
 
 
-        if (mUserUtil.getFullName().length() > 0) {
-            tvName.setText(mUserUtil.getFullName());
+        if (userData.getFullname().length() > 0) {
+            tvName.setText(userData.getFullname());
         } else
-            tvName.setText(mUserUtil.getUsername());
+            tvName.setText(userData.getUsername());
 
-        tvAboutMe.setText(mUserUtil.getAboutMe());
+        tvAboutMe.setText(userData.getAboutMe());
 
         ImageLoader imageLoader = ImageLoader.getInstance();
         ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).build();
@@ -63,13 +63,14 @@ public class ProfileActivity extends Activity {
                 .showImageOnFail(R.drawable.profile_bg)
                 .showImageForEmptyUri(R.drawable.profile_bg)
                 .cacheOnDisk(true)
+                .cacheInMemory(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .resetViewBeforeLoading(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
 
-        imageLoader.displayImage(mUserUtil.getProfileUrl(), profileImg);
-        imageLoader.displayImage(mUserUtil.getProfileBg(), profilebg, imageOptions);
+        imageLoader.displayImage(userData.getProfileUrl(), profileImg);
+        imageLoader.displayImage(userData.getProfileBg(), profilebg, imageOptions);
     }
 
 

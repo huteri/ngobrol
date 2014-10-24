@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 
+import com.mymonas.ngobrol.model.UserData;
+
 /**
  * Created by Huteri on 10/17/2014.
  */
@@ -62,6 +64,16 @@ public class UserUtil {
         return Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
+    public UserData getUserData() {
+        UserData data = new UserData();
+        data.setAboutMe(getAboutMe());
+        data.setFullname(getFullName());
+        data.setId(getUserId());
+        data.setProfileBg(getProfileBg());
+        data.setProfileUrl(getProfileUrl());
+        data.setUsername(getUsername());
+        return data;
+    }
 
     public void clear() {
         SharedPreferences.Editor editor = mPrefs.edit();
