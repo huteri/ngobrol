@@ -1,0 +1,22 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="prefcat_key_general_title"
+        android:title="General">
+
+        <com.mymonas.ngobrol.ui.widget.NumberPickerPreference
+            android:key="pref_post_per_page"
+            android:title="Number post per page" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="prefcat_key_about_title"
+        android:title="About">
+        <Preference
+            android:key="pref_about"
+            android:title="About" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

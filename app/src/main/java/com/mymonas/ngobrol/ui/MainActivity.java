@@ -190,6 +190,9 @@ public class MainActivity extends FragmentActivity {
             case 1:
                 startProfileActivity();
                 break;
+            case 4:
+                startSettingsActivity();
+                break;
             case 5:
                 doLoginTask();
                 break;
@@ -198,6 +201,11 @@ public class MainActivity extends FragmentActivity {
                 break;
 
         }
+    }
+
+    private void startSettingsActivity() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     private void startProfileActivity() {
