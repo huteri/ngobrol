@@ -23,7 +23,7 @@ import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.ui.adapter.DrawerListAdapter;
 import com.mymonas.ngobrol.ui.model.DrawerListItem;
 import com.mymonas.ngobrol.util.Clog;
-import com.mymonas.ngobrol.util.UserUtil;
+import com.mymonas.ngobrol.util.UserUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -48,7 +48,7 @@ public class MainActivity extends FragmentActivity {
     private ArrayList<DrawerListItem> mDrawerList;
     private DrawerListAdapter drawerAdapter;
     private RelativeLayout mNavLayout;
-    private UserUtil mUserUtil;
+    private UserUtils mUserUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +89,10 @@ public class MainActivity extends FragmentActivity {
         mDrawerTitles[4] = getString(R.string.general_settings);
 
         TextView mAccountDetail = (TextView) findViewById(R.id.account_detail);
-        mUserUtil = new UserUtil(this);
+        mUserUtils = new UserUtils(this);
 
-        if (mUserUtil.isAvailable()) {
-            mAccountDetail.setText(mUserUtil.getUsername());
+        if (mUserUtils.isAvailable()) {
+            mAccountDetail.setText(mUserUtils.getUsername());
             iconResources[1] = R.drawable.ic_drawer_profile;
             mDrawerTitles[1] = getString(R.string.menu_my_profile);
             iconResources[6] = R.drawable.ic_drawer_logout;
@@ -150,8 +150,8 @@ public class MainActivity extends FragmentActivity {
                 .build());
 
 
-        imageLoader.displayImage(mUserUtil.getProfileUrl(), profileImg);
-        imageLoader.displayImage(mUserUtil.getProfileBg(), profileBg, new DisplayImageOptions.Builder()
+        imageLoader.displayImage(mUserUtils.getProfileUrl(), profileImg);
+        imageLoader.displayImage(mUserUtils.getProfileBg(), profileBg, new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.profile_bg)
                 .showImageOnFail(R.drawable.profile_bg)
                 .cacheOnDisk(true)
@@ -210,7 +210,7 @@ public class MainActivity extends FragmentActivity {
 
     private void startProfileActivity() {
         Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra(ProfileActivity.KEY_EXTRA_USER_DATA, mUserUtil.getUserData());
+        intent.putExtra(ProfileActivity.KEY_EXTRA_USER_DATA, mUserUtils.getUserData());
         startActivity(intent);
     }
 
@@ -226,12 +226,12 @@ public class MainActivity extends FragmentActivity {
         pDialog.setMessage(getString(R.string.logout_progress));
         pDialog.show();
 
-        RestClient.get().logoutUser(mUserUtil.getUserId(), mUserUtil.getAPI(), new Callback<BaseCallback>() {
+        RestClient.get().logoutUser(mUserUtils.getUserId(), mUserUtils.getAPI(), new Callback<BaseCallback>() {
             @Override
             public void success(BaseCallback baseCallback, Response response) {
                 pDialog.dismiss();
                 if (baseCallback.getSuccess() == 1) {
-                    mUserUtil.clear();
+                    mUserUtils.clear();
                     Intent intent = new Intent(MainActivity.this, MainActivity.class);
                     startActivity(intent);
                     MainActivity.this.finish();

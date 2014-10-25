@@ -24,7 +24,7 @@ import com.mymonas.ngobrol.io.model.PostCallback;
 import com.mymonas.ngobrol.model.PostData;
 import com.mymonas.ngobrol.util.Clog;
 import com.mymonas.ngobrol.util.PrefUtils;
-import com.mymonas.ngobrol.util.UserUtil;
+import com.mymonas.ngobrol.util.UserUtils;
 import com.viewpagerindicator.TitlePageIndicator;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class PostFragment extends Fragment {
     private boolean mIsLastData = false;
     private int mTotalPostData = 0;
     private ProgressBar mProgressBar;
-    private UserUtil mUserUtil;
+    private UserUtils mUserUtils;
     private int mNumPostPerPage;
 
     public PostFragment() {
@@ -73,7 +73,7 @@ public class PostFragment extends Fragment {
         mPostData = new ArrayList<PostData>();
         mArgs = getArguments();
         mThreadId = Integer.valueOf(mArgs.getString("threadId"));
-        mUserUtil = new UserUtil(getActivity());
+        mUserUtils = new UserUtils(getActivity());
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         mNumPostPerPage = PrefUtils.getNumPostsPerPage(getActivity());
@@ -172,7 +172,7 @@ public class PostFragment extends Fragment {
 
     private void addNewPost() {
         // error on no user available
-        if (!mUserUtil.isAvailable()) {
+        if (!mUserUtils.isAvailable()) {
             Toast.makeText(getActivity(), getActivity().getString(R.string.message_no_user), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -181,7 +181,7 @@ public class PostFragment extends Fragment {
 
         final View view = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.dialog_post_add_new, null);
         TextView whoPost = (TextView) view.findViewById(R.id.whopost);
-        whoPost.setText(getActivity().getString(R.string.dialog_whopost) + " " + mUserUtil.getUsername());
+        whoPost.setText(getActivity().getString(R.string.dialog_whopost) + " " + mUserUtils.getUsername());
 
         dialog.setView(view);
 
@@ -192,7 +192,7 @@ public class PostFragment extends Fragment {
                 EditText text = (EditText) view.findViewById(R.id.message);
                 pBar.setVisibility(View.VISIBLE);
 
-                RestClient.get().submitPost(mThreadId, mUserUtil.getUserId(), mUserUtil.getAPI(), mUserUtil.getAndroidId(), text.getText().toString(), new Callback<BaseCallback>() {
+                RestClient.get().submitPost(mThreadId, mUserUtils.getUserId(), mUserUtils.getAPI(), mUserUtils.getAndroidId(), text.getText().toString(), new Callback<BaseCallback>() {
                     @Override
                     public void success(BaseCallback baseCallback, Response response) {
                         if (baseCallback.getSuccess() == 1) {

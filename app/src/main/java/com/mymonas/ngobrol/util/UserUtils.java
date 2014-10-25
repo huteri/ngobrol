@@ -10,7 +10,7 @@ import com.mymonas.ngobrol.model.UserData;
 /**
  * Created by Huteri on 10/17/2014.
  */
-public class UserUtil {
+public class UserUtils {
 
     private static final String ARG_USERNAME = "username";
     private static final String ARG_API = "api";
@@ -23,7 +23,7 @@ public class UserUtil {
     private final Context mContext;
     private final SharedPreferences mPrefs;
 
-    public UserUtil(Context context) {
+    public UserUtils(Context context) {
         mContext = context;
         mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
