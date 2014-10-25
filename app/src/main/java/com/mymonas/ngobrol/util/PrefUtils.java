@@ -11,7 +11,7 @@ import com.mymonas.ngobrol.Config;
  */
 
 public class PrefUtils {
-    private static final String PREF_NUM_POSTS_PER_PAGE = "pref_num_posts_per_page";
+    public static final String PREF_NUM_POSTS_PER_PAGE = "pref_num_posts_per_page";
 
     public static int getNumPostsPerPage(final Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
