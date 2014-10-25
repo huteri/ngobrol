@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.util;
+package com.mymonas.ngobrol.ui;
 
 import android.app.Activity;
 import android.os.Bundle;

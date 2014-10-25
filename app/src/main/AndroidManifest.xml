@@ -43,7 +43,7 @@
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name=".util.AboutActivity"
+            android:name=".ui.AboutActivity"
             android:label="@string/title_activity_about" >
         </activity>
     </application>

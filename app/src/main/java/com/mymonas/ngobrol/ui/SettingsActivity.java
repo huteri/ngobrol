@@ -7,7 +7,6 @@ import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 
 import com.mymonas.ngobrol.R;
-import com.mymonas.ngobrol.util.AboutActivity;
 
 public class SettingsActivity extends PreferenceActivity {
 

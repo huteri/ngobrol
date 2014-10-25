@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mymonas.ngobrol.Config;
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
@@ -36,7 +37,7 @@ import retrofit.client.Response;
  * Created by Huteri on 10/18/2014.
  */
 public class PostFragment extends Fragment {
-    public static final int NUM_POST_PER_PAGE = 5;
+   
     private static final int NUM_POST_REQUEST = 0;
     private Integer mCurrentRequestedPage = 1;
     private Bundle mArgs;
@@ -95,8 +96,8 @@ public class PostFragment extends Fragment {
                         if (postCallback.getCount() > 0) {
                             mPostData.addAll(postCallback.getData());
 
-                            int numPage = (int) Math.ceil(postCallback.getCount() / (float) NUM_POST_PER_PAGE);
-                            Clog.d("numPage : " + postCallback.getCount() + "/" + NUM_POST_PER_PAGE + " = " + numPage);
+                            int numPage = (int) Math.ceil(postCallback.getCount() / (float) Config.NUM_POST_PER_PAGE);
+                            Clog.d("numPage : " + postCallback.getCount() + "/" + Config.NUM_POST_PER_PAGE + " = " + numPage);
 
                             Bundle args;
                             ArrayList<PostData> tempList;
@@ -105,7 +106,7 @@ public class PostFragment extends Fragment {
                             int maxPage = size+numPage;
                             for (int i = size; i < maxPage; i++) {
                                 Clog.d("Add page with position : " + i);
-                                tempList = getPostDataBasedOnPosition(i);
+                                tempList = getPostDataBasedOnCurrentPage(i);
 
                                 args = new Bundle();
                                 args.putSerializable("data", tempList);
@@ -131,15 +132,15 @@ public class PostFragment extends Fragment {
         }
     }
 
-    private ArrayList<PostData> getPostDataBasedOnPosition(int pos) {
-        int offset = pos * NUM_POST_PER_PAGE;
+    private ArrayList<PostData> getPostDataBasedOnCurrentPage(int pos) {
+        int offset = pos * Config.NUM_POST_PER_PAGE;
         ArrayList<PostData> currentPostData = new ArrayList<PostData>();
 
         int nextSet;
-        if ((offset + NUM_POST_PER_PAGE) > mPostData.size())
+        if ((offset + Config.NUM_POST_PER_PAGE) > mPostData.size())
             nextSet = mPostData.size();
         else
-            nextSet = offset + NUM_POST_PER_PAGE;
+            nextSet = offset + Config.NUM_POST_PER_PAGE;
 
         for (int j = offset; j < nextSet; j++) {
             currentPostData.add(mPostData.get(j));
@@ -154,7 +155,7 @@ public class PostFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_last:
                 if (mTotalPostData > 0) {
-                    int totalPage = (int) Math.ceil(mTotalPostData / (float) NUM_POST_PER_PAGE);
+                    int totalPage = (int) Math.ceil(mTotalPostData / (float) Config.NUM_POST_PER_PAGE);
                     mViewPager.setCurrentItem(totalPage);
                 }
                 break;
@@ -187,7 +188,7 @@ public class PostFragment extends Fragment {
             @Override
             public void onClick(final DialogInterface dialogInterface, int i) {
                 ProgressBar pBar = (ProgressBar) view.findViewById(R.id.pBar);
-                EditText text = (EditText) view.findViewById(R.id.text);
+                EditText text = (EditText) view.findViewById(R.id.message);
                 pBar.setVisibility(View.VISIBLE);
 
                 RestClient.get().submitPost(mThreadId, mUserUtil.getUserId(), mUserUtil.getAPI(), mUserUtil.getAndroidId(), text.getText().toString(), new Callback<BaseCallback>() {
