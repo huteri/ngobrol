@@ -1,0 +1,138 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_gravity="center"
+    tools:context="com.mymonas.ngobrol.util.AboutActivity">
+
+    <TextView
+        android:id="@+id/about_title"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_width="match_parent"
+        android:text="About"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:padding="10dp"
+        android:id="@+id/about_text"
+        android:text="This project was an assignment from the university to make the forums for android app."
+        android:layout_below="@+id/about_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/team_title"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:layout_below="@id/about_text"
+        android:layout_width="match_parent"
+        android:text="Team"
+        android:layout_height="wrap_content" />
+
+    <com.makeramen.RoundedImageView
+        android:id="@+id/team1_image"
+        android:src="@drawable/huteri"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/team_title"
+        android:padding="10dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        app:corner_radius="100dp"
+        />
+
+    <TextView
+        android:id="@+id/team1_name"
+        android:layout_below="@+id/team1_image"
+        android:gravity="center"
+        android:textColor="@color/black87"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="Huteri Manza"/>
+
+    <TextView
+        android:id="@+id/team1_title"
+        android:layout_below="@+id/team1_name"
+        android:gravity="center"
+        android:fontFamily="sans-serif-regular"
+        android:textColor="@color/black55"
+        android:textSize="12sp"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="Coder"/>
+
+
+    <com.makeramen.RoundedImageView
+        android:id="@+id/team2_image"
+        android:src="@drawable/nophoto"
+        android:layout_below="@+id/team_title"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/team1_image"
+        android:padding="10dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        app:corner_radius="100dp"
+        />
+
+
+    <TextView
+        android:id="@+id/team2_name"
+        android:layout_below="@+id/team2_image"
+        android:gravity="center"
+        android:layout_alignLeft="@+id/team2_image"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="Dhio Etanasti"/>
+
+    <TextView
+        android:id="@+id/team2_title"
+        android:layout_below="@+id/team2_name"
+        android:gravity="center"
+        android:layout_alignLeft="@+id/team2_image"
+        android:fontFamily="sans-serif-regular"
+        android:textColor="@color/black55"
+        android:textSize="12sp"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="Iconizer"/>
+
+
+    <com.makeramen.RoundedImageView
+        android:id="@+id/team3_image"
+        android:src="@drawable/nophoto"
+        android:layout_below="@+id/team_title"
+        android:layout_toRightOf="@+id/team2_image"
+        android:padding="10dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        app:corner_radius="100dp"
+        />
+
+
+    <TextView
+        android:id="@+id/team3_name"
+        android:layout_below="@+id/team3_image"
+        android:gravity="center"
+        android:layout_alignLeft="@+id/team3_image"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="Hans Wijaya"/>
+
+    <TextView
+        android:id="@+id/team3_title"
+        android:layout_below="@+id/team3_name"
+        android:gravity="center"
+        android:layout_alignLeft="@+id/team3_image"
+        android:fontFamily="sans-serif-regular"
+        android:textColor="@color/black55"
+        android:textSize="12sp"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="Data Artist"/>
+
+</RelativeLayout>
