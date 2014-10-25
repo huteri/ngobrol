@@ -5,8 +5,8 @@
         android:title="General">
 
         <com.mymonas.ngobrol.ui.widget.NumberPickerPreference
-            android:key="pref_post_per_page"
-            android:title="Number post per page" />
+            android:key="pref_num_posts_per_page"
+            android:title="Number Of Posts Per Page" />
     </PreferenceCategory>
 
     <PreferenceCategory

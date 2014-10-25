@@ -17,13 +17,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mymonas.ngobrol.Config;
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.io.model.PostCallback;
 import com.mymonas.ngobrol.model.PostData;
 import com.mymonas.ngobrol.util.Clog;
+import com.mymonas.ngobrol.util.PrefUtils;
 import com.mymonas.ngobrol.util.UserUtil;
 import com.viewpagerindicator.TitlePageIndicator;
 
@@ -50,6 +50,7 @@ public class PostFragment extends Fragment {
     private int mTotalPostData = 0;
     private ProgressBar mProgressBar;
     private UserUtil mUserUtil;
+    private int mNumPostPerPage;
 
     public PostFragment() {
 
@@ -75,7 +76,7 @@ public class PostFragment extends Fragment {
         mUserUtil = new UserUtil(getActivity());
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-
+        mNumPostPerPage = PrefUtils.getNumPostsPerPage(getActivity());
 
         getCurrentPostData();
 
@@ -96,8 +97,8 @@ public class PostFragment extends Fragment {
                         if (postCallback.getCount() > 0) {
                             mPostData.addAll(postCallback.getData());
 
-                            int numPage = (int) Math.ceil(postCallback.getCount() / (float) Config.NUM_POST_PER_PAGE);
-                            Clog.d("numPage : " + postCallback.getCount() + "/" + Config.NUM_POST_PER_PAGE + " = " + numPage);
+                            int numPage = (int) Math.ceil(postCallback.getCount() / (float) mNumPostPerPage);
+                            Clog.d("numPage : " + postCallback.getCount() + "/" + mNumPostPerPage + " = " + numPage);
 
                             Bundle args;
                             ArrayList<PostData> tempList;
@@ -133,14 +134,14 @@ public class PostFragment extends Fragment {
     }
 
     private ArrayList<PostData> getPostDataBasedOnCurrentPage(int pos) {
-        int offset = pos * Config.NUM_POST_PER_PAGE;
+        int offset = pos * mNumPostPerPage;
         ArrayList<PostData> currentPostData = new ArrayList<PostData>();
 
         int nextSet;
-        if ((offset + Config.NUM_POST_PER_PAGE) > mPostData.size())
+        if ((offset + mNumPostPerPage) > mPostData.size())
             nextSet = mPostData.size();
         else
-            nextSet = offset + Config.NUM_POST_PER_PAGE;
+            nextSet = offset + mNumPostPerPage;
 
         for (int j = offset; j < nextSet; j++) {
             currentPostData.add(mPostData.get(j));
@@ -155,7 +156,7 @@ public class PostFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_last:
                 if (mTotalPostData > 0) {
-                    int totalPage = (int) Math.ceil(mTotalPostData / (float) Config.NUM_POST_PER_PAGE);
+                    int totalPage = (int) Math.ceil(mTotalPostData / (float) mNumPostPerPage);
                     mViewPager.setCurrentItem(totalPage);
                 }
                 break;
