@@ -80,7 +80,10 @@ public class UserUtil {
         editor.remove(ARG_API);
         editor.remove(ARG_USERNAME);
         editor.remove(ARG_USERID);
-
+        editor.remove(ARG_ABOUTME);
+        editor.remove(ARG_FULLNAME);
+        editor.remove(ARG_PROFILEBG);
+        editor.remove(ARG_PROFILEURL);
         editor.commit();
 
     }
