@@ -1,1 +1,1 @@
-include ':app', 'app:libs:floatlabel'
+include ':app', 'app:libs:floatlabel', 'app:libs:notboringactionbar'

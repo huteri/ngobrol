@@ -43,11 +43,11 @@ public class UserUtils {
     public String getFullName() {
         return mPrefs.getString(ARG_FULLNAME, "");
     }
-    
+
     public String getProfileUrl() {
         return mPrefs.getString(ARG_PROFILEURL, "");
     }
-    
+
     public String getProfileBg() {
         return mPrefs.getString(ARG_PROFILEBG, "");
     }
@@ -55,10 +55,11 @@ public class UserUtils {
     public String getAboutMe() {
         return mPrefs.getString(ARG_ABOUTME, "");
     }
+
     public boolean isAvailable() {
         return (mPrefs.getInt(ARG_USERID, 0) > 0) ? true : false;
     }
-    
+
 
     public String getAndroidId() {
         return Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);

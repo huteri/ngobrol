@@ -2,19 +2,19 @@
 
     <PreferenceCategory
         android:key="prefcat_key_general_title"
-        android:title="General">
+        android:title="@string/pref_general">
 
         <com.mymonas.ngobrol.ui.widget.NumberPickerPreference
             android:key="pref_num_posts_per_page"
-            android:title="Number Of Posts Per Page" />
+            android:title="@string/pref_num_posts_per_page" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="prefcat_key_about_title"
-        android:title="About">
+        android:title="@string/pref_cat_about">
         <Preference
             android:key="pref_about"
-            android:title="About" />
+            android:title="@string/pref_about" />
 
     </PreferenceCategory>
 
