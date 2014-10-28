@@ -64,7 +64,7 @@
         android:textSize="12sp"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:text="Coder"/>
+        android:text="Code Crafter"/>
 
 
     <com.makeramen.RoundedImageView
@@ -99,7 +99,7 @@
         android:textSize="12sp"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:text="Iconizer"/>
+        android:text="Design Enthusiast"/>
 
 
     <com.makeramen.RoundedImageView

@@ -10,7 +10,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/app/libs" />
-            <option value="$PROJECT_DIR$/app/libs/NotBoringActionBar" />
             <option value="$PROJECT_DIR$/app/libs/floatlabel" />
           </set>
         </option>
