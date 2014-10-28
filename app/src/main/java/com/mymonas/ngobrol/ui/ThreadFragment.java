@@ -33,13 +33,12 @@ public class ThreadFragment extends Fragment{
         mViewPager = (ViewPager) view.findViewById(R.id.pager);
         mViewPager.setAdapter(mPagerAdapter);
 
-        mPagerAdapter.addPage(getActivity().getString(R.string.general_categories), CategoryFragment.class, null);
-        mPagerAdapter.addPage(getActivity().getString(R.string.general_hot_threads), HotThreadFragment.class, null);
+        mPagerAdapter.addPage(getActivity().getString(R.string.general_categories), CategoryFragment.class, null, R.drawable.ic_tab_category);
+        mPagerAdapter.addPage(getActivity().getString(R.string.general_hot_threads), HotThreadFragment.class, null, R.drawable.ic_tab_popular);
+        mPagerAdapter.addPage("New", HotThreadFragment.class, null, R.drawable.ic_tab_recent);
+
 
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
-        tabs.setDividerColor(getResources().getColor(R.color.divider));
-        tabs.setTextColor(getResources().getColor(R.color.theme_color));
-        tabs.setIndicatorColor(getResources().getColor(R.color.theme_color));
         tabs.setViewPager(mViewPager);
 
         mViewPager.setCurrentItem(1);
@@ -47,19 +46,26 @@ public class ThreadFragment extends Fragment{
         return view;
     }
 
-    public class ThreadPagerAdapter extends FragmentStatePagerAdapter {
+    public class ThreadPagerAdapter extends FragmentStatePagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
         ArrayList<PagerInfo> mPager = new ArrayList<PagerInfo>();
+
+        @Override
+        public int getPageIconResId(int position) {
+            return mPager.get(position).getIcon();
+        }
 
         class PagerInfo {
             private final Class<?> clss;
             private final Bundle args;
             private final String name;
+            private final int icon;
 
-            PagerInfo(Class<?> clss, Bundle args, String name) {
+            PagerInfo(Class<?> clss, Bundle args, String name, int icon) {
                 this.clss = clss;
                 this.args = args;
                 this.name = name;
+                this.icon = icon;
             }
 
             public Class<?> getClss() {
@@ -73,10 +79,14 @@ public class ThreadFragment extends Fragment{
             public String getName() {
                 return name;
             }
+
+            public int getIcon() {
+                return icon;
+            }
         }
 
-        public void addPage(String name, Class<?> clss, Bundle args) {
-            PagerInfo pagerInfo = new PagerInfo(clss, args, name);
+        public void addPage(String name, Class<?> clss, Bundle args, int icon) {
+            PagerInfo pagerInfo = new PagerInfo(clss, args, name, icon);
             mPager.add(pagerInfo);
             notifyDataSetChanged();
         }

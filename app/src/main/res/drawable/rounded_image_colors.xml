@@ -9,5 +9,4 @@
         android:color="@color/theme_color"
         android:state_pressed="true"
         />
-
 </selector>

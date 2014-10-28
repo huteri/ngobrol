@@ -38,7 +38,7 @@ public class InfoProfileFragment extends ScrollTabHolderFragment implements AbsL
 
         InfoProfileListItem item = new InfoProfileListItem();
         item.setText(mUserData.getAboutMe());
-        item.setTitle("About Me");
+        item.setTitle(getActivity().getString(R.string.profile_about_title));
 
         mListItems.add(item);
 

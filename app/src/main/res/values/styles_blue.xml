@@ -33,6 +33,9 @@
                 <!-- Light.DarkActionBar specific -->
         <item name="android:actionBarWidgetTheme">@style/Theme.Blue.Widget</item>
 
+
+      <!--  <item name="android:windowContentOverlay">@null</item> -->
+
     </style>
 
     <style name="ActionBar.Solid.Blue" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
@@ -78,6 +81,5 @@
         <item name="android:popupMenuStyle">@style/PopupMenu.Blue</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Blue</item>
     </style>
-
 
 </resources>

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.mymonas.ngobrol.ui.PostActivity" >
     <item android:id="@+id/action_new"
-        android:title="@string/action_settings"
+        android:title="@string/post_add_new"
         android:orderInCategory="300"
         android:icon="@drawable/ic_post_new"
         android:showAsAction="always" />
