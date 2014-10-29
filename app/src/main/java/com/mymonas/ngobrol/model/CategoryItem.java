@@ -5,7 +5,7 @@ package com.mymonas.ngobrol.model;
  */
 public class CategoryItem {
     private int id;
-    private String name;
+    private String name, color, icon;
 
     public int getId() {
         return id;
@@ -21,5 +21,21 @@ public class CategoryItem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

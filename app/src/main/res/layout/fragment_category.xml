@@ -6,8 +6,11 @@
 
     <ListView
         android:id="@+id/listview"
-        android:background="#FFFFFF"
+        android:layout_margin="6dp"
+        android:dividerHeight="10dp"
         android:divider="@android:color/transparent"
+        android:clipToPadding="true"
+        android:scrollbarStyle="insideOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
