@@ -30,9 +30,16 @@ public class ThreadAdapter extends ArrayAdapter<ThreadItem>{
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.thread_item, parent, false);
-        TextView title = (TextView) view.findViewById(R.id.title);
+        TextView tvTitle = (TextView) view.findViewById(R.id.title);
+        TextView tvCreator = (TextView) view.findViewById(R.id.creator);
+        TextView tvReplies = (TextView) view.findViewById(R.id.replies);
+        TextView tvCategory = (TextView) view.findViewById(R.id.category);
 
-        title.setText(mThreadList.get(position).getTitle());
+        tvTitle.setText(mThreadList.get(position).getTitle());
+        tvCreator.setText("By "+mThreadList.get(position).getUser().getUsername());
+        tvReplies.setText(mThreadList.get(position).getReplies());
+        tvCategory.setText(mThreadList.get(position).getCategory().getName());
+
         return view;
     }
 }

@@ -13,7 +13,7 @@
         android:text="This is just sample title"
         android:fontFamily="sans-serif"
         android:layout_width="match_parent"
-        android:textColor="@color/theme_color"
+        android:textColor="@color/black87"
         android:textSize="16sp"
         android:layout_height="wrap_content" />
 
@@ -22,10 +22,47 @@
         android:layout_alignLeft="@+id/title"
         android:layout_below="@+id/title"
         android:fontFamily="sans-serif"
+        android:paddingTop="5dp"
         android:text="by huteri"
         android:textColor="@color/black55"
         android:textSize="14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/category"
+        android:layout_alignParentRight="true"
+        android:fontFamily="sans-serif"
+        android:layout_alignTop="@+id/creator"
+        android:text="Category"
+        android:paddingTop="5dp"
+        android:paddingLeft="20dp"
+        android:textSize="14sp"
+        android:textColor="@color/black55"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/replies"
+        android:text="200"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_alignTop="@+id/creator"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:textColor="@color/black55"
+        android:textSize="14sp"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/icon_post"
+        android:layout_toLeftOf="@+id/replies"
+        android:layout_alignTop="@+id/creator"
+        android:paddingTop="8dp"
+        android:src="@drawable/ic_num_replies"
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+
+
 
 </RelativeLayout>
