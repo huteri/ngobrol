@@ -37,7 +37,7 @@ import retrofit.client.Response;
  * Created by Huteri on 10/18/2014.
  */
 public class PostFragment extends Fragment {
-   
+
     private static final int NUM_POST_REQUEST = 0;
     private Integer mCurrentRequestedPage = 1;
     private Bundle mArgs;
@@ -104,15 +104,15 @@ public class PostFragment extends Fragment {
                             ArrayList<PostData> tempList;
 
                             int size = mPagerAdapter.getCount();
-                            int maxPage = size+numPage;
+                            int maxPage = size + numPage;
                             for (int i = size; i < maxPage; i++) {
                                 Clog.d("Add page with position : " + i);
                                 tempList = getPostDataBasedOnCurrentPage(i);
 
                                 args = new Bundle();
                                 args.putSerializable("data", tempList);
-
-                                mPagerAdapter.addPage(getActivity().getString(R.string.general_page) + " " + (i + 1)+ "/"+maxPage, args);
+                                if (getActivity() != null)
+                                    mPagerAdapter.addPage(getActivity().getString(R.string.general_page) + " " + (i + 1) + "/" + maxPage, args);
                             }
 
 
@@ -222,9 +222,9 @@ public class PostFragment extends Fragment {
     }
 
     private void reloadTheFragment() {
-      mPostData.clear();
-      mPagerAdapter.removeAllPages();
-      getCurrentPostData();
+        mPostData.clear();
+        mPagerAdapter.removeAllPages();
+        getCurrentPostData();
 
     }
 
