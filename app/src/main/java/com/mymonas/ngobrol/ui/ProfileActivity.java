@@ -114,6 +114,8 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
             name = userData.getFullname();
         }
 
+        mTvName.setText(name);
+
         mSpannableString = new SpannableString(name);
 
 
