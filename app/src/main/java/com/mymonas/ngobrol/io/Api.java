@@ -18,8 +18,8 @@ import retrofit.http.Query;
  */
 public interface Api {
 
-    @GET("/thread.php")
-    void getThreads(@Query("action") String actionName, Callback<ThreadCallback> callback);
+    @GET("/thread.php?action=get_all_threads")
+    void getThreads(@Query("categoryId") String categoryId, Callback<ThreadCallback> callback);
 
     @GET("/post.php?action=get_posts")
     void getPosts(@Query("threadId") int threadId, @Query("limit") int limit, @Query("p") int page, Callback<PostCallback> callback);

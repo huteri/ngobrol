@@ -1,9 +1,11 @@
 package com.mymonas.ngobrol.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Huteri on 10/21/2014.
  */
-public class CategoryItem {
+public class CategoryItem implements Serializable{
     private int id;
     private String name, color, icon;
 

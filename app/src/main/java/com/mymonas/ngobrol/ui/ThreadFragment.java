@@ -1,5 +1,6 @@
 package com.mymonas.ngobrol.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.mymonas.ngobrol.R;
+import com.mymonas.ngobrol.model.CategoryItem;
 
 import java.util.ArrayList;
 
@@ -21,27 +23,48 @@ import java.util.ArrayList;
 public class ThreadFragment extends Fragment{
     private ViewPager mViewPager;
     private ThreadPagerAdapter mPagerAdapter;
+    private boolean mIsCategoryActivity = false;
+    private CategoryItem mCategoryData;
 
     public ThreadFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(getArguments() != null && getArguments().getSerializable(CategoryThreadActivity.KEY_EXTRA_CATEGORY_DATA) != null) {
+            mIsCategoryActivity = true;
+            mCategoryData = (CategoryItem) getArguments().getSerializable(CategoryThreadActivity.KEY_EXTRA_CATEGORY_DATA);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_thread, container, false);
 
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         mPagerAdapter = new ThreadPagerAdapter(getActivity().getSupportFragmentManager());
         mViewPager = (ViewPager) view.findViewById(R.id.pager);
+        mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mPagerAdapter);
 
-        mPagerAdapter.addPage(getActivity().getString(R.string.general_categories), CategoryFragment.class, null, R.drawable.ic_tab_category);
-        mPagerAdapter.addPage(getActivity().getString(R.string.general_hot_threads), HotThreadFragment.class, null, R.drawable.ic_tab_popular);
-        mPagerAdapter.addPage("New", HotThreadFragment.class, null, R.drawable.ic_tab_recent);
+        if(mIsCategoryActivity) {
+            tabs.setIndicatorColor(Color.parseColor(mCategoryData.getColor()));
 
+            Bundle args = new Bundle();
+            args.putString(HotThreadFragment.KEY_EXTRA_CATEOGORY_ID, String.valueOf(mCategoryData.getId()));
+            mPagerAdapter.addPage(getActivity().getString(R.string.general_hot_threads), HotThreadFragment.class, args, R.drawable.ic_tab_popular);
+            mPagerAdapter.addPage("New", HotThreadFragment.class, args, R.drawable.ic_tab_recent);
+        } else {
+            mPagerAdapter.addPage(getActivity().getString(R.string.general_categories), CategoryFragment.class, null, R.drawable.ic_tab_category);
+            mPagerAdapter.addPage(getActivity().getString(R.string.general_hot_threads), HotThreadFragment.class, null, R.drawable.ic_tab_popular);
+            mPagerAdapter.addPage("New", HotThreadFragment.class, null, R.drawable.ic_tab_recent);
+            mViewPager.setCurrentItem(1);
+        }
 
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         tabs.setViewPager(mViewPager);
 
-        mViewPager.setCurrentItem(1);
 
         return view;
     }
@@ -102,7 +125,7 @@ public class ThreadFragment extends Fragment{
 
         @Override
         public Fragment getItem(int i) {
-            return Fragment.instantiate(getActivity(), mPager.get(i).getClss().getName());
+            return Fragment.instantiate(getActivity(), mPager.get(i).getClss().getName(), mPager.get(i).getArgs());
         }
 
         @Override

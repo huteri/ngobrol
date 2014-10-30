@@ -25,33 +25,47 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class HotThreadFragment extends Fragment {
-    private static final String ACTION_GET_ALL_THREADS = "get_all_threads";
+    public static final String KEY_EXTRA_CATEOGORY_ID = "categoryId";
     private Context mContext;
     private ArrayList<ThreadItem> mThreadList;
     private ThreadAdapter mThreadAdapter;
+    private String mCategoryId = null;
 
     public HotThreadFragment() {
 
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = getActivity();
+
+        if(getArguments() != null && getArguments().getString(KEY_EXTRA_CATEOGORY_ID) != null ) {
+            mCategoryId = getArguments().getString(KEY_EXTRA_CATEOGORY_ID);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mContext = getActivity();
         View view = inflater.inflate(R.layout.fragment_hot_thread, container, false);
 
         mThreadList = new ArrayList<ThreadItem>();
         mThreadAdapter = new ThreadAdapter(mContext, mThreadList);
 
         final ProgressBar pBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+
         pBar.setVisibility(View.VISIBLE);
-        RestClient.get().getThreads(ACTION_GET_ALL_THREADS, new Callback<ThreadCallback>() {
+        Clog.d("mCategoryId : "+mCategoryId);
+        RestClient.get().getThreads(mCategoryId, new Callback<ThreadCallback>() {
             @Override
             public void success(ThreadCallback threadCallback, Response response) {
                 pBar.setVisibility(View.GONE);
-                mThreadList.addAll(threadCallback.getData());
-                mThreadAdapter.notifyDataSetChanged();
+                if(threadCallback.getCount() > 0) {
+                    mThreadList.addAll(threadCallback.getData());
+                    mThreadAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
