@@ -48,7 +48,7 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_alignTop="@+id/creator"
-        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/icon_post"
         android:layout_width="wrap_content"
         android:textColor="@color/black55"
         android:textSize="14sp"
@@ -56,8 +56,8 @@
 
     <ImageView
         android:id="@+id/icon_post"
-        android:layout_toLeftOf="@+id/replies"
         android:layout_alignTop="@+id/creator"
+        android:layout_centerHorizontal="true"
         android:paddingTop="8dp"
         android:src="@drawable/ic_num_replies"
         android:layout_width="20dp"
