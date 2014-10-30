@@ -22,6 +22,7 @@ import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.io.model.PostCallback;
 import com.mymonas.ngobrol.model.PostData;
+import com.mymonas.ngobrol.model.ThreadItem;
 import com.mymonas.ngobrol.util.Clog;
 import com.mymonas.ngobrol.util.PrefUtils;
 import com.mymonas.ngobrol.util.UserUtils;
@@ -39,6 +40,7 @@ import retrofit.client.Response;
 public class PostFragment extends Fragment {
 
     private static final int NUM_POST_REQUEST = 0;
+    public static final String KEY_EXTRA_THREAD_DATA = "thread_data";
     private Integer mCurrentRequestedPage = 1;
     private Bundle mArgs;
     private ViewPager mViewPager;
@@ -51,6 +53,7 @@ public class PostFragment extends Fragment {
     private ProgressBar mProgressBar;
     private UserUtils mUserUtils;
     private int mNumPostPerPage;
+    private ThreadItem mThreadData;
 
     public PostFragment() {
 
@@ -72,7 +75,8 @@ public class PostFragment extends Fragment {
 
         mPostData = new ArrayList<PostData>();
         mArgs = getArguments();
-        mThreadId = Integer.valueOf(mArgs.getString("threadId"));
+        mThreadData = (ThreadItem) mArgs.getSerializable(KEY_EXTRA_THREAD_DATA);
+        mThreadId = Integer.valueOf(mThreadData.getId());
         mUserUtils = new UserUtils(getActivity());
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
@@ -111,6 +115,8 @@ public class PostFragment extends Fragment {
 
                                 args = new Bundle();
                                 args.putSerializable("data", tempList);
+                                args.putSerializable(PostFragment.KEY_EXTRA_THREAD_DATA, mThreadData);
+                                args.putInt("position", i);
                                 if (getActivity() != null)
                                     mPagerAdapter.addPage(getActivity().getString(R.string.general_page) + " " + (i + 1) + "/" + maxPage, args);
                             }

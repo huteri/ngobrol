@@ -81,7 +81,7 @@ public class HotThreadFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle args = new Bundle();
-                args.putString("threadId", mThreadList.get(i).getId());
+                args.putSerializable(PostFragment.KEY_EXTRA_THREAD_DATA, mThreadList.get(i));
 
                 Intent intent = new Intent(getActivity(), PostActivity.class);
                 intent.putExtras(args);
