@@ -3,6 +3,8 @@ package com.mymonas.ngobrol.ui.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,9 +60,15 @@ public class CategoryAdapter extends ArrayAdapter<CategoryItem> {
         TextView name = (TextView) view.findViewById(R.id.name);
         ImageView icon = (ImageView) view.findViewById(R.id.icon);
 
-        layout.setBackgroundColor(Color.parseColor(mList.get(position).getColor()));
-        name.setText(mList.get(position).getName());
+        int color = Color.parseColor(mList.get(position).getColor());
+        int newColor = Color.argb(100, Color.red(color), Color.green(color), Color.blue(color));
 
+        StateListDrawable drawable = new StateListDrawable();
+        drawable.addState(new int[] { android.R.attr.state_pressed}, new ColorDrawable(newColor));
+        drawable.addState(new int[] { -android.R.attr.state_pressed}, new ColorDrawable(color));
+
+        layout.setBackgroundDrawable(drawable);
+        name.setText(mList.get(position).getName());
 
         ImageLoader.getInstance().displayImage(mList.get(position).getIcon(), icon, mImageOptions);
 

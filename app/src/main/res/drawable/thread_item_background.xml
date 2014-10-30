@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false"
+        android:drawable="@android:color/white" />
+    <item android:state_pressed="true"
+        android:drawable="@color/transparent_theme_color" />
+    <item android:state_focused="true" android:state_enabled="true"
+        android:drawable="@drawable/btn_cab_done_focused_blue" />
+    <item android:state_enabled="true"
+        android:drawable="@drawable/btn_cab_done_default_blue" />
+</selector>

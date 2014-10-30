@@ -9,4 +9,5 @@
     <color name="text_color">#85000000</color>
     <color name="black87">#dd000000</color>
     <color name="black55">#8C000000</color>
+    <color name="transparent_theme_color">#5003a9f4</color>
 </resources>
