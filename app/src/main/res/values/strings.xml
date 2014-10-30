@@ -50,5 +50,8 @@
     <string name="pref_about">About</string>
     <string name="profile_info">Info</string>
     <string name="profile_about_title">About Me</string>
+    <string name="general_about">About</string>
+    <string name="about_description">This project was an assignment from the university to make the forums for android app.</string>
+    <string name="general_team">Team</string>
 
 </resources>

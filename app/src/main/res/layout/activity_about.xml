@@ -14,13 +14,13 @@
         android:id="@+id/about_title"
         style="?android:attr/listSeparatorTextViewStyle"
         android:layout_width="match_parent"
-        android:text="About"
+        android:text="@string/general_about"
         android:layout_height="wrap_content" />
 
     <TextView
         android:padding="10dp"
         android:id="@+id/about_text"
-        android:text="This project was an assignment from the university to make the forums for android app."
+        android:text="@string/about_description"
         android:layout_below="@+id/about_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -32,7 +32,7 @@
         style="?android:attr/listSeparatorTextViewStyle"
         android:layout_below="@id/about_text"
         android:layout_width="match_parent"
-        android:text="Team"
+        android:text="@string/general_team"
         android:layout_height="wrap_content" />
 
     <com.makeramen.RoundedImageView
@@ -69,7 +69,7 @@
 
     <com.makeramen.RoundedImageView
         android:id="@+id/team2_image"
-        android:src="@drawable/nophoto"
+        android:src="@drawable/dhio"
         android:layout_below="@+id/team_title"
         android:layout_marginRight="10dp"
         android:layout_toRightOf="@+id/team1_image"
