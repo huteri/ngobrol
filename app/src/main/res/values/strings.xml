@@ -61,5 +61,7 @@
     <string name="new_thread_done_title">Submitting</string>
     <string name="new_thread_done_message">Creating a new thread..</string>
     <string name="new_thread_poster">Creating new thread as </string>
+    <string name="thread_most_popular">Most Popular</string>
+    <string name="thread_most_recent">Most Recent</string>
 
 </resources>

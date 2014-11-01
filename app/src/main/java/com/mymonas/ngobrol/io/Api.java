@@ -21,7 +21,7 @@ public interface Api {
     // thread
 
     @GET("/thread.php?action=get_all_threads")
-    void getThreads(@Query("categoryId") String categoryId, Callback<ThreadCallback> callback);
+    void getThreads(@Query("categoryId") String categoryId, @Query("sortPopular") int sortPopular, Callback<ThreadCallback> callback);
 
     @FormUrlEncoded
     @POST("/thread.php?action=submit_thread")

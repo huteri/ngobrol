@@ -67,7 +67,7 @@ public class ListThreadFragment extends Fragment {
 
         pBar.setVisibility(View.VISIBLE);
         Clog.d("mCategoryId : "+mCategoryId);
-        RestClient.get().getThreads(mCategoryId, new Callback<ThreadCallback>() {
+        RestClient.get().getThreads(mCategoryId, mSortPopular, new Callback<ThreadCallback>() {
             @Override
             public void success(ThreadCallback threadCallback, Response response) {
                 pBar.setVisibility(View.GONE);
@@ -90,9 +90,9 @@ public class ListThreadFragment extends Fragment {
         TextView tvHeader = (TextView) headerView.findViewById(R.id.header_title);
 
         if(mSortPopular == 1) {
-            tvHeader.setText("Most Popular");
+            tvHeader.setText(mContext.getString(R.string.thread_most_popular));
         } else {
-            tvHeader.setText("Most Recent");
+            tvHeader.setText(mContext.getString(R.string.thread_most_recent));
         }
 
         threadLv.addHeaderView(headerView);
