@@ -62,6 +62,7 @@ public class PostAdapter extends ArrayAdapter<PostData> {
             holder.tvText = (TextView) view.findViewById(R.id.text);
             holder.tvName = (TextView) view.findViewById(R.id.name);
             holder.tvDate = (TextView) view.findViewById(R.id.date);
+            holder.tvPostOrder = (TextView) view.findViewById(R.id.post_order);
             holder.profileImg = (RoundedImageView) view.findViewById(R.id.profile_img);
             view.setTag(holder);
         } else {
@@ -71,6 +72,7 @@ public class PostAdapter extends ArrayAdapter<PostData> {
         holder.tvText.setText(mPostData.get(position).getText());
         holder.tvName.setText(mPostData.get(position).getUser().getUsername());
         holder.tvDate.setText(mPostData.get(position).getDateCreated());
+        holder.tvPostOrder.setText("#"+(position+1));
 
         holder.profileImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +93,7 @@ public class PostAdapter extends ArrayAdapter<PostData> {
         TextView tvText;
         TextView tvName;
         TextView tvDate;
+        TextView tvPostOrder;
         RoundedImageView profileImg;
     }
 }
