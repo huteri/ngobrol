@@ -2,17 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mymonas.ngobrol.ui.HotThreadFragment">
+    tools:context="com.mymonas.ngobrol.ui.ListThreadFragment">
     <ListView
         android:id="@+id/thread_list"
         android:layout_width="match_parent"
-        android:clipToPadding="false"
+        android:clipToPadding="true"
         android:paddingBottom="8dp"
         android:dividerHeight="5dp"
         android:divider="@android:color/transparent"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:scrollbarStyle="outsideOverlay"
         android:layout_height="match_parent" />
 

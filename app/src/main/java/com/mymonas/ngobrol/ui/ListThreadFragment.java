@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.RestClient;
@@ -24,14 +25,16 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class HotThreadFragment extends Fragment {
+public class ListThreadFragment extends Fragment {
     public static final String KEY_EXTRA_CATEOGORY_ID = "categoryId";
+    public static final String KEY_EXTRA_SORT_POPULAR = "sortPopular";
     private Context mContext;
     private ArrayList<ThreadItem> mThreadList;
     private ThreadAdapter mThreadAdapter;
     private String mCategoryId = null;
+    private int mSortPopular = 1;
 
-    public HotThreadFragment() {
+    public ListThreadFragment() {
 
     }
 
@@ -40,8 +43,14 @@ public class HotThreadFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
 
-        if(getArguments() != null && getArguments().getString(KEY_EXTRA_CATEOGORY_ID) != null ) {
-            mCategoryId = getArguments().getString(KEY_EXTRA_CATEOGORY_ID);
+        if(getArguments() != null) {
+            if(getArguments().getString(KEY_EXTRA_CATEOGORY_ID) != null)
+             mCategoryId = getArguments().getString(KEY_EXTRA_CATEOGORY_ID);
+
+            Clog.d(getArguments().getBoolean(KEY_EXTRA_SORT_POPULAR));
+            if(!getArguments().getBoolean(KEY_EXTRA_SORT_POPULAR)) {
+                mSortPopular = 0;
+            }
         }
     }
 
@@ -76,6 +85,18 @@ public class HotThreadFragment extends Fragment {
         });
 
         ListView threadLv = (ListView) view.findViewById(R.id.thread_list);
+
+        View headerView = inflater.inflate(R.layout.header_thread, threadLv, false);
+        TextView tvHeader = (TextView) headerView.findViewById(R.id.header_title);
+
+        if(mSortPopular == 1) {
+            tvHeader.setText("Most Popular");
+        } else {
+            tvHeader.setText("Most Recent");
+        }
+
+        threadLv.addHeaderView(headerView);
+
         threadLv.setAdapter(mThreadAdapter);
         threadLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

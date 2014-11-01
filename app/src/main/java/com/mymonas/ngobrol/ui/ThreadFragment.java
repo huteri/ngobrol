@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Created by Huteri on 10/21/2014.
  */
-public class ThreadFragment extends Fragment{
+public class ThreadFragment extends Fragment {
     private ViewPager mViewPager;
     private ThreadPagerAdapter mPagerAdapter;
     private boolean mIsCategoryActivity = false;
@@ -33,7 +33,7 @@ public class ThreadFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments() != null && getArguments().getSerializable(CategoryThreadActivity.KEY_EXTRA_CATEGORY_DATA) != null) {
+        if (getArguments() != null && getArguments().getSerializable(CategoryThreadActivity.KEY_EXTRA_CATEGORY_DATA) != null) {
             mIsCategoryActivity = true;
             mCategoryData = (CategoryItem) getArguments().getSerializable(CategoryThreadActivity.KEY_EXTRA_CATEGORY_DATA);
         }
@@ -49,18 +49,26 @@ public class ThreadFragment extends Fragment{
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(mPagerAdapter);
 
-        if(mIsCategoryActivity) {
-            tabs.setIndicatorColor(Color.parseColor(mCategoryData.getColor()));
+        Bundle args = new Bundle();
+        args.putBoolean(ListThreadFragment.KEY_EXTRA_SORT_POPULAR, true);
 
-            Bundle args = new Bundle();
-            args.putString(HotThreadFragment.KEY_EXTRA_CATEOGORY_ID, String.valueOf(mCategoryData.getId()));
-            mPagerAdapter.addPage(getActivity().getString(R.string.general_hot_threads), HotThreadFragment.class, args, R.drawable.ic_tab_popular);
-            mPagerAdapter.addPage("New", HotThreadFragment.class, args, R.drawable.ic_tab_recent);
+        if (mIsCategoryActivity) {
+            tabs.setIndicatorColor(Color.parseColor(mCategoryData.getColor()));
+            args.putString(ListThreadFragment.KEY_EXTRA_CATEOGORY_ID, String.valueOf(mCategoryData.getId()));
+            mPagerAdapter.addPage(getActivity().getString(R.string.general_hot_threads), ListThreadFragment.class, args, R.drawable.ic_tab_popular);
+
+            args = new Bundle();
+            args.putBoolean(ListThreadFragment.KEY_EXTRA_SORT_POPULAR, false);
+            mPagerAdapter.addPage("New", ListThreadFragment.class, args, R.drawable.ic_tab_recent);
         } else {
-            mPagerAdapter.addPage(getActivity().getString(R.string.general_categories), CategoryFragment.class, null, R.drawable.ic_tab_category);
-            mPagerAdapter.addPage(getActivity().getString(R.string.general_hot_threads), HotThreadFragment.class, null, R.drawable.ic_tab_popular);
-            mPagerAdapter.addPage("New", HotThreadFragment.class, null, R.drawable.ic_tab_recent);
+            mPagerAdapter.addPage(getActivity().getString(R.string.general_categories), CategoryFragment.class, args, R.drawable.ic_tab_category);
+            mPagerAdapter.addPage(getActivity().getString(R.string.general_hot_threads), ListThreadFragment.class, args, R.drawable.ic_tab_popular);
+
+            args = new Bundle();
+            args.putBoolean(ListThreadFragment.KEY_EXTRA_SORT_POPULAR, false);
+            mPagerAdapter.addPage("New", ListThreadFragment.class, args, R.drawable.ic_tab_recent);
             mViewPager.setCurrentItem(1);
+
         }
 
         tabs.setViewPager(mViewPager);
@@ -133,7 +141,6 @@ public class ThreadFragment extends Fragment{
             return mPager.size();
         }
     }
-
 
 
 }

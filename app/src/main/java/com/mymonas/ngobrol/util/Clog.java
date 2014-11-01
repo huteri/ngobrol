@@ -63,6 +63,13 @@ public class Clog {
         getMethodNames(new Throwable().getStackTrace());
         Log.d(className, createLog(message));
     }
+    public static void d(boolean message) {
+        if (!isDebugable())
+            return;
+
+        getMethodNames(new Throwable().getStackTrace());
+        Log.d(className, createLog(String.valueOf(message)));
+    }
 
     public static void d(int message) {
         if (!isDebugable())
