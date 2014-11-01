@@ -53,5 +53,13 @@
     <string name="general_about">About</string>
     <string name="about_description">This project was an assignment from the university to make the forums for android app.</string>
     <string name="general_team">Team</string>
+    <string name="main_menu_search">Search</string>
+    <string name="main_menu_new">New Thread</string>
+    <string name="menu_cancel">Cancel</string>
+    <string name="menu_save">Save</string>
+    <string name="new_thread_title_empty">Title can not be empty</string>
+    <string name="new_thread_done_title">Submitting</string>
+    <string name="new_thread_done_message">Creating a new thread..</string>
+    <string name="new_thread_poster">Creating new thread as </string>
 
 </resources>

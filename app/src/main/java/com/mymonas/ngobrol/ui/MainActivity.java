@@ -173,6 +173,11 @@ public class MainActivity extends FragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        if(!mUserUtils.isAvailable()) {
+            MenuItem item = menu.findItem(R.id.action_new);
+            item.setVisible(false);
+        }
         return true;
     }
 
@@ -180,6 +185,13 @@ public class MainActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item))
             return true;
+
+        switch(item.getItemId()) {
+            case R.id.action_new:
+                Intent intent = new Intent(this, AddEditThreadActivity.class);
+                startActivity(intent);
+                break;
+        }
 
         return super.onOptionsItemSelected(item);
     }

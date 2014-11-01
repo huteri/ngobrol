@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity" >
     <item android:id="@+id/action_new"
-        android:title="New Thread"
+        android:title="@string/main_menu_new"
         android:orderInCategory="301"
         android:icon="@drawable/ic_post_new"
         android:showAsAction="always" />
     <item android:id="@+id/action_search"
-        android:title="Search"
+        android:title="@string/main_menu_search"
         android:orderInCategory="300"
         android:icon="@drawable/ic_action_search"
         android:showAsAction="always" />

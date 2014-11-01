@@ -50,6 +50,9 @@
         <activity
             android:name=".ui.CategoryThreadActivity" >
         </activity>
+        <activity
+            android:name=".ui.AddEditThreadActivity" >
+        </activity>
     </application>
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />

@@ -18,14 +18,30 @@ import retrofit.http.Query;
  */
 public interface Api {
 
+    // thread
+
     @GET("/thread.php?action=get_all_threads")
     void getThreads(@Query("categoryId") String categoryId, Callback<ThreadCallback> callback);
+
+    @FormUrlEncoded
+    @POST("/thread.php?action=submit_thread")
+    void submitThread(@Field("userId") int userId, @Field("api") String api, @Field("androidId") String androidId, @Field("categoryId") int categoryId, @Field("title") String title, @Field("text") String text, Callback<BaseCallback> callback);
+
+    // post
 
     @GET("/post.php?action=get_posts")
     void getPosts(@Query("threadId") int threadId, @Query("limit") int limit, @Query("p") int page, Callback<PostCallback> callback);
 
+    @FormUrlEncoded
+    @POST("/post.php?action=submit_post")
+    void submitPost(@Query("threadId") int threadId, @Field("userId") int userId, @Field("api") String api,@Field("androidId") String androidId, @Field("text") String text, Callback<BaseCallback> callback);
+
+    // category
+
     @GET("/category.php?action=get_categories")
     void getCategories(Callback<CategoryCallback> callback);
+
+    // user
 
     @FormUrlEncoded
     @POST("/user.php?action=register")
@@ -39,8 +55,4 @@ public interface Api {
     @POST("/user.php?action=logout")
     void logoutUser(@Field("userId") int userId, @Field("api") String api, Callback<BaseCallback> callback);
 
-    @FormUrlEncoded
-    @POST("/post.php?action=submit_post")
-    void submitPost(@Query("threadId") int threadId, @Field("userId") int userId, @Field("api") String api,@Field("androidId") String androidId, @Field("text") String text, Callback<BaseCallback> callback);
-
-}
+  }
