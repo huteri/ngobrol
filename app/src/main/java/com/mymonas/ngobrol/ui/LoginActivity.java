@@ -85,7 +85,7 @@ public class LoginActivity extends Activity {
         doLoginTask(userEmail, userPass);
     }
 
-    private void doLoginTask(final String userEmail, String userPass) {
+    private void doLoginTask(final String userName, String userPass) {
 
         String androidName = Build.MODEL;
         String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -94,7 +94,7 @@ public class LoginActivity extends Activity {
         mEtAccountPass.setEnabled(false);
         mBtnSubmit.setProgress(BTN_START_PROGRESS);
 
-        RestClient.get().logUser(userEmail, userPass, androidName, androidId, new Callback<UserLoginCallback>() {
+        RestClient.get().logUser(userName, userPass, androidName, androidId, new Callback<UserLoginCallback>() {
             @Override
             public void success(UserLoginCallback userLoginCallback, Response response) {
                if(userLoginCallback.getSuccess() == 1) {
@@ -102,13 +102,14 @@ public class LoginActivity extends Activity {
 
                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                    SharedPreferences.Editor edit = prefs.edit();
-                   edit.putString("username", userEmail);
+                   edit.putString("username", userName);
                    edit.putInt("userId", userLoginCallback.getData().getId());
                    edit.putString("api", userLoginCallback.getData().getApi());
                    edit.putString("fullname", userLoginCallback.getData().getFullname());
                    edit.putString("profileUrl", userLoginCallback.getData().getProfileUrl());
                    edit.putString("profileBg", userLoginCallback.getData().getProfileBg());
                    edit.putString("aboutMe", userLoginCallback.getData().getAboutMe());
+                   edit.putString("email", userLoginCallback.getData().getEmail());
                    edit.commit();
 
                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);

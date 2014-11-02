@@ -55,4 +55,8 @@ public interface Api {
     @POST("/user.php?action=logout")
     void logoutUser(@Field("userId") int userId, @Field("api") String api, Callback<BaseCallback> callback);
 
+    @FormUrlEncoded
+    @POST("/user.php?action=edit_profile")
+    void editProfile(@Field("userId") int userId, @Field("api") String api, @Field("androidId") String androidId, @Field("fullName") String fullName, @Field("email") String email, @Field("aboutMe") String aboutMe, Callback<BaseCallback> callback);
+
   }

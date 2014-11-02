@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class UserData implements Serializable {
         private int id;
-        private String api, username, fullname, profileUrl, profileBg, aboutMe;
+        private String api, username, fullname, profileUrl, profileBg, aboutMe, email;
 
         public String getApi() {
             return api;
@@ -63,5 +63,13 @@ public class UserData implements Serializable {
 
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

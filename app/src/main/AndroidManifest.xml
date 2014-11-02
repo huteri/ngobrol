@@ -54,6 +54,10 @@
         <activity
             android:name=".ui.AddEditThreadActivity" >
         </activity>
+        <activity
+            android:label="@string/profile_menu_edit"
+            android:name=".ui.EditProfileActivity" >
+        </activity>
     </application>
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />

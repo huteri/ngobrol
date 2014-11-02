@@ -19,6 +19,7 @@ public class UserUtils {
     private static final String ARG_PROFILEURL = "profileUrl";
     private static final String ARG_PROFILEBG = "profileBg";
     private static final String ARG_ABOUTME = "aboutMe";
+    private static final String ARG_EMAIL = "email";
 
     private final Context mContext;
     private final SharedPreferences mPrefs;
@@ -65,10 +66,15 @@ public class UserUtils {
         return Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
+    public String getEmail() {
+        return mPrefs.getString(ARG_EMAIL, "");
+    }
+
     public UserData getUserData() {
         UserData data = new UserData();
         data.setAboutMe(getAboutMe());
         data.setFullname(getFullName());
+        data.setEmail(getEmail());
         data.setId(getUserId());
         data.setProfileBg(getProfileBg());
         data.setProfileUrl(getProfileUrl());
@@ -88,4 +94,18 @@ public class UserUtils {
         editor.commit();
 
     }
+
+   public void saveUserData(UserData user) {
+       SharedPreferences.Editor edit = mPrefs.edit();
+       edit.putString(ARG_ABOUTME, user.getAboutMe());
+       edit.putString(ARG_EMAIL, user.getEmail());
+       edit.putString(ARG_FULLNAME, user.getFullname());
+       edit.putInt(ARG_USERID, user.getId());
+       edit.putString(ARG_PROFILEURL, user.getProfileUrl());
+       edit.putString(ARG_PROFILEBG, user.getProfileBg());
+       edit.putString(ARG_USERNAME, user.getUsername());
+
+       edit.commit();
+   }
+
 }

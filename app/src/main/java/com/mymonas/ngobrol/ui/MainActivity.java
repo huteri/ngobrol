@@ -114,7 +114,6 @@ public class MainActivity extends FragmentActivity {
         }
 
         mDrawerListView.setAdapter(drawerAdapter);
-
         mDrawerListView.setOnItemClickListener(new DrawerItemClickListener());
 
         getActionBar().setDisplayHomeAsUpEnabled(true);

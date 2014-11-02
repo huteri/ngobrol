@@ -1,6 +1,8 @@
 package com.mymonas.ngobrol.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.RectF;
@@ -31,6 +33,7 @@ import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.model.UserData;
 import com.mymonas.ngobrol.ui.holder.ScrollTabHolder;
 import com.mymonas.ngobrol.util.Clog;
+import com.mymonas.ngobrol.util.UserUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -43,6 +46,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
 
     public static final String KEY_EXTRA_USER_DATA = "user_data";
     public static final String KEY_EXTRA_POSITION = "position";
+    private static final int REQ_EDIT_PROFILE = 1;
     private int mMinHeaderHeight;
     private int mHeaderHeight;
     private int mActionBarHeight;
@@ -66,7 +70,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-    
+
         mMinHeaderHeight = getResources().getDimensionPixelSize(R.dimen.min_header_height);
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
         mMinHeaderTranslation = -mMinHeaderHeight + getActionBarHeight();
@@ -115,9 +119,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
         }
 
         mTvName.setText(name);
-
         mSpannableString = new SpannableString(name);
-
 
         ImageLoader imageLoader = ImageLoader.getInstance();
         ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).build();
@@ -134,8 +136,8 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
 
-       imageLoader.displayImage(userData.getProfileUrl(), mProfileImg);
-    //    imageLoader.displayImage(userData.getProfileBg(), profilebg, imageOptions);
+        imageLoader.displayImage(userData.getProfileUrl(), mProfileImg);
+        //    imageLoader.displayImage(userData.getProfileBg(), profilebg, imageOptions);
     }
 
     private ImageView getActionBarIconView() {
@@ -143,7 +145,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
     }
 
     private int getActionBarHeight() {
-        if(mActionBarHeight != 0 ) {
+        if (mActionBarHeight != 0) {
             return mActionBarHeight;
         }
 
@@ -157,6 +159,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile, menu);
         return true;
     }
 
@@ -165,8 +168,24 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
         int id = item.getItemId();
         if (id == android.R.id.home) {
             finish();
+        } else if (id == R.id.action_edit_profile) {
+            Intent intent = new Intent(this, EditProfileActivity.class);
+            startActivityForResult(intent, REQ_EDIT_PROFILE);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQ_EDIT_PROFILE) {
+            if(resultCode == Activity.RESULT_OK) {
+                finish();
+                UserUtils userUtils = new UserUtils(this);
+                Intent intent = new Intent(this, ProfileActivity.class);
+                intent.putExtra(KEY_EXTRA_USER_DATA, userUtils.getUserData());
+                startActivity(intent);
+            }
+        }
     }
 
     @Override
@@ -194,7 +213,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount, int pagePosition) {
-        if(mViewPager.getCurrentItem() == pagePosition) {
+        if (mViewPager.getCurrentItem() == pagePosition) {
             int scrollY = getScrollY(view);
             mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
             float ratio = clamp(mHeader.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
@@ -241,7 +260,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
 
     private int getScrollY(AbsListView view) {
         View c = view.getChildAt(0);
-        if(c == null) {
+        if (c == null) {
             return 0;
         }
 
@@ -250,7 +269,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
 
         int headerHeight = 0;
 
-        if(firstVisiblePosition >= 1) {
+        if (firstVisiblePosition >= 1) {
             headerHeight = mHeaderHeight;
         }
 
@@ -270,9 +289,9 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
             private final Bundle args;
 
             PagerInfo(String name, Class<?> clss, Bundle args) {
-                  this.name = name;
-                  this.clss = clss;
-                 this.args = args;
+                this.name = name;
+                this.clss = clss;
+                this.args = args;
             }
 
             public Class<?> getClss() {

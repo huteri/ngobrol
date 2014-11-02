@@ -63,5 +63,14 @@
     <string name="new_thread_poster">Creating new thread as </string>
     <string name="thread_most_popular">Most Popular</string>
     <string name="thread_most_recent">Most Recent</string>
+    <string name="profile_menu_edit">Edit Profile</string>
+    <string name="profile_edit_general_info">General Info</string>
+    <string name="profile_edit_title_real_name">Real Name</string>
+    <string name="profile_edit_invalid_realname">Real name is not valid</string>
+    <string name="profile_edit_email_title">Email</string>
+    <string name="profile_edit_invalid_email">Email is not valid</string>
+    <string name="profile_edit_aboutme_title">About Me</string>
+    <string name="profile_edit_dialog_title">Saving Data</string>
+    <string name="profile_edit_dialog_message">Please wait...</string>
 
 </resources>
