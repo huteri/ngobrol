@@ -64,7 +64,7 @@ public class ListThreadFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_hot_thread, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_thread, container, false);
 
         mThreadList = new ArrayList<ThreadItem>();
         mThreadAdapter = new ThreadAdapter(mContext, mThreadList);
