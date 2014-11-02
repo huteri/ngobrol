@@ -6,9 +6,5 @@
         android:orderInCategory="301"
         android:icon="@drawable/ic_post_new"
         android:showAsAction="always" />
-    <item android:id="@+id/action_search"
-        android:title="@string/main_menu_search"
-        android:orderInCategory="300"
-        android:icon="@drawable/ic_action_search"
-        android:showAsAction="always" />
+
 </menu>

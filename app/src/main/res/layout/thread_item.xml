@@ -7,22 +7,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
+        android:paddingTop="16dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:background="@drawable/thread_item_background"
         android:gravity="center"
-        android:layout_height="72dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/title"
-            android:text="This is just sample title"
+            android:text="This is just sample title. With a very long text wowowowo"
             android:fontFamily="sans-serif"
+            android:lineSpacingExtra="2dp"
             android:layout_width="match_parent"
             android:textColor="@color/black87"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -33,7 +36,7 @@
             android:paddingTop="5dp"
             android:text="by huteri"
             android:textColor="@color/black55"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -45,7 +48,7 @@
             android:text="Category"
             android:paddingTop="5dp"
             android:paddingLeft="20dp"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="@color/black55"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -59,14 +62,14 @@
             android:layout_toRightOf="@+id/icon_post"
             android:layout_width="wrap_content"
             android:textColor="@color/black55"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/icon_post"
             android:layout_alignTop="@+id/creator"
             android:layout_centerHorizontal="true"
-            android:paddingTop="8dp"
+            android:paddingTop="7dp"
             android:src="@drawable/ic_num_replies"
             android:layout_width="20dp"
             android:layout_height="20dp" />
