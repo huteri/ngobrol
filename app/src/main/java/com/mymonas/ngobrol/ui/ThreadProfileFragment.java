@@ -16,6 +16,7 @@ import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.ThreadCallback;
 import com.mymonas.ngobrol.model.ThreadItem;
+import com.mymonas.ngobrol.model.UserData;
 import com.mymonas.ngobrol.ui.adapter.ThreadAdapter;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class ThreadProfileFragment extends ScrollTabHolderFragment implements Ab
     private ListView mListView;
     private FragmentActivity mContext;
     private ThreadAdapter mThreadAdapter;
+    private UserData mUserData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class ThreadProfileFragment extends ScrollTabHolderFragment implements Ab
         mContext = getActivity();
         Bundle args = getArguments();
         mPosition = args.getInt(ProfileActivity.KEY_EXTRA_POSITION);
-
+        mUserData = (UserData) args.getSerializable(ProfileActivity.KEY_EXTRA_USER_DATA);
         mThreadList = new ArrayList<ThreadItem>();
     }
 
@@ -81,7 +83,7 @@ public class ThreadProfileFragment extends ScrollTabHolderFragment implements Ab
         final ProgressBar pBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
         pBar.setVisibility(View.VISIBLE);
-        RestClient.get().getThreads(null, 0, new Callback<ThreadCallback>() {
+        RestClient.get().getThreads(null, 0, String.valueOf(mUserData.getId()), new Callback<ThreadCallback>() {
             @Override
             public void success(ThreadCallback threadCallback, Response response) {
                 pBar.setVisibility(View.GONE);

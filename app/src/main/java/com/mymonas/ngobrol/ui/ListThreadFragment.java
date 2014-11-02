@@ -73,7 +73,7 @@ public class ListThreadFragment extends Fragment {
 
         pBar.setVisibility(View.VISIBLE);
         Clog.d("mCategoryId : "+mCategoryId);
-        RestClient.get().getThreads(mCategoryId, mSortPopular, new Callback<ThreadCallback>() {
+        RestClient.get().getThreads(mCategoryId, mSortPopular, null,  new Callback<ThreadCallback>() {
             @Override
             public void success(ThreadCallback threadCallback, Response response) {
                 pBar.setVisibility(View.GONE);

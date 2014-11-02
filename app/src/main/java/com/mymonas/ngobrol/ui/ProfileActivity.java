@@ -99,7 +99,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
         Bundle args = new Bundle();
         args.putSerializable(KEY_EXTRA_USER_DATA, userData);
         mPagerAdapter.addPage(getString(R.string.profile_info), InfoProfileFragment.class, args);
-        mPagerAdapter.addPage("Threads", ThreadProfileFragment.class, args);
+        mPagerAdapter.addPage(getString(R.string.profile_tab_threads), ThreadProfileFragment.class, args);
 
         mViewPager.setAdapter(mPagerAdapter);
 

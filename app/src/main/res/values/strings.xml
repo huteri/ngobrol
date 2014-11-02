@@ -73,5 +73,6 @@
     <string name="profile_edit_aboutme_title">About Me</string>
     <string name="profile_edit_dialog_title">Saving Data</string>
     <string name="profile_edit_dialog_message">Please wait...</string>
+    <string name="profile_tab_threads">Threads</string>
 
 </resources>
