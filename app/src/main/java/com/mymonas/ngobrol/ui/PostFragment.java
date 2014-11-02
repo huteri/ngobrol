@@ -3,6 +3,8 @@ package com.mymonas.ngobrol.ui;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +23,7 @@ import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.io.model.PostCallback;
+import com.mymonas.ngobrol.model.CategoryItem;
 import com.mymonas.ngobrol.model.PostData;
 import com.mymonas.ngobrol.model.ThreadItem;
 import com.mymonas.ngobrol.util.Clog;
@@ -82,10 +85,18 @@ public class PostFragment extends Fragment {
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         mNumPostPerPage = PrefUtils.getNumPostsPerPage(getActivity());
 
+        changeActionBarColor();
         getCurrentPostData();
 
 
         return view;
+    }
+
+    private void changeActionBarColor() {
+        CategoryItem categoryItem = mThreadData.getCategory();
+        getActivity().getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(categoryItem.getColor())));
+        getActivity().getActionBar().setTitle(categoryItem.getName());
+        mIndicator.setSelectedColor(Color.parseColor(categoryItem.getColor()));
     }
 
     private void getCurrentPostData() {
@@ -232,9 +243,9 @@ public class PostFragment extends Fragment {
     }
 
     private void reloadTheFragment() {
-       mPostData.clear();
-       mPagerAdapter.removeAllPages();
-       getCurrentPostData();
+        mPostData.clear();
+        mPagerAdapter.removeAllPages();
+        getCurrentPostData();
 
     }
 

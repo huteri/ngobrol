@@ -26,6 +26,7 @@
     <string name="logout_progress">Logging out...</string>
     <string name="general_noaccount">No account</string>
     <string name="title_activity_post">Ngobrol</string>
+    <string name="title_activity_settings">Settings</string>
     <string name="general_page">Page </string>
     <string name="post_last">Last Post</string>
     <string name="post_first">First post</string>

@@ -54,10 +54,11 @@ public class ThreadFragment extends Fragment {
 
         if (mIsCategoryActivity) {
             tabs.setIndicatorColor(Color.parseColor(mCategoryData.getColor()));
-            args.putString(ListThreadFragment.KEY_EXTRA_CATEOGORY_ID, String.valueOf(mCategoryData.getId()));
+            args.putSerializable(ListThreadFragment.KEY_EXTRA_CATEGORY_DATA, mCategoryData);
             mPagerAdapter.addPage(getActivity().getString(R.string.general_hot_threads), ListThreadFragment.class, args, R.drawable.ic_tab_popular);
 
             args = new Bundle();
+            args.putSerializable(ListThreadFragment.KEY_EXTRA_CATEGORY_DATA, mCategoryData);
             args.putBoolean(ListThreadFragment.KEY_EXTRA_SORT_POPULAR, false);
             mPagerAdapter.addPage("New", ListThreadFragment.class, args, R.drawable.ic_tab_recent);
         } else {

@@ -98,9 +98,6 @@ public class EditProfileActivity extends Activity {
             case R.id.action_save:
                 saveProfile();
                 break;
-            case R.id.upload:
-                uploadProfilePic();
-                break;
         }
         return super.onOptionsItemSelected(item);
     }

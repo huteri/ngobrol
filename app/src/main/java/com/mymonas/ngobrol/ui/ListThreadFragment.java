@@ -2,12 +2,14 @@ package com.mymonas.ngobrol.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.ThreadCallback;
+import com.mymonas.ngobrol.model.CategoryItem;
 import com.mymonas.ngobrol.model.ThreadItem;
 import com.mymonas.ngobrol.ui.adapter.ThreadAdapter;
 import com.mymonas.ngobrol.util.Clog;
@@ -26,13 +29,14 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class ListThreadFragment extends Fragment {
-    public static final String KEY_EXTRA_CATEOGORY_ID = "categoryId";
+    public static final String KEY_EXTRA_CATEGORY_DATA = "categoryData";
     public static final String KEY_EXTRA_SORT_POPULAR = "sortPopular";
     private Context mContext;
     private ArrayList<ThreadItem> mThreadList;
     private ThreadAdapter mThreadAdapter;
     private String mCategoryId = null;
     private int mSortPopular = 1;
+    private CategoryItem mCategoryData;
 
     public ListThreadFragment() {
 
@@ -44,8 +48,10 @@ public class ListThreadFragment extends Fragment {
         mContext = getActivity();
 
         if(getArguments() != null) {
-            if(getArguments().getString(KEY_EXTRA_CATEOGORY_ID) != null)
-             mCategoryId = getArguments().getString(KEY_EXTRA_CATEOGORY_ID);
+            if(getArguments().getSerializable(KEY_EXTRA_CATEGORY_DATA) != null) {
+                mCategoryData = (CategoryItem) getArguments().getSerializable(KEY_EXTRA_CATEGORY_DATA);
+                mCategoryId = String.valueOf(mCategoryData.getId());
+            }
 
             Clog.d(getArguments().getBoolean(KEY_EXTRA_SORT_POPULAR));
             if(!getArguments().getBoolean(KEY_EXTRA_SORT_POPULAR)) {
@@ -89,6 +95,11 @@ public class ListThreadFragment extends Fragment {
         View headerView = inflater.inflate(R.layout.header_thread, threadLv, false);
         TextView tvHeader = (TextView) headerView.findViewById(R.id.header_title);
 
+        if(mCategoryData != null) {
+            LinearLayout layoutHeader = (LinearLayout) headerView.findViewById(R.id.layout_header);
+            layoutHeader.setBackgroundColor(Color.parseColor(mCategoryData.getColor()));
+        }
+
         if(mSortPopular == 1) {
             tvHeader.setText(mContext.getString(R.string.thread_most_popular));
         } else {
@@ -102,7 +113,7 @@ public class ListThreadFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle args = new Bundle();
-                args.putSerializable(PostFragment.KEY_EXTRA_THREAD_DATA, mThreadList.get(i));
+                args.putSerializable(PostFragment.KEY_EXTRA_THREAD_DATA, mThreadList.get(i-1));
 
                 Intent intent = new Intent(getActivity(), PostActivity.class);
                 intent.putExtras(args);
