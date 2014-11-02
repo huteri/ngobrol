@@ -10,8 +10,11 @@ import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Query;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by Huteri on 10/16/2014.
@@ -59,4 +62,7 @@ public interface Api {
     @POST("/user.php?action=edit_profile")
     void editProfile(@Field("userId") int userId, @Field("api") String api, @Field("androidId") String androidId, @Field("fullName") String fullName, @Field("email") String email, @Field("aboutMe") String aboutMe, Callback<BaseCallback> callback);
 
+    @Multipart
+    @POST("/user.php?action=upload_profile")
+    void uploadPic(@Query("api") String api, @Query("userId") int userId, @Part("image") TypedFile avatar, Callback<BaseCallback> callback);
   }

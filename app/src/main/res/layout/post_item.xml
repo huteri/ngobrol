@@ -15,6 +15,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:corner_radius="50dp"
+        android:scaleType="centerCrop"
         app:border_color="@drawable/rounded_image_colors"
         app:border_width="2dp"
         app:oval="false" />

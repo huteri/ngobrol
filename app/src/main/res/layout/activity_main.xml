@@ -32,6 +32,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="5dp"
             android:layout_alignParentLeft="true"
+            android:scaleType="centerCrop"
             android:src="@drawable/nophoto"
             app:corner_radius="30dp"
             app:border_width="2dp"

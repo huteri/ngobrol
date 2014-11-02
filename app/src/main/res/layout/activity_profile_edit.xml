@@ -7,6 +7,42 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/tv_image_title"
+        style="?android:attr/listSeparatorTextViewStyle"
+        android:text="Images"
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/black55"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/layout_profle_img"
+        android:layout_below="@+id/tv_image_title"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/selectable_background_blue"
+        android:padding="5dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/profile_img"
+            android:scaleType="centerCrop"
+            android:src="@drawable/nophoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+        <TextView
+            android:paddingLeft="16dp"
+            android:text="Profile Photo"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_below="@+id/layout_profle_img"
         android:id="@+id/tv_general_title"
         style="?android:attr/listSeparatorTextViewStyle"
         android:text="@string/profile_edit_general_info"

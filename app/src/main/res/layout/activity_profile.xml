@@ -25,6 +25,7 @@
             android:layout_centerHorizontal="true"
             android:layout_above="@+id/name"
             android:src="@drawable/nophoto"
+            android:scaleType="centerCrop"
             android:layout_height="@dimen/header_logo_size"
             android:layout_width="@dimen/header_logo_size"
             app:corner_radius="100dp"
