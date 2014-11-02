@@ -161,10 +161,7 @@ public class PostFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_last:
-                if (mTotalPostData > 0) {
-                    int totalPage = (int) Math.ceil(mTotalPostData / (float) mNumPostPerPage);
-                    mViewPager.setCurrentItem(totalPage);
-                }
+                jumpToLastPage();
                 break;
             case R.id.action_first:
                 mIndicator.onPageSelected(0);
@@ -174,6 +171,13 @@ public class PostFragment extends Fragment {
                 break;
         }
         return true;
+    }
+
+    private void jumpToLastPage() {
+        if (mTotalPostData > 0) {
+            int totalPage = (int) Math.ceil(mTotalPostData / (float) mNumPostPerPage);
+            mViewPager.setCurrentItem(totalPage);
+        }
     }
 
     private void addNewPost() {
@@ -228,9 +232,9 @@ public class PostFragment extends Fragment {
     }
 
     private void reloadTheFragment() {
-        mPostData.clear();
-        mPagerAdapter.removeAllPages();
-        getCurrentPostData();
+       mPostData.clear();
+       mPagerAdapter.removeAllPages();
+       getCurrentPostData();
 
     }
 
@@ -277,6 +281,11 @@ public class PostFragment extends Fragment {
             Bundle args = info.getArgs();
 
             return PagePostFragment.newInstance(mContext, args);
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
 
         @Override
