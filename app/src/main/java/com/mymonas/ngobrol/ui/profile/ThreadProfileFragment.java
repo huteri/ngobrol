@@ -67,7 +67,7 @@ public class ThreadProfileFragment extends ScrollTabHolderFragment implements Ab
         mListView = (ListView) view.findViewById(R.id.thread_list);
 
         View placeHolderView = inflater.inflate(R.layout.header_kenburns_placeholder, mListView, false);
-        mListView.addHeaderView(placeHolderView);
+        mListView.addHeaderView(placeHolderView, null, false);
 
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -130,6 +130,13 @@ public class MainActivity extends FragmentActivity {
         RoundedImageView profileImg = (RoundedImageView) findViewById(R.id.profile_img);
         ImageView profileBg = (ImageView) findViewById(R.id.profile_bg);
 
+        profileImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startProfileActivity();
+            }
+        });
+
         // init image loader
 
         DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()

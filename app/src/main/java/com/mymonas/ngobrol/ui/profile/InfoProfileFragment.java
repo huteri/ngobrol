@@ -53,7 +53,7 @@ public class InfoProfileFragment extends ScrollTabHolderFragment implements AbsL
         mListView = (ListView) view.findViewById(R.id.listview);
 
         View placeHolderView = inflater.inflate(R.layout.header_kenburns_placeholder, mListView, false);
-        mListView.addHeaderView(placeHolderView);
+        mListView.addHeaderView(placeHolderView, null, false);
 
         return view;
 

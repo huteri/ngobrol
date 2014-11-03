@@ -108,7 +108,7 @@ public class ListThreadFragment extends Fragment {
             tvHeader.setText(mContext.getString(R.string.thread_most_recent));
         }
 
-        threadLv.addHeaderView(headerView);
+        threadLv.addHeaderView(headerView, null, false);
 
         threadLv.setAdapter(mThreadAdapter);
         threadLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
