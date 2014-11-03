@@ -24,27 +24,27 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.settings.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name=".ui.RegisterActivity"
+            android:name=".ui.settings.RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
         <activity
-            android:name=".ui.PostActivity"
+            android:name=".ui.post.PostActivity"
             android:label="@string/title_activity_post" >
         </activity>
         <activity
-            android:name=".ui.ProfileActivity"
+            android:name=".ui.profile.ProfileActivity"
             >
         </activity>
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name=".ui.AboutActivity"
+            android:name=".ui.settings.AboutActivity"
             android:label="@string/title_activity_about" >
         </activity>
 
@@ -56,7 +56,7 @@
         </activity>
         <activity
             android:label="@string/profile_menu_edit"
-            android:name=".ui.EditProfileActivity" >
+            android:name=".ui.profile.EditProfileActivity" >
         </activity>
     </application>
     <!-- To access Google+ APIs: -->

@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui.adapter;
+package com.mymonas.ngobrol.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

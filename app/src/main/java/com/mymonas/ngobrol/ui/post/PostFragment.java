@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui;
+package com.mymonas.ngobrol.ui.post;
 
 import android.app.AlertDialog;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui;
+package com.mymonas.ngobrol.ui.settings;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,6 +19,7 @@ import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.UserLoginCallback;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.micromobs.android.floatlabel.FloatLabelEditText;
+import com.mymonas.ngobrol.ui.MainActivity;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;

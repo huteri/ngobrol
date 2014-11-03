@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui.adapter;
+package com.mymonas.ngobrol.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.mymonas.ngobrol.R;
-import com.mymonas.ngobrol.ui.model.InfoProfileListItem;
+import com.mymonas.ngobrol.model.InfoProfileListItem;
 import com.mymonas.ngobrol.util.Clog;
 
 import java.util.ArrayList;

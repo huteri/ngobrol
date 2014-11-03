@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui;
+package com.mymonas.ngobrol.ui.post;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.model.PostData;
 import com.mymonas.ngobrol.model.ThreadItem;
-import com.mymonas.ngobrol.ui.adapter.PostAdapter;
+import com.mymonas.ngobrol.adapter.PostAdapter;
 
 import java.util.ArrayList;
 

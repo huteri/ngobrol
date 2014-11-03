@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.mymonas.ngobrol.ui.PostActivity" >
+    tools:context="com.mymonas.ngobrol.ui.post.PostActivity" >
     <item android:id="@+id/action_new"
         android:title="@string/post_add_new"
         android:orderInCategory="300"

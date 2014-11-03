@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui;
+package com.mymonas.ngobrol.ui.post;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

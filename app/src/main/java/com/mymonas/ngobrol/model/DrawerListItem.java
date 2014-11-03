@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui.model;
+package com.mymonas.ngobrol.model;
 
 /**
  * Created by Huteri on 10/15/2014.

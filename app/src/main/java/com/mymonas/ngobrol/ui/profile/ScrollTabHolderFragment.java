@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui;
+package com.mymonas.ngobrol.ui.profile;
 
 import android.support.v4.app.Fragment;
 import android.widget.AbsListView;

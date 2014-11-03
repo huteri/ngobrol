@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.mymonas.ngobrol.ui.ProfileActivity" >
+    tools:context="com.mymonas.ngobrol.ui.profile.ProfileActivity" >
     <item android:id="@+id/action_edit_profile"
         android:title="@string/profile_menu_edit"
         android:icon="@drawable/ic_profile_edit"

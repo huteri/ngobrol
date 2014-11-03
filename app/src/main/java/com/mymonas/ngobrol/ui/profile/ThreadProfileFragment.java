@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui;
+package com.mymonas.ngobrol.ui.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,9 @@ import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.ThreadCallback;
 import com.mymonas.ngobrol.model.ThreadItem;
 import com.mymonas.ngobrol.model.UserData;
-import com.mymonas.ngobrol.ui.adapter.ThreadAdapter;
+import com.mymonas.ngobrol.adapter.ThreadAdapter;
+import com.mymonas.ngobrol.ui.post.PostActivity;
+import com.mymonas.ngobrol.ui.post.PostFragment;
 
 import java.util.ArrayList;
 
@@ -64,7 +66,7 @@ public class ThreadProfileFragment extends ScrollTabHolderFragment implements Ab
 
         mListView = (ListView) view.findViewById(R.id.thread_list);
 
-        View placeHolderView = inflater.inflate(R.layout.view_header_placeholder, mListView, false);
+        View placeHolderView = inflater.inflate(R.layout.header_kenburns_placeholder, mListView, false);
         mListView.addHeaderView(placeHolderView);
 
 

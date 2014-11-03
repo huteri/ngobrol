@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui.adapter;
+package com.mymonas.ngobrol.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -32,7 +32,7 @@ public class CategoryAdapter extends ArrayAdapter<CategoryItem> {
     private final DisplayImageOptions mImageOptions;
 
     public CategoryAdapter(Context context,ArrayList<CategoryItem> list) {
-        super(context, R.layout.category_item, list);
+        super(context, R.layout.item_category, list);
         mContext = context;
         mList = list;
 
@@ -53,7 +53,7 @@ public class CategoryAdapter extends ArrayAdapter<CategoryItem> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.category_item, parent, false);
+        View view = inflater.inflate(R.layout.item_category, parent, false);
 
 
         LinearLayout layout = (LinearLayout) view.findViewById(R.id.layout);

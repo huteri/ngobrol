@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui;
+package com.mymonas.ngobrol.ui.profile;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,8 +10,8 @@ import android.widget.ListView;
 
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.model.UserData;
-import com.mymonas.ngobrol.ui.adapter.InfoProfileListAdapter;
-import com.mymonas.ngobrol.ui.model.InfoProfileListItem;
+import com.mymonas.ngobrol.adapter.InfoProfileListAdapter;
+import com.mymonas.ngobrol.model.InfoProfileListItem;
 import com.mymonas.ngobrol.util.Clog;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class InfoProfileFragment extends ScrollTabHolderFragment implements AbsL
 
         mListView = (ListView) view.findViewById(R.id.listview);
 
-        View placeHolderView = inflater.inflate(R.layout.view_header_placeholder, mListView, false);
+        View placeHolderView = inflater.inflate(R.layout.header_kenburns_placeholder, mListView, false);
         mListView.addHeaderView(placeHolderView);
 
         return view;

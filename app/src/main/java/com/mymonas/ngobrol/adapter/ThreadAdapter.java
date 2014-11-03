@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui.adapter;
+package com.mymonas.ngobrol.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,7 +20,7 @@ public class ThreadAdapter extends ArrayAdapter<ThreadItem>{
     private final Context mContext;
 
     public ThreadAdapter(Context context, ArrayList<ThreadItem> threadList) {
-        super(context, R.layout.thread_item, threadList);
+        super(context, R.layout.item_thread, threadList);
         mContext = context;
         mThreadList = threadList;
 
@@ -29,7 +29,7 @@ public class ThreadAdapter extends ArrayAdapter<ThreadItem>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.thread_item, parent, false);
+        View view = inflater.inflate(R.layout.item_thread, parent, false);
         TextView tvTitle = (TextView) view.findViewById(R.id.title);
         TextView tvCreator = (TextView) view.findViewById(R.id.creator);
         TextView tvReplies = (TextView) view.findViewById(R.id.replies);

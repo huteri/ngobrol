@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui;
+package com.mymonas.ngobrol.ui.settings;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

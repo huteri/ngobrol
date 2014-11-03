@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui.adapter;
+package com.mymonas.ngobrol.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.makeramen.RoundedImageView;
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.model.PostData;
-import com.mymonas.ngobrol.ui.ProfileActivity;
+import com.mymonas.ngobrol.ui.profile.ProfileActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -29,7 +29,7 @@ public class PostAdapter extends ArrayAdapter<PostData> {
     private final DisplayImageOptions mImageOptions;
 
     public PostAdapter(Context context, ArrayList<PostData> postData) {
-        super(context, R.layout.post_item, postData);
+        super(context, R.layout.item_post, postData);
         mContext = context;
         mPostData = postData;
 
@@ -56,7 +56,7 @@ public class PostAdapter extends ArrayAdapter<PostData> {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.post_item, parent, false);
+            view = inflater.inflate(R.layout.item_post, parent, false);
 
             holder = new ViewHolder();
             holder.tvText = (TextView) view.findViewById(R.id.text);

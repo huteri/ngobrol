@@ -19,7 +19,9 @@ import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.ThreadCallback;
 import com.mymonas.ngobrol.model.CategoryItem;
 import com.mymonas.ngobrol.model.ThreadItem;
-import com.mymonas.ngobrol.ui.adapter.ThreadAdapter;
+import com.mymonas.ngobrol.adapter.ThreadAdapter;
+import com.mymonas.ngobrol.ui.post.PostActivity;
+import com.mymonas.ngobrol.ui.post.PostFragment;
 import com.mymonas.ngobrol.util.Clog;
 
 import java.util.ArrayList;

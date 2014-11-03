@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui.adapter;
+package com.mymonas.ngobrol.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mymonas.ngobrol.R;
-import com.mymonas.ngobrol.ui.model.DrawerListItem;
+import com.mymonas.ngobrol.model.DrawerListItem;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class DrawerListAdapter extends ArrayAdapter<DrawerListItem>{
     private final ArrayList<DrawerListItem> mDrawerList;
 
     public DrawerListAdapter(Context context, ArrayList<DrawerListItem> drawerList) {
-        super(context, R.layout.drawer_list_item, drawerList);
+        super(context, R.layout.item_drawer_list, drawerList);
 
         mContext = context;
         mDrawerList = drawerList;
@@ -32,7 +32,7 @@ public class DrawerListAdapter extends ArrayAdapter<DrawerListItem>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.drawer_list_item, parent, false);
+        View view = inflater.inflate(R.layout.item_drawer_list, parent, false);
 
         TextView tv = (TextView) view.findViewById(R.id.drawer_textview);
         ImageView iv = (ImageView) view.findViewById(R.id.drawer_imageview);

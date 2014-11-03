@@ -1,4 +1,4 @@
-package com.mymonas.ngobrol.ui;
+package com.mymonas.ngobrol.ui.profile;
 
 import android.app.Activity;
 import android.content.Context;

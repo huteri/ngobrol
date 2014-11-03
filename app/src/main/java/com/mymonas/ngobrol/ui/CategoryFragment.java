@@ -15,7 +15,7 @@ import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.CategoryCallback;
 import com.mymonas.ngobrol.model.CategoryItem;
-import com.mymonas.ngobrol.ui.adapter.CategoryAdapter;
+import com.mymonas.ngobrol.adapter.CategoryAdapter;
 
 import java.util.ArrayList;
 

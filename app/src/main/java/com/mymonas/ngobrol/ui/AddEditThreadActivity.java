@@ -20,7 +20,7 @@ import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.io.model.CategoryCallback;
 import com.mymonas.ngobrol.model.CategoryItem;
-import com.mymonas.ngobrol.ui.adapter.SpinnerCategoryAdapter;
+import com.mymonas.ngobrol.adapter.SpinnerCategoryAdapter;
 import com.mymonas.ngobrol.util.UserUtils;
 
 import java.util.ArrayList;
