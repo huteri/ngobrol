@@ -80,7 +80,6 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         mUserData = (UserData) getIntent().getSerializableExtra(KEY_EXTRA_USER_DATA);
         mTvName = (TextView) findViewById(R.id.name);
         mProfileBg = (KenBurnsView) findViewById(R.id.header_background);
@@ -111,8 +110,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
 
         mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(0xffffffff);
 
-        getActionBarIconView().setAlpha(0f);
-        getActionBar().setBackgroundDrawable(null);
+
         String name = mUserData.getUsername();
         if (mUserData.getFullname().length() > 0) {
             name = mUserData.getFullname();
@@ -121,10 +119,13 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
         mTvName.setText(name);
         mSpannableString = new SpannableString(name);
 
+        getActionBarIconView().setAlpha(0f);
+        getActionBar().setBackgroundDrawable(null);
+        setTitleAlpha(0);
+
         ImageLoader imageLoader = ImageLoader.getInstance();
         ImageLoaderConfiguration imageLoaderConfiguration = new ImageLoaderConfiguration.Builder(this).build();
         imageLoader.init(imageLoaderConfiguration);
-
 
         DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
                 .showImageOnFail(R.drawable.profile_bg)
