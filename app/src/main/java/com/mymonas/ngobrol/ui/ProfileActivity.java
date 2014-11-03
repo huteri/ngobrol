@@ -64,6 +64,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
     private RectF mRect1 = new RectF();
     private RectF mRect2 = new RectF();
     private TextView mTvName;
+    private UserData mUserData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +79,10 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
         setContentView(R.layout.activity_profile);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBarIconView().setAlpha(0f);
+        getActionBar().setBackgroundDrawable(null);
 
-        UserData userData = (UserData) getIntent().getSerializableExtra(KEY_EXTRA_USER_DATA);
+        mUserData = (UserData) getIntent().getSerializableExtra(KEY_EXTRA_USER_DATA);
 
         mTvName = (TextView) findViewById(R.id.name);
 
@@ -97,7 +100,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
         mPagerAdapter.setTabHolderScrollingContent(this);
 
         Bundle args = new Bundle();
-        args.putSerializable(KEY_EXTRA_USER_DATA, userData);
+        args.putSerializable(KEY_EXTRA_USER_DATA, mUserData);
         mPagerAdapter.addPage(getString(R.string.profile_info), InfoProfileFragment.class, args);
         mPagerAdapter.addPage(getString(R.string.profile_tab_threads), ThreadProfileFragment.class, args);
 
@@ -111,12 +114,9 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
 
         mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(0xffffffff);
 
-        getActionBarIconView().setAlpha(0f);
-        getActionBar().setBackgroundDrawable(null);
-
-        String name = userData.getUsername();
-        if (userData.getFullname().length() > 0) {
-            name = userData.getFullname();
+        String name = mUserData.getUsername();
+        if (mUserData.getFullname().length() > 0) {
+            name = mUserData.getFullname();
         }
 
         mTvName.setText(name);
@@ -137,7 +137,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
 
-        imageLoader.displayImage(userData.getProfileUrl(), mProfileImg);
+        imageLoader.displayImage(mUserData.getProfileUrl(), mProfileImg);
         //    imageLoader.displayImage(userData.getProfileBg(), profilebg, imageOptions);
     }
 
@@ -161,6 +161,12 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.profile, menu);
+
+        UserUtils userUtils = new UserUtils(this);
+        if(userUtils.getUserId() != mUserData.getId() ) {
+            MenuItem item = menu.findItem(R.id.action_edit_profile);
+            item.setVisible(false);
+        }
         return true;
     }
 

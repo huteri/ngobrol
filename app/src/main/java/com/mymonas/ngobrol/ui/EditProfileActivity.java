@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -103,6 +104,7 @@ public class EditProfileActivity extends Activity {
     }
 
     private void uploadProfilePic() {
+
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
         intent.setType("image/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -115,6 +117,14 @@ public class EditProfileActivity extends Activity {
             if (resultCode == RESULT_OK) {
                 String selectedImagePath;
                 Uri selectedImageUri = data.getData();
+
+                if(Build.VERSION.SDK_INT >= 19) {
+                    final int takeFlags = data.getFlags()
+                            & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    // Check for the freshest data.
+                    getContentResolver().takePersistableUriPermission(selectedImageUri, takeFlags);
+                }
                 Cursor cursor = getContentResolver().query(selectedImageUri, null, null, null, null);
                 if (cursor == null) {
                     selectedImagePath = selectedImageUri.getPath();

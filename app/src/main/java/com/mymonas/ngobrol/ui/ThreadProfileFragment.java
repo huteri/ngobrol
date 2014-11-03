@@ -72,7 +72,7 @@ public class ThreadProfileFragment extends ScrollTabHolderFragment implements Ab
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle args = new Bundle();
-                args.putSerializable(PostFragment.KEY_EXTRA_THREAD_DATA, mThreadList.get(i));
+                args.putSerializable(PostFragment.KEY_EXTRA_THREAD_DATA, mThreadList.get(i-1));
 
                 Intent intent = new Intent(getActivity(), PostActivity.class);
                 intent.putExtras(args);

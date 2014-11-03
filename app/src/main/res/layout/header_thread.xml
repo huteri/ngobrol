@@ -11,6 +11,7 @@
         android:id="@+id/header_title"
         android:text="Most Popular Threads"
         android:textColor="@android:color/white"
+        android:gravity="center"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"

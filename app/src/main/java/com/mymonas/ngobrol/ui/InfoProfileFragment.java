@@ -78,6 +78,7 @@ public class InfoProfileFragment extends ScrollTabHolderFragment implements AbsL
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
         if (mScrollTabHolder != null)
             mScrollTabHolder.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount, mPosition);
 
