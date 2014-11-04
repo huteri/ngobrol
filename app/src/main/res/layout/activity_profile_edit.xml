@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:clickable="true"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/selectable_background_blue"
         android:padding="5dp"
         android:layout_height="wrap_content">
@@ -41,8 +41,34 @@
 
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/layout_profile_bg"
         android:layout_below="@+id/layout_profle_img"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/selectable_background_blue"
+        android:padding="5dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/profile_bg"
+            android:scaleType="centerCrop"
+            android:src="@drawable/nophoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+        <TextView
+            android:paddingLeft="16dp"
+            android:text="Background"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_below="@+id/layout_profile_bg"
         android:id="@+id/tv_general_title"
         style="?android:attr/listSeparatorTextViewStyle"
         android:text="@string/profile_edit_general_info"

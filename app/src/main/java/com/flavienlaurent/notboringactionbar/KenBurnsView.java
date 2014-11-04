@@ -141,6 +141,10 @@ public class KenBurnsView extends FrameLayout {
         mImageViews[1] = (ImageView) view.findViewById(R.id.image1);
     }
 
+    public ImageView[] getImageViews() {
+        return mImageViews;
+    }
+
     private void fillImageViews() {
         for (int i = 0; i < mImageViews.length; i++) {
             mImageViews[i].setImageResource(mResourceIds[i]);

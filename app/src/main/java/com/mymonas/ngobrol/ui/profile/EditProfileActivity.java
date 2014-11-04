@@ -3,14 +3,10 @@ package com.mymonas.ngobrol.ui.profile;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +21,8 @@ import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.model.UserData;
+import com.mymonas.ngobrol.util.Clog;
+import com.mymonas.ngobrol.util.FileUtils;
 import com.mymonas.ngobrol.util.ImageUtils;
 import com.mymonas.ngobrol.util.UserUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -32,9 +30,6 @@ import com.nostra13.universalimageloader.utils.DiskCacheUtils;
 import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -47,11 +42,17 @@ import retrofit.mime.TypedFile;
 public class EditProfileActivity extends Activity {
 
     private static final int REQ_UPLOAD_PROFILE_PIC = 100;
+    private static final String PROFILE_PIC_FILENAME = "profile_pic.png";
+    private static final int REQ_UPLOAD_PROFILE_BACKGROUND = 101;
+    private static final String PROFILE_BG_FILENAME = "profile_bg.png";
+    private static final int TYPE_PROFILE_PIC = 1;
+    private static final int TYPE_PROFILE_BG = 2;
     private FormEditText mEtRealName;
     private FormEditText mEtEmail;
     private EditText mEtAboutMe;
     private UserUtils mUserUtils;
     private ImageView mProfileImg;
+    private ImageView mProfileBg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,9 @@ public class EditProfileActivity extends Activity {
         mProfileImg = (ImageView) findViewById(R.id.profile_img);
         ImageLoader.getInstance().displayImage(mUserUtils.getProfileUrl(), mProfileImg);
 
+        mProfileBg = (ImageView) findViewById(R.id.profile_bg);
+        ImageLoader.getInstance().displayImage(mUserUtils.getProfileBg(), mProfileBg);
+
         LinearLayout profileImgLayout = (LinearLayout) findViewById(R.id.layout_profle_img);
         profileImgLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +86,29 @@ public class EditProfileActivity extends Activity {
                 uploadProfilePic();
             }
         });
+
+        LinearLayout bgImgLayout = (LinearLayout) findViewById(R.id.layout_profile_bg);
+        bgImgLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadBackgroundPic();
+            }
+        });
+    }
+
+    private void uploadBackgroundPic() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+        intent.setType("image/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, REQ_UPLOAD_PROFILE_BACKGROUND);
+    }
+
+    private void uploadProfilePic() {
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+        intent.setType("image/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, REQ_UPLOAD_PROFILE_PIC);
     }
 
     @Override
@@ -103,62 +130,24 @@ public class EditProfileActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void uploadProfilePic() {
-
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
-        intent.setType("image/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent, REQ_UPLOAD_PROFILE_PIC);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQ_UPLOAD_PROFILE_PIC) {
             if (resultCode == RESULT_OK) {
-                String selectedImagePath;
+
                 Uri selectedImageUri = data.getData();
+                String selectedImagePath = FileUtils.getPath(this, selectedImageUri);
 
-                if(Build.VERSION.SDK_INT >= 19) {
-                    final int takeFlags = data.getFlags()
-                            & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                    // Check for the freshest data.
-                    getContentResolver().takePersistableUriPermission(selectedImageUri, takeFlags);
-                }
-                Cursor cursor = getContentResolver().query(selectedImageUri, null, null, null, null);
-                if (cursor == null) {
-                    selectedImagePath = selectedImageUri.getPath();
-                } else {
-                    cursor.moveToFirst();
-                    int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                    selectedImagePath = cursor.getString(idx);
-                }
-
+                Clog.d("selectedImagePath: " + selectedImagePath);
                 Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
                 Bitmap newBitmap = ImageUtils.getResizedBitmap(bitmap, Config.PROFILE_PIC_MAX_WIDTH, Config.PROFILE_PIC_MAX_HEIGHT);
-
-                File filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-
-                File photo = new File(filePath, "profilePic.png");
-                FileOutputStream fOut = null;
-                try {
-                    fOut = new FileOutputStream(photo);
-                    newBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-                    fOut.flush();
-                    fOut.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+                File photo = ImageUtils.compressBitmapToFile(newBitmap, PROFILE_PIC_FILENAME);
                 TypedFile typedFile = new TypedFile("image/*", photo);
-
 
                 final ProgressDialog pDialog = getUploadingProgressDialog();
                 pDialog.show();
 
-                RestClient.get().uploadPic(mUserUtils.getAPI(), mUserUtils.getUserId(), typedFile, new Callback<BaseCallback>() {
+                RestClient.get().uploadPic(mUserUtils.getAPI(), mUserUtils.getUserId(),TYPE_PROFILE_PIC, typedFile, new Callback<BaseCallback>() {
                     @Override
                     public void success(BaseCallback baseCallback, Response response) {
                         pDialog.dismiss();
@@ -166,6 +155,7 @@ public class EditProfileActivity extends Activity {
                             UserData user = mUserUtils.getUserData();
                             MemoryCacheUtils.removeFromCache(user.getProfileUrl(), ImageLoader.getInstance().getMemoryCache());
                             DiskCacheUtils.removeFromCache(user.getProfileUrl(), ImageLoader.getInstance().getDiskCache());
+
                             ImageLoader.getInstance().displayImage(baseCallback.getMessage(), mProfileImg);
 
                             user.setProfileUrl(baseCallback.getMessage());
@@ -180,13 +170,49 @@ public class EditProfileActivity extends Activity {
                 });
 
             }
+        } else if (requestCode == REQ_UPLOAD_PROFILE_BACKGROUND) {
+            if (resultCode == RESULT_OK) {
+                Uri selectedImageUri = data.getData();
+                String selectedImagePath = FileUtils.getPath(this, selectedImageUri);
+
+                Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
+                Bitmap newBitmap = ImageUtils.getResizedBitmap(bitmap, Config.PROFILE_BG_MAX_WIDTH, Config.PROFILE_BG_MAX_HEIGHT);
+                TypedFile file = new TypedFile("image/*", ImageUtils.compressBitmapToFile(newBitmap, PROFILE_BG_FILENAME));
+
+                final ProgressDialog pDialog = getUploadingProgressDialog();
+                pDialog.show();
+
+                RestClient.get().uploadPic(mUserUtils.getAPI(), mUserUtils.getUserId(), TYPE_PROFILE_BG, file, new Callback<BaseCallback>() {
+                    @Override
+                    public void success(BaseCallback baseCallback, Response response) {
+                        pDialog.dismiss();
+                        if(baseCallback.getSuccess() == 1) {
+                            UserData user = mUserUtils.getUserData();
+                            MemoryCacheUtils.removeFromCache(user.getProfileBg(), ImageLoader.getInstance().getMemoryCache());
+                            DiskCacheUtils.removeFromCache(user.getProfileBg(), ImageLoader.getInstance().getDiskCache());
+
+                            ImageLoader.getInstance().displayImage(baseCallback.getMessage(), mProfileBg);
+
+                            user.setProfileBg(baseCallback.getMessage());
+                            mUserUtils.saveUserData(user);
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        pDialog.dismiss();
+                    }
+                });
+
+            }
         }
     }
 
+
     private ProgressDialog getUploadingProgressDialog() {
         ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setTitle("Uploading");
-        dialog.setMessage("Please wait...");
+        dialog.setTitle(getString(R.string.profile_edit_dialog_upload_title));
+        dialog.setMessage(getString(R.string.profile_edit_dialog_upload_message));
         return dialog;
     }
 

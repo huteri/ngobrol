@@ -64,5 +64,7 @@ public interface Api {
 
     @Multipart
     @POST("/user.php?action=upload_profile")
-    void uploadPic(@Query("api") String api, @Query("userId") int userId, @Part("image") TypedFile avatar, Callback<BaseCallback> callback);
-  }
+    void uploadPic(@Query("api") String api, @Query("userId") int userId, @Query("type") int type, @Part("image") TypedFile avatar, Callback<BaseCallback> callback);
+
+
+}

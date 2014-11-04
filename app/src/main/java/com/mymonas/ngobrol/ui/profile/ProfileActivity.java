@@ -38,6 +38,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
 
@@ -137,8 +138,16 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
 
+
         imageLoader.displayImage(mUserData.getProfileUrl(), mProfileImg);
-        //    imageLoader.displayImage(userData.getProfileBg(), profilebg, imageOptions);
+        imageLoader.displayImage(mUserData.getProfileBg(), mProfileBg.getImageViews()[0], imageOptions, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                super.onLoadingComplete(imageUri, view, loadedImage);
+
+                mProfileBg.getImageViews()[1].setImageBitmap(loadedImage);
+            }
+        });
     }
 
     private ImageView getActionBarIconView() {

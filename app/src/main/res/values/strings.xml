@@ -74,5 +74,7 @@
     <string name="profile_edit_dialog_title">Saving Data</string>
     <string name="profile_edit_dialog_message">Please wait...</string>
     <string name="profile_tab_threads">Threads</string>
+    <string name="profile_edit_dialog_upload_title">Uploading</string>
+    <string name="profile_edit_dialog_upload_message">Please wait...</string>
 
 </resources>
