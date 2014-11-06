@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mymonas.ngobrol.R;
+import com.mymonas.ngobrol.adapter.PostAdapter;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.io.model.PostCallback;
@@ -40,7 +41,7 @@ import retrofit.client.Response;
 /**
  * Created by Huteri on 10/18/2014.
  */
-public class PostFragment extends Fragment {
+public class PostFragment extends Fragment implements PostAdapter.OnEditPostListener {
 
     private static final int NUM_POST_REQUEST = 0;
     public static final String KEY_EXTRA_THREAD_DATA = "thread_data";
@@ -61,6 +62,7 @@ public class PostFragment extends Fragment {
     public PostFragment() {
 
     }
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -178,7 +180,7 @@ public class PostFragment extends Fragment {
                 mIndicator.onPageSelected(0);
                 break;
             case R.id.action_new:
-                addNewPost();
+                showAddNewPostDialog();
                 break;
         }
         return true;
@@ -191,7 +193,7 @@ public class PostFragment extends Fragment {
         }
     }
 
-    private void addNewPost() {
+    private void showAddNewPostDialog() {
         // error on no user available
         if (!mUserUtils.isAvailable()) {
             Toast.makeText(getActivity(), getActivity().getString(R.string.message_no_user), Toast.LENGTH_SHORT).show();
@@ -242,6 +244,59 @@ public class PostFragment extends Fragment {
         dialog.show();
     }
 
+
+    private void showEditDialog(final PostData postData) {
+        Clog.d("");
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle(getActivity().getString(R.string.post_edit_dialog_title));
+
+        final View view = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.dialog_post_add_new, null);
+        TextView whoPost = (TextView) view.findViewById(R.id.whopost);
+        whoPost.setText(getActivity().getString(R.string.dialog_whopost) + " " + postData.getUser().getUsername());
+
+        final EditText etText = (EditText) view.findViewById(R.id.message);
+        etText.setText(postData.getText());
+        dialog.setView(view);
+
+        dialog.setPositiveButton(getActivity().getString(R.string.general_ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialogInterface, int i) {
+                ProgressBar pBar = (ProgressBar) view.findViewById(R.id.pBar);
+
+                pBar.setVisibility(View.VISIBLE);
+
+                RestClient.get().editPost(postData.getThread().getId(), mUserUtils.getUserId(), mUserUtils.getAPI(),
+                        mUserUtils.getAndroidId(), etText.getText().toString(), postData.getId(), new Callback<BaseCallback>() {
+                            @Override
+                            public void success(BaseCallback baseCallback, Response response) {
+                                dialogInterface.dismiss();
+                                if (baseCallback.getSuccess() == 1) {
+                                    reloadTheFragment();
+                                    Toast.makeText(getActivity(), getActivity().getString(R.string.post_edit_dialog_success), Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+
+
+            }
+        });
+        dialog.setNegativeButton(getActivity().getString(R.string.general_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        dialog.create();
+        dialog.show();
+    }
+
     private void reloadTheFragment() {
         mPostData.clear();
         mPagerAdapter.removeAllPages();
@@ -253,6 +308,12 @@ public class PostFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onEditPost(PostData postData) {
+        Clog.d("");
+        showEditDialog(postData);
     }
 
     private class PagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {
@@ -291,7 +352,7 @@ public class PostFragment extends Fragment {
             PagerInfo info = mPager.get(i);
             Bundle args = info.getArgs();
 
-            return PagePostFragment.newInstance(mContext, args);
+            return PagePostFragment.newInstance(mContext, args, PostFragment.this);
         }
 
         @Override

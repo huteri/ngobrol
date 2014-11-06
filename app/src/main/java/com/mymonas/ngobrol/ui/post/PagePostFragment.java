@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Created by Huteri on 10/19/2014.
  */
-public class PagePostFragment extends Fragment {
+public class PagePostFragment extends Fragment implements PostAdapter.OnEditPostListener {
     public static final String KEY_EXTRA_POST_DATA = "data";
     public static final java.lang.String KEY_EXTRA_POSITION = "position";
     private Bundle mArgs = null;
@@ -28,12 +28,15 @@ public class PagePostFragment extends Fragment {
     private ArrayList<PostData> mPostData;
     private ThreadItem mThreadData;
 
+    private PostAdapter.OnEditPostListener mOnEditPostListener;
+
     public PagePostFragment() {
     }
 
-    public static Fragment newInstance(Context context, Bundle args) {
+    public static Fragment newInstance(Context context, Bundle args, PostAdapter.OnEditPostListener editPostListener) {
         PagePostFragment fragment = new PagePostFragment();
         fragment.setArguments(args);
+        fragment.setOnEditPostListener(editPostListener);
         return fragment;
     }
 
@@ -61,9 +64,19 @@ public class PagePostFragment extends Fragment {
             mPostListView.addHeaderView(headerView);
         }
 
+        postAdapter.setOnEditPostListener(this);
         mPostListView.setAdapter(postAdapter);
 
         return view;
     }
 
+
+    @Override
+    public void onEditPost(PostData postData) {
+        mOnEditPostListener.onEditPost(postData);
+    }
+
+    public void setOnEditPostListener(PostAdapter.OnEditPostListener mOnEditPostListener) {
+        this.mOnEditPostListener = mOnEditPostListener;
+    }
 }
