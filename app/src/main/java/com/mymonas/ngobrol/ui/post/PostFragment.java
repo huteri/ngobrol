@@ -125,9 +125,9 @@ public class PostFragment extends Fragment {
                                 tempList = getPostDataBasedOnCurrentPage(i);
 
                                 args = new Bundle();
-                                args.putSerializable("data", tempList);
+                                args.putSerializable(PagePostFragment.KEY_EXTRA_POST_DATA, tempList);
                                 args.putSerializable(PostFragment.KEY_EXTRA_THREAD_DATA, mThreadData);
-                                args.putInt("position", i);
+                                args.putInt(PagePostFragment.KEY_EXTRA_POSITION, i);
                                 if (getActivity() != null)
                                     mPagerAdapter.addPage(getActivity().getString(R.string.general_page) + " " + (i + 1) + "/" + maxPage, args);
                             }
