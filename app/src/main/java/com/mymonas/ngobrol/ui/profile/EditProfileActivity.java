@@ -213,6 +213,7 @@ public class EditProfileActivity extends Activity {
         ProgressDialog dialog = new ProgressDialog(this);
         dialog.setTitle(getString(R.string.profile_edit_dialog_upload_title));
         dialog.setMessage(getString(R.string.profile_edit_dialog_upload_message));
+        dialog.setCancelable(false);
         return dialog;
     }
 

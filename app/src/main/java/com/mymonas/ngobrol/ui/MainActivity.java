@@ -154,6 +154,7 @@ public class MainActivity extends FragmentActivity {
 
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.init(new ImageLoaderConfiguration.Builder(this)
+                .diskCacheFileCount(5)
                 .defaultDisplayImageOptions(imageOptions)
                 .writeDebugLogs()
                 .build());

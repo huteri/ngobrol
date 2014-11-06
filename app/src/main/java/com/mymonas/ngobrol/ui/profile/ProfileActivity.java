@@ -85,7 +85,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
         mTvName = (TextView) findViewById(R.id.name);
         mProfileBg = (KenBurnsView) findViewById(R.id.header_background);
 
-        mProfileBg.setResourceIds(R.drawable.profile_bg, R.drawable.profile_bg);
+       // mProfileBg.setResourceIds(R.drawable.profile_bg, R.drawable.profile_bg);
         mProfileImg = (RoundedImageView) findViewById(R.id.profile_img);
 
         mHeader = findViewById(R.id.header);
@@ -134,7 +134,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
                 .cacheOnDisk(true)
                 .cacheInMemory(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
-                .resetViewBeforeLoading(true)
+                .resetViewBeforeLoading(false)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
 
