@@ -38,7 +38,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
 
@@ -130,6 +129,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
 
         DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
                 .showImageOnFail(R.drawable.profile_bg)
+                .showImageOnLoading(R.drawable.profile_bg)
                 .showImageForEmptyUri(R.drawable.profile_bg)
                 .cacheOnDisk(true)
                 .cacheInMemory(true)
@@ -140,14 +140,9 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
 
 
         imageLoader.displayImage(mUserData.getProfileUrl(), mProfileImg);
-        imageLoader.displayImage(mUserData.getProfileBg(), mProfileBg.getImageViews()[0], imageOptions, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                super.onLoadingComplete(imageUri, view, loadedImage);
+        imageLoader.displayImage(mUserData.getProfileBg(), mProfileBg.getImageViews()[0], imageOptions);
 
-                mProfileBg.getImageViews()[1].setImageBitmap(loadedImage);
-            }
-        });
+
     }
 
     private ImageView getActionBarIconView() {

@@ -3,6 +3,7 @@ package com.flavienlaurent.notboringactionbar;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.mymonas.ngobrol.R;
+import com.mymonas.ngobrol.util.Clog;
 
 import java.util.Random;
 
@@ -29,7 +31,7 @@ public class KenBurnsView extends FrameLayout {
 
     private final Random random = new Random();
     private int mSwapMs = 10000;
-    private int mFadeInOutMs = 400;
+    private int mFadeInOutMs = 0;
 
     private float maxScaleFactor = 1.5F;
     private float minScaleFactor = 1.2F;
@@ -60,16 +62,23 @@ public class KenBurnsView extends FrameLayout {
         fillImageViews();
     }
 
+    public void setBitmapResources(Bitmap... resources) {
+       mImageViews[0].setImageBitmap(resources[0]);
+       mImageViews[1].setImageBitmap(resources[0]);
+    }
+
     private void swapImage() {
+        Clog.d("mImageViews.Count = "+mImageViews.length);
         Log.d(TAG, "swapImage active=" + mActiveImageIndex);
         if(mActiveImageIndex == -1) {
-            mActiveImageIndex = 1;
+            mActiveImageIndex = 0;
             animate(mImageViews[mActiveImageIndex]);
             return;
         }
 
         int inactiveIndex = mActiveImageIndex;
         mActiveImageIndex = (1 + mActiveImageIndex) % mImageViews.length;
+
         Log.d(TAG, "new active=" + mActiveImageIndex);
 
         final ImageView activeImageView = mImageViews[mActiveImageIndex];
@@ -136,9 +145,9 @@ public class KenBurnsView extends FrameLayout {
         super.onFinishInflate();
         View view = inflate(getContext(), R.layout.view_kenburns, this);
 
-        mImageViews = new ImageView[2];
+        mImageViews = new ImageView[1];
         mImageViews[0] = (ImageView) view.findViewById(R.id.image0);
-        mImageViews[1] = (ImageView) view.findViewById(R.id.image1);
+      //  mImageViews[1] = (ImageView) view.findViewById(R.id.image1);
     }
 
     public ImageView[] getImageViews() {

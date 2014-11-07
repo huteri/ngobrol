@@ -16,7 +16,6 @@
 
         <com.flavienlaurent.notboringactionbar.KenBurnsView
             android:id="@+id/header_background"
-            android:background="@drawable/profile_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
