@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Huteri on 10/19/2014.
  */
 public class UserData implements Serializable {
-        private int id;
+        private int id, isModerator;
         private String api, username, fullname, profileUrl, profileBg, aboutMe, email;
 
         public String getApi() {
@@ -71,5 +71,14 @@ public class UserData implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+
+    public int getIsModerator() {
+        return isModerator;
+    }
+
+    public void setIsModerator(int isModerator) {
+        this.isModerator = isModerator;
     }
 }

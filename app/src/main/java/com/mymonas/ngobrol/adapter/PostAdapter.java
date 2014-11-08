@@ -114,7 +114,8 @@ public class PostAdapter extends ArrayAdapter<PostData> {
     private void hideMenuOnNoPrivilegeUsers(int position, ViewHolder holder) {
         UserUtils userUtils = new UserUtils(mContext);
 
-        if(mPostData.get(position).getUser().getId() != userUtils.getUserId()) {
+        Clog.d("userUtils.isModerator : "+userUtils.isModerator());
+        if(mPostData.get(position).getUser().getId() != userUtils.getUserId() && !userUtils.isModerator()) {
            holder.btnMenu.setVisibility(View.GONE);
 
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.tvDate.getLayoutParams();

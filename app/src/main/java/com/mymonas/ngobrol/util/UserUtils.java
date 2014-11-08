@@ -20,6 +20,8 @@ public class UserUtils {
     private static final String ARG_PROFILEBG = "profileBg";
     private static final String ARG_ABOUTME = "aboutMe";
     private static final String ARG_EMAIL = "email";
+    private static final String ARG_ISMODERATOR = "isModerator";
+
 
     private final Context mContext;
     private final SharedPreferences mPrefs;
@@ -70,8 +72,12 @@ public class UserUtils {
         return mPrefs.getString(ARG_EMAIL, "");
     }
 
+    public boolean isModerator() {
+        return (mPrefs.getInt(ARG_ISMODERATOR, 0) == 1) ? true:false;
+    }
     public UserData getUserData() {
         UserData data = new UserData();
+        data.setApi(getAPI());
         data.setAboutMe(getAboutMe());
         data.setFullname(getFullName());
         data.setEmail(getEmail());
@@ -79,6 +85,7 @@ public class UserUtils {
         data.setProfileBg(getProfileBg());
         data.setProfileUrl(getProfileUrl());
         data.setUsername(getUsername());
+        data.setIsModerator(mPrefs.getInt(ARG_ISMODERATOR, 0));
         return data;
     }
 
@@ -91,12 +98,15 @@ public class UserUtils {
         editor.remove(ARG_FULLNAME);
         editor.remove(ARG_PROFILEBG);
         editor.remove(ARG_PROFILEURL);
+        editor.remove(ARG_ISMODERATOR);
+        editor.remove(ARG_EMAIL);
         editor.commit();
 
     }
 
    public void saveUserData(UserData user) {
        SharedPreferences.Editor edit = mPrefs.edit();
+       edit.putString(ARG_API, user.getApi());
        edit.putString(ARG_ABOUTME, user.getAboutMe());
        edit.putString(ARG_EMAIL, user.getEmail());
        edit.putString(ARG_FULLNAME, user.getFullname());
@@ -104,7 +114,7 @@ public class UserUtils {
        edit.putString(ARG_PROFILEURL, user.getProfileUrl());
        edit.putString(ARG_PROFILEBG, user.getProfileBg());
        edit.putString(ARG_USERNAME, user.getUsername());
-
+       edit.putInt(ARG_ISMODERATOR, user.getIsModerator());
        edit.commit();
    }
 

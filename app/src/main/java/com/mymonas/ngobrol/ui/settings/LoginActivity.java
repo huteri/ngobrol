@@ -2,11 +2,9 @@ package com.mymonas.ngobrol.ui.settings;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,12 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.dd.processbutton.iml.ActionProcessButton;
+import com.micromobs.android.floatlabel.FloatLabelEditText;
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.UserLoginCallback;
-import com.dd.processbutton.iml.ActionProcessButton;
-import com.micromobs.android.floatlabel.FloatLabelEditText;
 import com.mymonas.ngobrol.ui.MainActivity;
+import com.mymonas.ngobrol.util.UserUtils;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -101,17 +100,8 @@ public class LoginActivity extends Activity {
                if(userLoginCallback.getSuccess() == 1) {
                    mBtnSubmit.setProgress(BTN_SUCCESS);
 
-                   SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-                   SharedPreferences.Editor edit = prefs.edit();
-                   edit.putString("username", userName);
-                   edit.putInt("userId", userLoginCallback.getData().getId());
-                   edit.putString("api", userLoginCallback.getData().getApi());
-                   edit.putString("fullname", userLoginCallback.getData().getFullname());
-                   edit.putString("profileUrl", userLoginCallback.getData().getProfileUrl());
-                   edit.putString("profileBg", userLoginCallback.getData().getProfileBg());
-                   edit.putString("aboutMe", userLoginCallback.getData().getAboutMe());
-                   edit.putString("email", userLoginCallback.getData().getEmail());
-                   edit.commit();
+                   UserUtils userUtils = new UserUtils(LoginActivity.this);
+                   userUtils.saveUserData(userLoginCallback.getData());
 
                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                    startActivity(intent);
