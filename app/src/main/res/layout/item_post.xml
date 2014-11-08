@@ -93,5 +93,17 @@
         android:lineSpacingExtra="5dp"
         android:textSize="14sp" />
 
+    <TextView
+        android:id="@+id/tv_last_edited"
+        android:layout_below="@+id/text"
+        android:visibility="gone"
+        android:paddingLeft="10dp"
+        android:textColor="@color/black55"
+        android:textSize="10sp"
+        android:textStyle="italic"
+        android:text="Last Edited On 2014-22-02 20:29:10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
 </RelativeLayout>

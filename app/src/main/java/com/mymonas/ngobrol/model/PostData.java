@@ -9,6 +9,8 @@ public class PostData implements Serializable{
     private int id;
     private String text;
     private String dateCreated;
+    private int isModified;
+    private String timestamp;
     private UserData user;
     private ThreadItem thread;
 
@@ -50,5 +52,21 @@ public class PostData implements Serializable{
 
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public int getIsModified() {
+        return isModified;
+    }
+
+    public void setIsModified(int isModified) {
+        this.isModified = isModified;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

@@ -79,5 +79,6 @@
     <string name="post_edit_dialog_title">Edit a Post</string>
     <string name="post_edit_dialog_success">Post successfully edited</string>
     <string name="general_edit">Edit</string>
+    <string name="post_item_last_edited">Last Edited on</string>
 
 </resources>

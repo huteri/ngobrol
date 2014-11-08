@@ -83,6 +83,7 @@ public class PostAdapter extends ArrayAdapter<PostData> {
             holder.tvPostOrder = (TextView) view.findViewById(R.id.post_order);
             holder.profileImg = (RoundedImageView) view.findViewById(R.id.profile_img);
             holder.btnMenu = (Button) view.findViewById(R.id.btn_post_menu);
+            holder.tvLastEdited = (TextView) view.findViewById(R.id.tv_last_edited);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -92,7 +93,6 @@ public class PostAdapter extends ArrayAdapter<PostData> {
         holder.tvName.setText(mPostData.get(position).getUser().getUsername());
         holder.tvDate.setText(mPostData.get(position).getDateCreated());
         holder.tvPostOrder.setText("#"+(position+1));
-
         holder.profileImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,14 +101,20 @@ public class PostAdapter extends ArrayAdapter<PostData> {
                 mContext.startActivity(intent);
             }
         });
-
         holder.btnMenu.setOnClickListener(getBtnMenuClickListener(position, holder.btnMenu));
-
+        hideMenuOnNoPrivilegeUsers(position, holder);
+        showLastEditedIfAvailable(position, holder.tvLastEdited);
         ImageLoader.getInstance().displayImage(mPostData.get(position).getUser().getProfileUrl(), holder.profileImg, mImageOptions);
 
-        hideMenuOnNoPrivilegeUsers(position, holder);
         return view;
 
+    }
+
+    private void showLastEditedIfAvailable(int position, TextView tvLastEdited) {
+        if(mPostData.get(position).getIsModified() == 1) {
+            tvLastEdited.setText(mContext.getString(R.string.post_item_last_edited)+" "+mPostData.get(position).getTimestamp());
+            tvLastEdited.setVisibility(View.VISIBLE);
+        }
     }
 
     private void hideMenuOnNoPrivilegeUsers(int position, ViewHolder holder) {
@@ -168,5 +174,6 @@ public class PostAdapter extends ArrayAdapter<PostData> {
         TextView tvPostOrder;
         RoundedImageView profileImg;
         Button btnMenu;
+        public TextView tvLastEdited;
     }
 }
