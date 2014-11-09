@@ -13,17 +13,17 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.mymonas.ngobrol.R;
+import com.mymonas.ngobrol.adapter.ThreadAdapter;
+import com.mymonas.ngobrol.io.RestCallback;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.ThreadCallback;
 import com.mymonas.ngobrol.model.ThreadItem;
 import com.mymonas.ngobrol.model.UserData;
-import com.mymonas.ngobrol.adapter.ThreadAdapter;
 import com.mymonas.ngobrol.ui.post.PostActivity;
 import com.mymonas.ngobrol.ui.post.PostFragment;
 
 import java.util.ArrayList;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -85,9 +85,10 @@ public class ThreadProfileFragment extends ScrollTabHolderFragment implements Ab
         final ProgressBar pBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
         pBar.setVisibility(View.VISIBLE);
-        RestClient.get().getThreads(null, 0, String.valueOf(mUserData.getId()), new Callback<ThreadCallback>() {
+        RestClient.get().getThreads(null, 0, String.valueOf(mUserData.getId()), new RestCallback<ThreadCallback>(mContext) {
             @Override
             public void success(ThreadCallback threadCallback, Response response) {
+                super.success(threadCallback, response);
                 pBar.setVisibility(View.GONE);
                 if(threadCallback.getCount() > 0) {
                     mThreadList.addAll(threadCallback.getData());
@@ -97,6 +98,7 @@ public class ThreadProfileFragment extends ScrollTabHolderFragment implements Ab
 
             @Override
             public void failure(RetrofitError error) {
+                super.failure(error);
                 pBar.setVisibility(View.GONE);
             }
         });

@@ -83,5 +83,6 @@
     <string name="general_edit">Edit</string>
     <string name="post_item_last_edited">Last Edited on</string>
     <string name="post_item_dialog_delete_title">Deleting...</string>
+    <string name="error_message_no_connection">Can\'t connect to internet.</string>
 
 </resources>

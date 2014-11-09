@@ -9,13 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.mymonas.ngobrol.R;
-import com.mymonas.ngobrol.io.RestClient;
-import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.micromobs.android.floatlabel.FloatLabelEditText;
+import com.mymonas.ngobrol.R;
+import com.mymonas.ngobrol.io.RestCallback;
+import com.mymonas.ngobrol.io.RestClient;
+import com.mymonas.ngobrol.io.model.BaseCallback;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -88,9 +88,10 @@ public class RegisterActivity extends Activity {
 
         mBtnRegister.setProgress(1);
 
-        RestClient.get().regUser(username, password, new Callback<BaseCallback>() {
+        RestClient.get().regUser(username, password, new RestCallback<BaseCallback>(this) {
             @Override
             public void success(BaseCallback baseCallback, Response response) {
+                super.success(baseCallback, response);
                 if(baseCallback.getSuccess() == 1) {
                     mBtnRegister.setProgress(100);
                     Toast.makeText(RegisterActivity.this,getString(R.string.register_success), Toast.LENGTH_SHORT).show();
@@ -103,6 +104,7 @@ public class RegisterActivity extends Activity {
 
             @Override
             public void failure(RetrofitError error) {
+                super.failure(error);
                 mBtnRegister.setProgress(0);
             }
         });

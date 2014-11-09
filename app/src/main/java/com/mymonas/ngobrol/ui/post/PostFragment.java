@@ -1,5 +1,6 @@
 package com.mymonas.ngobrol.ui.post;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.adapter.PostAdapter;
+import com.mymonas.ngobrol.io.RestCallback;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.io.model.PostCallback;
@@ -35,7 +37,6 @@ import com.viewpagerindicator.TitlePageIndicator;
 
 import java.util.ArrayList;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -59,11 +60,13 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
     private UserUtils mUserUtils;
     private int mNumPostPerPage;
     private ThreadItem mThreadData;
+    private Activity mContext;
 
     public PostFragment() {
 
     }
-    
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,7 +74,7 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
         View view = inflater.inflate(R.layout.fragment_post, container, false);
         mViewPager = (ViewPager) view.findViewById(R.id.pager);
         mIndicator = (TitlePageIndicator) view.findViewById(R.id.indicator);
-        mPagerAdapter = new PagerAdapter(getActivity(), getChildFragmentManager(), mViewPager);
+        mPagerAdapter = new PagerAdapter(mContext, getChildFragmentManager(), mViewPager);
 
         mIndicator.setViewPager(mViewPager);
         mIndicator.setTextColor(getResources().getColor(R.color.pressed_grey));
@@ -83,10 +86,10 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
         mArgs = getArguments();
         mThreadData = (ThreadItem) mArgs.getSerializable(KEY_EXTRA_THREAD_DATA);
         mThreadId = Integer.valueOf(mThreadData.getId());
-        mUserUtils = new UserUtils(getActivity());
+        mUserUtils = new UserUtils(mContext);
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-        mNumPostPerPage = PrefUtils.getNumPostsPerPage(getActivity());
+        mNumPostPerPage = PrefUtils.getNumPostsPerPage(mContext);
 
         changeActionBarColor();
         getCurrentPostData();
@@ -97,8 +100,8 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
 
     private void changeActionBarColor() {
         CategoryItem categoryItem = mThreadData.getCategory();
-        getActivity().getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(categoryItem.getColor())));
-        getActivity().getActionBar().setTitle(categoryItem.getName());
+        mContext.getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(categoryItem.getColor())));
+        mContext.getActionBar().setTitle(categoryItem.getName());
         mIndicator.setSelectedColor(Color.parseColor(categoryItem.getColor()));
     }
 
@@ -106,9 +109,10 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
         Clog.d("");
         if (mPostData.size() == 0 || mTotalPostData > mPostData.size()) {
             mProgressBar.setVisibility(View.VISIBLE);
-            RestClient.get().getPosts(mThreadId, NUM_POST_REQUEST, mCurrentRequestedPage, new Callback<PostCallback>() {
+            RestClient.get().getPosts(mThreadId, NUM_POST_REQUEST, mCurrentRequestedPage, new RestCallback<PostCallback>(mContext) {
                 @Override
                 public void success(PostCallback postCallback, Response response) {
+                    super.success(postCallback, response);
                     mProgressBar.setVisibility(View.GONE);
                     if (postCallback.getSuccess() == 1) {
                         mTotalPostData = postCallback.getTotal();
@@ -131,8 +135,8 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
                                 args.putSerializable(PagePostFragment.KEY_EXTRA_POST_DATA, tempList);
                                 args.putSerializable(PostFragment.KEY_EXTRA_THREAD_DATA, mThreadData);
                                 args.putInt(PagePostFragment.KEY_EXTRA_POSITION, i);
-                                if (getActivity() != null)
-                                    mPagerAdapter.addPage(getActivity().getString(R.string.general_page) + " " + (i + 1) + "/" + maxPage, args);
+                                if (mContext != null)
+                                    mPagerAdapter.addPage(mContext.getString(R.string.general_page) + " " + (i + 1) + "/" + maxPage, args);
                             }
 
 
@@ -147,6 +151,7 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
 
                 @Override
                 public void failure(RetrofitError error) {
+                    super.failure(error);
                     mProgressBar.setVisibility(View.GONE);
                 }
             });
@@ -197,31 +202,32 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
     private void showAddNewPostDialog() {
         // error on no user available
         if (!mUserUtils.isAvailable()) {
-            Toast.makeText(getActivity(), getActivity().getString(R.string.message_no_user), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, mContext.getString(R.string.message_no_user), Toast.LENGTH_SHORT).show();
             return;
         }
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setTitle(getActivity().getString(R.string.post_add_new));
+        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+        dialog.setTitle(mContext.getString(R.string.post_add_new));
 
-        final View view = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.dialog_post_add_new, null);
+        final View view = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.dialog_post_add_new, null);
         TextView whoPost = (TextView) view.findViewById(R.id.whopost);
-        whoPost.setText(getActivity().getString(R.string.dialog_whopost) + " " + mUserUtils.getUsername());
+        whoPost.setText(mContext.getString(R.string.dialog_whopost) + " " + mUserUtils.getUsername());
 
         dialog.setView(view);
 
-        dialog.setPositiveButton(getActivity().getString(R.string.general_ok), new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton(mContext.getString(R.string.general_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialogInterface, int i) {
                 ProgressBar pBar = (ProgressBar) view.findViewById(R.id.pBar);
                 EditText text = (EditText) view.findViewById(R.id.message);
                 pBar.setVisibility(View.VISIBLE);
 
-                RestClient.get().submitPost(mThreadId, mUserUtils.getUserId(), mUserUtils.getAPI(), mUserUtils.getAndroidId(), text.getText().toString(), new Callback<BaseCallback>() {
+                RestClient.get().submitPost(mThreadId, mUserUtils.getUserId(), mUserUtils.getAPI(), mUserUtils.getAndroidId(), text.getText().toString(), new RestCallback<BaseCallback>(mContext) {
                     @Override
                     public void success(BaseCallback baseCallback, Response response) {
+                        super.success(baseCallback, response);
                         if (baseCallback.getSuccess() == 1) {
                             reloadTheFragment();
-                            Toast.makeText(getActivity(), getActivity().getString(R.string.post_success), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, mContext.getString(R.string.post_success), Toast.LENGTH_SHORT).show();
                             dialogInterface.dismiss();
 
                         }
@@ -229,13 +235,14 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
 
                     @Override
                     public void failure(RetrofitError error) {
+                        super.failure(error);
                         dialogInterface.dismiss();
                     }
                 });
 
             }
         });
-        dialog.setNegativeButton(getActivity().getString(R.string.general_cancel), new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(mContext.getString(R.string.general_cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -249,18 +256,18 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
     private void showEditDialog(final PostData postData) {
         Clog.d("");
 
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setTitle(getActivity().getString(R.string.post_edit_dialog_title));
+        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+        dialog.setTitle(mContext.getString(R.string.post_edit_dialog_title));
 
-        final View view = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.dialog_post_add_new, null);
+        final View view = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.dialog_post_add_new, null);
         TextView whoPost = (TextView) view.findViewById(R.id.whopost);
-        whoPost.setText(getActivity().getString(R.string.dialog_whopost) + " " + postData.getUser().getUsername());
+        whoPost.setText(mContext.getString(R.string.dialog_whopost) + " " + postData.getUser().getUsername());
 
         final EditText etText = (EditText) view.findViewById(R.id.message);
         etText.setText(postData.getText());
         dialog.setView(view);
 
-        dialog.setPositiveButton(getActivity().getString(R.string.general_ok), new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton(mContext.getString(R.string.general_ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialogInterface, int i) {
                 ProgressBar pBar = (ProgressBar) view.findViewById(R.id.pBar);
@@ -268,19 +275,21 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
                 pBar.setVisibility(View.VISIBLE);
 
                 RestClient.get().editPost(postData.getThread().getId(), mUserUtils.getUserId(), mUserUtils.getAPI(),
-                        mUserUtils.getAndroidId(), etText.getText().toString(), postData.getId(), new Callback<BaseCallback>() {
+                        mUserUtils.getAndroidId(), etText.getText().toString(), postData.getId(), new RestCallback<BaseCallback>(mContext) {
                             @Override
                             public void success(BaseCallback baseCallback, Response response) {
+                                super.success(baseCallback, response);
                                 dialogInterface.dismiss();
                                 if (baseCallback.getSuccess() == 1) {
                                     reloadTheFragment();
-                                    Toast.makeText(getActivity(), getActivity().getString(R.string.post_edit_dialog_success), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, mContext.getString(R.string.post_edit_dialog_success), Toast.LENGTH_SHORT).show();
                                 }
 
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
+                                super.failure(error);
                                 dialogInterface.dismiss();
                             }
                         });
@@ -288,7 +297,7 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
 
             }
         });
-        dialog.setNegativeButton(getActivity().getString(R.string.general_cancel), new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(mContext.getString(R.string.general_cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -299,24 +308,26 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
     }
 
     private void deletePost(PostData postData) {
-        final ProgressDialog pDialog = new ProgressDialog(getActivity());
-        pDialog.setTitle(getActivity().getString(R.string.post_item_dialog_delete_title));
+        final ProgressDialog pDialog = new ProgressDialog(mContext);
+        pDialog.setTitle(mContext.getString(R.string.post_item_dialog_delete_title));
         pDialog.setMessage("Please wait..");
         pDialog.setCancelable(false);
 
         pDialog.show();
-        RestClient.get().deletePost(postData.getThread().getId(), mUserUtils.getUserId(), mUserUtils.getAPI(), mUserUtils.getAndroidId(), postData.getId(), new Callback<BaseCallback>() {
+        RestClient.get().deletePost(postData.getThread().getId(), mUserUtils.getUserId(), mUserUtils.getAPI(), mUserUtils.getAndroidId(), postData.getId(), new RestCallback<BaseCallback>(mContext) {
             @Override
             public void success(BaseCallback baseCallback, Response response) {
+                super.success(baseCallback, response);
                 pDialog.dismiss();
                 if(baseCallback.getSuccess() == 1) {
                     reloadTheFragment();
-                    Toast.makeText(getActivity(), "Post succesfully deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Post succesfully deleted", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
+                super.failure(error);
                 pDialog.dismiss();
             }
         });
@@ -334,6 +345,7 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mContext = getActivity();
     }
 
     @Override

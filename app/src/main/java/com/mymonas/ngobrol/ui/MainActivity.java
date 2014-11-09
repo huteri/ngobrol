@@ -18,9 +18,10 @@ import android.widget.TextView;
 
 import com.makeramen.RoundedImageView;
 import com.mymonas.ngobrol.R;
+import com.mymonas.ngobrol.adapter.DrawerListAdapter;
+import com.mymonas.ngobrol.io.RestCallback;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
-import com.mymonas.ngobrol.adapter.DrawerListAdapter;
 import com.mymonas.ngobrol.model.DrawerListItem;
 import com.mymonas.ngobrol.ui.profile.ProfileActivity;
 import com.mymonas.ngobrol.ui.settings.LoginActivity;
@@ -35,7 +36,6 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.util.ArrayList;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -248,9 +248,10 @@ public class MainActivity extends FragmentActivity {
         pDialog.setMessage(getString(R.string.logout_progress));
         pDialog.show();
 
-        RestClient.get().logoutUser(mUserUtils.getUserId(), mUserUtils.getAPI(), new Callback<BaseCallback>() {
+        RestClient.get().logoutUser(mUserUtils.getUserId(), mUserUtils.getAPI(), new RestCallback<BaseCallback>(this) {
             @Override
             public void success(BaseCallback baseCallback, Response response) {
+                super.success(baseCallback, response);
                 pDialog.dismiss();
                 if (baseCallback.getSuccess() == 1) {
                     mUserUtils.clear();
@@ -262,6 +263,7 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void failure(RetrofitError error) {
+                super.failure(error);
                 pDialog.dismiss();
             }
         });

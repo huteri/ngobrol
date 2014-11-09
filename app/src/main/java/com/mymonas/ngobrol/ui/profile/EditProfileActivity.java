@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.andreabaccega.widget.FormEditText;
 import com.mymonas.ngobrol.Config;
 import com.mymonas.ngobrol.R;
+import com.mymonas.ngobrol.io.RestCallback;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.model.UserData;
@@ -31,7 +32,6 @@ import com.nostra13.universalimageloader.utils.MemoryCacheUtils;
 
 import java.io.File;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
@@ -147,9 +147,10 @@ public class EditProfileActivity extends Activity {
                 final ProgressDialog pDialog = getUploadingProgressDialog();
                 pDialog.show();
 
-                RestClient.get().uploadPic(mUserUtils.getAPI(), mUserUtils.getUserId(),TYPE_PROFILE_PIC, typedFile, new Callback<BaseCallback>() {
+                RestClient.get().uploadPic(mUserUtils.getAPI(), mUserUtils.getUserId(),TYPE_PROFILE_PIC, typedFile, new RestCallback<BaseCallback>(this) {
                     @Override
                     public void success(BaseCallback baseCallback, Response response) {
+                        super.success(baseCallback, response);
                         pDialog.dismiss();
                         if (baseCallback.getSuccess() == 1) {
                             UserData user = mUserUtils.getUserData();
@@ -165,6 +166,7 @@ public class EditProfileActivity extends Activity {
 
                     @Override
                     public void failure(RetrofitError error) {
+                        super.failure(error);
                         pDialog.dismiss();
                     }
                 });
@@ -182,9 +184,10 @@ public class EditProfileActivity extends Activity {
                 final ProgressDialog pDialog = getUploadingProgressDialog();
                 pDialog.show();
 
-                RestClient.get().uploadPic(mUserUtils.getAPI(), mUserUtils.getUserId(), TYPE_PROFILE_BG, file, new Callback<BaseCallback>() {
+                RestClient.get().uploadPic(mUserUtils.getAPI(), mUserUtils.getUserId(), TYPE_PROFILE_BG, file, new RestCallback<BaseCallback>(this) {
                     @Override
                     public void success(BaseCallback baseCallback, Response response) {
+                        super.success(baseCallback, response);
                         pDialog.dismiss();
                         if(baseCallback.getSuccess() == 1) {
                             UserData user = mUserUtils.getUserData();
@@ -200,6 +203,7 @@ public class EditProfileActivity extends Activity {
 
                     @Override
                     public void failure(RetrofitError error) {
+                        super.failure(error);
                         pDialog.dismiss();
                     }
                 });
@@ -225,9 +229,10 @@ public class EditProfileActivity extends Activity {
             pDialog.setCancelable(false);
             pDialog.show();
 
-            RestClient.get().editProfile(mUserUtils.getUserId(), mUserUtils.getAPI(), mUserUtils.getAndroidId(), mEtRealName.getText().toString(), mEtEmail.getText().toString(), mEtAboutMe.getText().toString(), new Callback<BaseCallback>() {
+            RestClient.get().editProfile(mUserUtils.getUserId(), mUserUtils.getAPI(), mUserUtils.getAndroidId(), mEtRealName.getText().toString(), mEtEmail.getText().toString(), mEtAboutMe.getText().toString(), new RestCallback<BaseCallback>(this) {
                 @Override
                 public void success(BaseCallback baseCallback, Response response) {
+                    super.success(baseCallback, response);
                     pDialog.dismiss();
                     if (baseCallback.getSuccess() == 1) {
                         saveProfileToPrefs();
@@ -248,7 +253,9 @@ public class EditProfileActivity extends Activity {
                 }
 
                 @Override
-                public void failure(RetrofitError error) {
+                public void failure(RetrofitError error)
+                {
+                    super.failure(error);
                     pDialog.dismiss();
                 }
             });

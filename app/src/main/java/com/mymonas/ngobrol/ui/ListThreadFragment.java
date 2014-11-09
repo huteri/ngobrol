@@ -15,18 +15,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mymonas.ngobrol.R;
+import com.mymonas.ngobrol.adapter.ThreadAdapter;
+import com.mymonas.ngobrol.io.RestCallback;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.ThreadCallback;
 import com.mymonas.ngobrol.model.CategoryItem;
 import com.mymonas.ngobrol.model.ThreadItem;
-import com.mymonas.ngobrol.adapter.ThreadAdapter;
 import com.mymonas.ngobrol.ui.post.PostActivity;
 import com.mymonas.ngobrol.ui.post.PostFragment;
 import com.mymonas.ngobrol.util.Clog;
 
 import java.util.ArrayList;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -75,9 +75,10 @@ public class ListThreadFragment extends Fragment {
 
         pBar.setVisibility(View.VISIBLE);
         Clog.d("mCategoryId : "+mCategoryId);
-        RestClient.get().getThreads(mCategoryId, mSortPopular, null,  new Callback<ThreadCallback>() {
+        RestClient.get().getThreads(mCategoryId, mSortPopular, null,  new RestCallback<ThreadCallback>(mContext) {
             @Override
             public void success(ThreadCallback threadCallback, Response response) {
+                super.success(threadCallback, response);
                 pBar.setVisibility(View.GONE);
                 if(threadCallback.getCount() > 0) {
                     mThreadList.addAll(threadCallback.getData());
@@ -87,6 +88,7 @@ public class ListThreadFragment extends Fragment {
 
             @Override
             public void failure(RetrofitError error) {
+                super.failure(error);
                 pBar.setVisibility(View.GONE);
                 Clog.d(error.getCause().toString());
             }

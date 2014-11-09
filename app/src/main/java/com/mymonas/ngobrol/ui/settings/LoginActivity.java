@@ -15,12 +15,12 @@ import android.widget.Toast;
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.micromobs.android.floatlabel.FloatLabelEditText;
 import com.mymonas.ngobrol.R;
+import com.mymonas.ngobrol.io.RestCallback;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.UserLoginCallback;
 import com.mymonas.ngobrol.ui.MainActivity;
 import com.mymonas.ngobrol.util.UserUtils;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -94,9 +94,10 @@ public class LoginActivity extends Activity {
         mEtAccountPass.setEnabled(false);
         mBtnSubmit.setProgress(BTN_START_PROGRESS);
 
-        RestClient.get().logUser(userName, userPass, androidName, androidId, new Callback<UserLoginCallback>() {
+        RestClient.get().logUser(userName, userPass, androidName, androidId, new RestCallback<UserLoginCallback>(this) {
             @Override
             public void success(UserLoginCallback userLoginCallback, Response response) {
+                super.success(userLoginCallback, response);
                if(userLoginCallback.getSuccess() == 1) {
                    mBtnSubmit.setProgress(BTN_SUCCESS);
 
@@ -116,6 +117,7 @@ public class LoginActivity extends Activity {
 
             @Override
             public void failure(RetrofitError error) {
+                super.failure(error);
                 mBtnSubmit.setProgress(BTN_NORMAL);
             }
         });

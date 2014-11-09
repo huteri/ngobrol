@@ -16,16 +16,16 @@ import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
 import com.mymonas.ngobrol.R;
+import com.mymonas.ngobrol.adapter.SpinnerCategoryAdapter;
+import com.mymonas.ngobrol.io.RestCallback;
 import com.mymonas.ngobrol.io.RestClient;
 import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.io.model.CategoryCallback;
 import com.mymonas.ngobrol.model.CategoryItem;
-import com.mymonas.ngobrol.adapter.SpinnerCategoryAdapter;
 import com.mymonas.ngobrol.util.UserUtils;
 
 import java.util.ArrayList;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -63,9 +63,10 @@ public class AddEditThreadActivity extends Activity {
                        UserUtils user = new UserUtils(AddEditThreadActivity.this);
 
                        RestClient.get().submitThread(user.getUserId(), user.getAPI(), user.getAndroidId(), mCategoryList.get(mSpCategory.getSelectedItemPosition()).getId(),
-                               mEtTitle.getText().toString(), mEtPost.getText().toString(), new Callback<BaseCallback>() {
+                               mEtTitle.getText().toString(), mEtPost.getText().toString(), new RestCallback<BaseCallback>(AddEditThreadActivity.this) {
                                    @Override
                                    public void success(BaseCallback baseCallback, Response response) {
+                                       super.success(baseCallback, response);
                                        pDialog.dismiss();
                                        if(baseCallback.getSuccess() == 1) {
                                            Intent intent = new Intent(AddEditThreadActivity.this, MainActivity.class);
@@ -79,7 +80,8 @@ public class AddEditThreadActivity extends Activity {
 
                                    @Override
                                    public void failure(RetrofitError error) {
-                                        pDialog.dismiss();
+                                       super.failure(error);
+                                       pDialog.dismiss();
                                    }
                                });
 
@@ -127,9 +129,10 @@ public class AddEditThreadActivity extends Activity {
 
         final ProgressBar pbCategory = (ProgressBar) findViewById(R.id.pb_category);
         pbCategory.setVisibility(View.VISIBLE);
-        RestClient.get().getCategories(new Callback<CategoryCallback>() {
+        RestClient.get().getCategories(new RestCallback<CategoryCallback>(this) {
             @Override
             public void success(CategoryCallback categoryCallback, Response response) {
+                super.success(categoryCallback, response);
                 pbCategory.setVisibility(View.GONE);
                 if (categoryCallback.getSuccess() == 1) {
                     mCategoryList.clear();
@@ -140,7 +143,7 @@ public class AddEditThreadActivity extends Activity {
 
             @Override
             public void failure(RetrofitError error) {
-
+                super.failure(error);
             }
         });
 
