@@ -73,5 +73,8 @@ public interface Api {
     @POST("/user.php?action=upload_profile")
     void uploadPic(@Query("api") String api, @Query("userId") int userId, @Query("type") int type, @Part("image") TypedFile avatar, RestCallback<BaseCallback> callback);
 
+    @FormUrlEncoded
+    @POST("/user.php?action=remove_user")
+    void removeUser(@Field("api") String api, @Field("userId") int userId, @Field("androidId") String androidId, @Field("requestedUserId") int requestedUserId, RestCallback<BaseCallback> callback);
 
 }

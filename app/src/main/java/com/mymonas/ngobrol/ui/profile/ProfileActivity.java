@@ -1,7 +1,10 @@
 package com.mymonas.ngobrol.ui.profile;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -24,12 +27,16 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.flavienlaurent.notboringactionbar.AlphaForegroundColorSpan;
 import com.flavienlaurent.notboringactionbar.KenBurnsView;
 import com.makeramen.RoundedImageView;
 import com.mymonas.ngobrol.R;
+import com.mymonas.ngobrol.io.RestCallback;
+import com.mymonas.ngobrol.io.RestClient;
+import com.mymonas.ngobrol.io.model.BaseCallback;
 import com.mymonas.ngobrol.model.UserData;
 import com.mymonas.ngobrol.ui.holder.ScrollTabHolder;
 import com.mymonas.ngobrol.util.Clog;
@@ -40,6 +47,9 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class ProfileActivity extends FragmentActivity implements ScrollTabHolder, ViewPager.OnPageChangeListener {
@@ -171,6 +181,11 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
             MenuItem item = menu.findItem(R.id.action_edit_profile);
             item.setVisible(false);
         }
+
+        if(!userUtils.isModerator()) {
+            MenuItem item = menu.findItem(R.id.action_remove_user);
+            item.setVisible(false);
+        }
         return true;
     }
 
@@ -182,8 +197,60 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
         } else if (id == R.id.action_edit_profile) {
             Intent intent = new Intent(this, EditProfileActivity.class);
             startActivityForResult(intent, REQ_EDIT_PROFILE);
+        } else if(id == R.id.action_remove_user) {
+            removeUserAction();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void removeUserAction() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.ic_dialog_warning);
+        builder.setTitle(getString(R.string.profile_remove_user_warning_title));
+        builder.setMessage(getString(R.string.profile_remove_user_warning_message));
+        builder.setPositiveButton(R.string.general_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                proceedToRemoveUser();
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setNegativeButton(R.string.general_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void proceedToRemoveUser() {
+        UserUtils userUtils = new UserUtils(this);
+
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setTitle(getString(R.string.profile_remove_user_dialog_title));
+        pDialog.setMessage(getString(R.string.general_please_wait));
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        RestClient.get().removeUser(userUtils.getAPI(), userUtils.getUserId(), userUtils.getAndroidId(), mUserData.getId(), new RestCallback<BaseCallback>(this){
+            @Override
+            public void success(BaseCallback o, Response response) {
+                super.success(o, response);
+                pDialog.dismiss();
+                if(o.getSuccess() == 1) {
+                    Toast.makeText(ProfileActivity.this, getString(R.string.profile_remove_user_success), Toast.LENGTH_SHORT).show();
+                    ProfileActivity.this.finish();
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
+                pDialog.dismiss();
+            }
+        });
     }
 
     @Override

@@ -6,4 +6,10 @@
         android:icon="@drawable/ic_profile_edit"
         android:orderInCategory="100"
         android:showAsAction="always" />
+
+    <item android:id="@+id/action_remove_user"
+        android:title="Remove User"
+        android:icon="@drawable/ic_action_ban"
+        android:orderInCategory="90"
+        android:showAsAction="always" />
 </menu>
