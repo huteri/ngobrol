@@ -66,9 +66,10 @@
 
     <Button
         android:id="@+id/btn_post_menu"
-        android:background="@drawable/ic_action_overflow"
         android:layout_alignParentRight="true"
+        android:drawableTop="@drawable/ic_action_overflow"
         android:layout_width="35dp"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_height="35dp" />
 
     <View
