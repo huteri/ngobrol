@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.NumberPicker;
 
+import com.mymonas.ngobrol.Config;
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.util.Clog;
 
@@ -14,9 +15,8 @@ import com.mymonas.ngobrol.util.Clog;
  */
 public class NumberPickerPreference extends DialogPreference {
 
-    private static final int DEFAULT_VALUE = 5;
     private NumberPicker mNumberPicker;
-    private int mCurrentValue;
+    private int mCurrentValue = Config.DEFAULT_NUM_POST_PER_PAGE;
 
     public NumberPickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -50,7 +50,7 @@ public class NumberPickerPreference extends DialogPreference {
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
         Clog.d("");
         if(restorePersistedValue) {
-            mCurrentValue = this.getPersistedInt(DEFAULT_VALUE);
+            mCurrentValue = this.getPersistedInt(Config.DEFAULT_NUM_POST_PER_PAGE);
         } else  {
             mCurrentValue = (Integer) defaultValue;
             persistInt(mCurrentValue);
