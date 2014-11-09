@@ -76,6 +76,11 @@ public class PagePostFragment extends Fragment implements PostAdapter.OnEditPost
         mOnEditPostListener.onEditPost(postData);
     }
 
+    @Override
+    public void onDeletePost(PostData postData) {
+        mOnEditPostListener.onDeletePost(postData);
+    }
+
     public void setOnEditPostListener(PostAdapter.OnEditPostListener mOnEditPostListener) {
         this.mOnEditPostListener = mOnEditPostListener;
     }

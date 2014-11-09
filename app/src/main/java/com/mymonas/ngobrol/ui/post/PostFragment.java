@@ -1,6 +1,7 @@
 package com.mymonas.ngobrol.ui.post;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -297,6 +298,31 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
         dialog.show();
     }
 
+    private void deletePost(PostData postData) {
+        final ProgressDialog pDialog = new ProgressDialog(getActivity());
+        pDialog.setTitle(getActivity().getString(R.string.post_item_dialog_delete_title));
+        pDialog.setMessage("Please wait..");
+        pDialog.setCancelable(false);
+
+        pDialog.show();
+        RestClient.get().deletePost(postData.getThread().getId(), mUserUtils.getUserId(), mUserUtils.getAPI(), mUserUtils.getAndroidId(), postData.getId(), new Callback<BaseCallback>() {
+            @Override
+            public void success(BaseCallback baseCallback, Response response) {
+                pDialog.dismiss();
+                if(baseCallback.getSuccess() == 1) {
+                    reloadTheFragment();
+                    Toast.makeText(getActivity(), "Post succesfully deleted", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                pDialog.dismiss();
+            }
+        });
+
+    }
+
     private void reloadTheFragment() {
         mPostData.clear();
         mPagerAdapter.removeAllPages();
@@ -314,6 +340,11 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
     public void onEditPost(PostData postData) {
         Clog.d("");
         showEditDialog(postData);
+    }
+
+    @Override
+    public void onDeletePost(PostData postData) {
+        deletePost(postData);
     }
 
     private class PagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {

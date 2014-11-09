@@ -34,6 +34,7 @@ public class PostAdapter extends ArrayAdapter<PostData> {
     private final Context mContext;
     private final ArrayList<PostData> mPostData;
     private final DisplayImageOptions mImageOptions;
+    private final UserUtils mUserUtils;
 
     private OnEditPostListener mOnEditPostListener;
 
@@ -43,6 +44,7 @@ public class PostAdapter extends ArrayAdapter<PostData> {
 
     public interface OnEditPostListener {
         public void onEditPost(PostData postData);
+        public void onDeletePost(PostData postData);
     }
 
 
@@ -50,6 +52,7 @@ public class PostAdapter extends ArrayAdapter<PostData> {
         super(context, R.layout.item_post, postData);
         mContext = context;
         mPostData = postData;
+        mUserUtils = new UserUtils(mContext);
 
         mImageOptions = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.nophoto)
@@ -118,10 +121,9 @@ public class PostAdapter extends ArrayAdapter<PostData> {
     }
 
     private void hideMenuOnNoPrivilegeUsers(int position, ViewHolder holder) {
-        UserUtils userUtils = new UserUtils(mContext);
 
-        Clog.d("userUtils.isModerator : "+userUtils.isModerator());
-        if(mPostData.get(position).getUser().getId() != userUtils.getUserId() && !userUtils.isModerator()) {
+        Clog.d("\nmPostData.getUsername : "+mPostData.get(position).getUser().getUsername() + "\nmPostData.get(position) : "+mPostData.get(position).getUser().getId()+"\nmUser : "+mUserUtils.getUserId()+ "\nuserUtils.isModerator : "+mUserUtils.isModerator());
+        if(mPostData.get(position).getUser().getId() != mUserUtils.getUserId() && !mUserUtils.isModerator()) {
            holder.btnMenu.setVisibility(View.GONE);
 
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) holder.tvDate.getLayoutParams();
@@ -133,6 +135,7 @@ public class PostAdapter extends ArrayAdapter<PostData> {
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             holder.tvPostOrder.setLayoutParams(layoutParams);
             holder.tvPostOrder.setPadding(holder.tvPostOrder.getPaddingLeft(), holder.tvPostOrder.getPaddingTop(), (int) Utils.dpToPx(mContext, 10), holder.tvPostOrder.getPaddingBottom());
+        } else {
 
         }
     }
@@ -145,6 +148,11 @@ public class PostAdapter extends ArrayAdapter<PostData> {
                 PopupMenu menu = new PopupMenu(mContext, btnMenu);
                 menu.getMenuInflater().inflate(R.menu.item_post, menu.getMenu());
                 menu.setOnMenuItemClickListener(getOnMenuItemPostClickListener(position));
+
+                if(!mUserUtils.isModerator()) {
+                    MenuItem item = menu.getMenu().findItem(R.id.delete_post);
+                    item.setVisible(false);
+                }
                 menu.show();
 
             }
@@ -159,6 +167,9 @@ public class PostAdapter extends ArrayAdapter<PostData> {
                 switch(menuItem.getItemId()) {
                     case R.id.edit_post:
                         mOnEditPostListener.onEditPost(mPostData.get(position));
+                        break;
+                    case R.id.delete_post:
+                        mOnEditPostListener.onDeletePost(mPostData.get(position));
                         break;
                 }
                 return true;

@@ -2,4 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/edit_post"
         android:title="@string/general_edit" />
+    <item android:id="@+id/delete_post"
+        android:title="@string/general_delete" />
 </menu>

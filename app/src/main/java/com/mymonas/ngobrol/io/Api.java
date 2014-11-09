@@ -43,6 +43,10 @@ public interface Api {
     @POST("/post.php?action=edit_post")
     void editPost(@Query("threadId") String threadId, @Field("userId") int userId, @Field("api") String api, @Field("androidId") String androidId,  @Field("text") String text, @Field("postId") int postId, Callback<BaseCallback> callback);
 
+    @FormUrlEncoded
+    @POST("/post.php?action=delete_post")
+    void deletePost(@Query("threadId") String threadId, @Field("userId") int userId, @Field("api") String api, @Field("androidId") String androidId, @Field("postId") int postId, Callback<BaseCallback> callback);
+
     // category
 
     @GET("/category.php?action=get_categories")

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="general_delete">Delete</string>
+
     <string name="app_name">Ngobrol</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -72,7 +74,7 @@
     <string name="profile_edit_invalid_email">Email is not valid</string>
     <string name="profile_edit_aboutme_title">About Me</string>
     <string name="profile_edit_dialog_title">Saving Data</string>
-    <string name="profile_edit_dialog_message">Please wait...</string>
+    <string name="general_please_wait">Please wait...</string>
     <string name="profile_tab_threads">Threads</string>
     <string name="profile_edit_dialog_upload_title">Uploading</string>
     <string name="profile_edit_dialog_upload_message">Please wait...</string>
@@ -80,5 +82,6 @@
     <string name="post_edit_dialog_success">Post successfully edited</string>
     <string name="general_edit">Edit</string>
     <string name="post_item_last_edited">Last Edited on</string>
+    <string name="post_item_dialog_delete_title">Deleting...</string>
 
 </resources>

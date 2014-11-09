@@ -221,7 +221,7 @@ public class EditProfileActivity extends Activity {
         if (isAllDataValid()) {
             final ProgressDialog pDialog = new ProgressDialog(this);
             pDialog.setTitle(getString(R.string.profile_edit_dialog_title));
-            pDialog.setMessage(getString(R.string.profile_edit_dialog_message));
+            pDialog.setMessage(getString(R.string.general_please_wait));
             pDialog.setCancelable(false);
             pDialog.show();
 
