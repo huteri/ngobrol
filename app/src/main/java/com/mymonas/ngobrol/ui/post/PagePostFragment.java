@@ -14,13 +14,14 @@ import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.adapter.PostAdapter;
 import com.mymonas.ngobrol.model.PostData;
 import com.mymonas.ngobrol.model.ThreadItem;
+import com.mymonas.ngobrol.util.Clog;
 
 import java.util.ArrayList;
 
 /**
  * Created by Huteri on 10/19/2014.
  */
-public class PagePostFragment extends Fragment implements PostAdapter.OnEditPostListener {
+public class PagePostFragment extends Fragment implements PostAdapter.OnEditPostListener, PostFragment.OnSetOffsetListview {
     public static final String KEY_EXTRA_POST_DATA = "data";
     public static final java.lang.String KEY_EXTRA_POSITION = "position";
     private Bundle mArgs = null;
@@ -29,6 +30,8 @@ public class PagePostFragment extends Fragment implements PostAdapter.OnEditPost
     private ThreadItem mThreadData;
 
     private PostAdapter.OnEditPostListener mOnEditPostListener;
+    private int mCurrentPage;
+
 
     public PagePostFragment() {
     }
@@ -46,13 +49,15 @@ public class PagePostFragment extends Fragment implements PostAdapter.OnEditPost
         mArgs = getArguments();
         mPostData = (ArrayList<PostData>) mArgs.getSerializable(KEY_EXTRA_POST_DATA);
         mThreadData = (ThreadItem) mArgs.getSerializable(PostFragment.KEY_EXTRA_THREAD_DATA);
+        mCurrentPage = mArgs.getInt(KEY_EXTRA_POSITION);
+
+        PostFragment parentFragment = (PostFragment) getParentFragment();
+        parentFragment.setOnSetOffsetListener(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_page_post, container, false);
-
-
         mPostListView = (ListView) view.findViewById(R.id.post_lv);
         PostAdapter postAdapter = new PostAdapter(getActivity(), mPostData);
 
@@ -66,7 +71,6 @@ public class PagePostFragment extends Fragment implements PostAdapter.OnEditPost
 
         postAdapter.setOnEditPostListener(this);
         mPostListView.setAdapter(postAdapter);
-
         return view;
     }
 
@@ -83,5 +87,15 @@ public class PagePostFragment extends Fragment implements PostAdapter.OnEditPost
 
     public void setOnEditPostListener(PostAdapter.OnEditPostListener mOnEditPostListener) {
         this.mOnEditPostListener = mOnEditPostListener;
+    }
+
+    @Override
+    public void onSetOffset(int page, int position) {
+        Clog.d("");
+
+        if(mCurrentPage == page) {
+            Clog.d("Run the fucking offset");
+            mPostListView.setSelection(position);
+        }
     }
 }

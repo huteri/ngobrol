@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Huteri on 10/19/2014.
  */
 public class PostData implements Serializable{
-    private int id;
+    private int id, increment;
     private String text;
     private String dateCreated;
     private int isModified;
@@ -68,5 +68,13 @@ public class PostData implements Serializable{
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getIncrement() {
+        return increment;
+    }
+
+    public void setIncrement(int increment) {
+        this.increment = increment;
     }
 }

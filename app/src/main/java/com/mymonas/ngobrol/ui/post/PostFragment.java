@@ -63,11 +63,19 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
     private Activity mContext;
     private int mCurrentPage = 0;
 
+    private OnSetOffsetListview mOnSetOffsetListener;
+
+    public void setOnSetOffsetListener(OnSetOffsetListview mOnSetOffsetListener) {
+        this.mOnSetOffsetListener = mOnSetOffsetListener;
+    }
+
+    public interface OnSetOffsetListview {
+        public void onSetOffset(int page, int position);
+    }
+
     public PostFragment() {
 
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -174,7 +182,9 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
             nextSet = offset + mNumPostPerPage;
 
         for (int j = offset; j < nextSet; j++) {
-            currentPostData.add(mPostData.get(j));
+            PostData data = mPostData.get(j);
+            data.setIncrement(j+1);
+            currentPostData.add(data);
         }
         return currentPostData;
     }

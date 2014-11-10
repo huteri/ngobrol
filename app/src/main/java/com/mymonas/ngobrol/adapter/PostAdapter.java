@@ -95,7 +95,7 @@ public class PostAdapter extends ArrayAdapter<PostData> {
         holder.tvText.setText(mPostData.get(position).getText());
         holder.tvName.setText(mPostData.get(position).getUser().getUsername());
         holder.tvDate.setText(mPostData.get(position).getDateCreated());
-        holder.tvPostOrder.setText("#"+(position+1));
+        holder.tvPostOrder.setText("#"+mPostData.get(position).getIncrement());
         holder.profileImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
