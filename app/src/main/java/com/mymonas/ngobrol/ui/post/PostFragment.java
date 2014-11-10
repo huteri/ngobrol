@@ -61,6 +61,7 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
     private int mNumPostPerPage;
     private ThreadItem mThreadData;
     private Activity mContext;
+    private int mCurrentPage = 0;
 
     public PostFragment() {
 
@@ -138,7 +139,7 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
                                 if (mContext != null)
                                     mPagerAdapter.addPage(mContext.getString(R.string.general_page) + " " + (i + 1) + "/" + maxPage, args);
                             }
-
+                            jumpToCurrentPage();
 
                         } else {
                             mIsLastData = true;
@@ -156,6 +157,10 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
                 }
             });
         }
+    }
+
+    private void jumpToCurrentPage() {
+        mViewPager.setCurrentItem(mCurrentPage);
     }
 
     private ArrayList<PostData> getPostDataBasedOnCurrentPage(int pos) {
@@ -310,7 +315,7 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
     private void deletePost(PostData postData) {
         final ProgressDialog pDialog = new ProgressDialog(mContext);
         pDialog.setTitle(mContext.getString(R.string.post_item_dialog_delete_title));
-        pDialog.setMessage("Please wait..");
+        pDialog.setMessage(mContext.getString(R.string.general_please_wait));
         pDialog.setCancelable(false);
 
         pDialog.show();
@@ -335,6 +340,7 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
     }
 
     private void reloadTheFragment() {
+        mCurrentPage = mViewPager.getCurrentItem();
         mPostData.clear();
         mPagerAdapter.removeAllPages();
         getCurrentPostData();
@@ -412,7 +418,6 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
         public void onPageSelected(int i) {
             Clog.d(i);
             mViewPager.setCurrentItem(i);
-
             if (i == mPager.size() - 1 && !mIsLastData) {
                 mCurrentRequestedPage++;
                 getCurrentPostData();
