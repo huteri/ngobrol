@@ -58,6 +58,7 @@
             android:label="@string/profile_menu_edit"
             android:name=".ui.profile.EditProfileActivity" >
         </activity>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="0ab64bea47ca3f35dffbd2c94200fbc26be26009"/>
     </application>
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
