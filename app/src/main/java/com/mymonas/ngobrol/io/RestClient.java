@@ -1,5 +1,6 @@
 package com.mymonas.ngobrol.io;
 
+import com.mymonas.ngobrol.util.Clog;
 import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.RestAdapter;
@@ -27,7 +28,10 @@ public class RestClient {
         RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint(SERVER)
                 .setClient(new OkClient(new OkHttpClient()))
-                .setLogLevel(RestAdapter.LogLevel.FULL);
+                .setLogLevel(RestAdapter.LogLevel.NONE);
+
+        if(Clog.isDebugable())
+            builder.setLogLevel(RestAdapter.LogLevel.FULL);
 
         RestAdapter restAdapter = builder.build();
 

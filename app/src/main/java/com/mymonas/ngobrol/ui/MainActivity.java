@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.makeramen.RoundedImageView;
+import com.mymonas.ngobrol.Config;
 import com.mymonas.ngobrol.R;
 import com.mymonas.ngobrol.adapter.DrawerListAdapter;
 import com.mymonas.ngobrol.io.RestCallback;
@@ -42,6 +43,11 @@ import retrofit.client.Response;
 
 
 public class MainActivity extends FragmentActivity {
+    private static final int DRAWER_MY_PROFILE = 1;
+    private static final int DRAWER_SETTINGS = 4;
+    private static final int DRAWER_LOGIN = 5;
+    private static final int DRAWER_LOGOUT = 6;
+
     private CharSequence mTitle;
     private CharSequence mDrawerTitle;
 
@@ -60,7 +66,10 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        Crashlytics.start(this);
+
+        if(!Clog.isDebugable())
+            Crashlytics.start(this);
+
         mTitle = mDrawerTitle = getTitle();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -90,22 +99,22 @@ public class MainActivity extends FragmentActivity {
         int[] iconResources = new int[10];
         String[] mDrawerTitles = new String[10];
 
-        iconResources[4] = R.drawable.ic_drawer_setting;
-        mDrawerTitles[4] = getString(R.string.general_settings);
+        iconResources[DRAWER_SETTINGS] = R.drawable.ic_drawer_setting;
+        mDrawerTitles[DRAWER_SETTINGS] = getString(R.string.general_settings);
 
         TextView mAccountDetail = (TextView) findViewById(R.id.account_detail);
         mUserUtils = new UserUtils(this);
 
         if (mUserUtils.isAvailable()) {
             mAccountDetail.setText(mUserUtils.getUsername());
-            iconResources[1] = R.drawable.ic_drawer_profile;
-            mDrawerTitles[1] = getString(R.string.menu_my_profile);
-            iconResources[6] = R.drawable.ic_drawer_logout;
-            mDrawerTitles[6] = getString(R.string.general_logout);
+            iconResources[DRAWER_MY_PROFILE] = R.drawable.ic_drawer_profile;
+            mDrawerTitles[DRAWER_MY_PROFILE] = getString(R.string.menu_my_profile);
+            iconResources[DRAWER_LOGOUT] = R.drawable.ic_drawer_logout;
+            mDrawerTitles[DRAWER_LOGOUT] = getString(R.string.general_logout);
         } else {
             mAccountDetail.setText(getString(R.string.general_noaccount));
-            iconResources[5] = R.drawable.ic_drawer_login;
-            mDrawerTitles[5] = getString(R.string.general_signin);
+            iconResources[DRAWER_LOGIN] = R.drawable.ic_drawer_login;
+            mDrawerTitles[DRAWER_LOGIN] = getString(R.string.general_signin);
         }
 
         for (int i = 0; i < mDrawerTitles.length; i++) {
@@ -139,8 +148,22 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        // init image loader
+        initImageLoader();
 
+        ImageLoader.getInstance().displayImage(mUserUtils.getProfileUrl(), profileImg);
+        ImageLoader.getInstance().displayImage(mUserUtils.getProfileBg(), profileBg, new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(R.drawable.profile_bg)
+                .showImageOnFail(R.drawable.profile_bg)
+                .cacheOnDisk(true)
+                .cacheInMemory(true)
+                .displayer(new FadeInBitmapDisplayer(300))
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .resetViewBeforeLoading(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build());
+    }
+
+    private void initImageLoader() {
         DisplayImageOptions imageOptions = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.drawable.nophoto)
                 .showImageOnFail(R.drawable.nophoto)
@@ -154,25 +177,15 @@ public class MainActivity extends FragmentActivity {
                 .displayer(new FadeInBitmapDisplayer(300))
                 .build();
 
-        ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.init(new ImageLoaderConfiguration.Builder(this)
-                .diskCacheFileCount(5)
-                .defaultDisplayImageOptions(imageOptions)
-                .writeDebugLogs()
-                .build());
+        ImageLoaderConfiguration.Builder iml = new ImageLoaderConfiguration.Builder(this)
+                .diskCacheFileCount(Config.IMAGE_LOADER_DISK_CACHE_FILE_COUNT)
+                .defaultDisplayImageOptions(imageOptions);
 
+        if(Clog.isDebugable())
+            iml.writeDebugLogs();
 
-        imageLoader.displayImage(mUserUtils.getProfileUrl(), profileImg);
-        imageLoader.displayImage(mUserUtils.getProfileBg(), profileBg, new DisplayImageOptions.Builder()
-                .showImageForEmptyUri(R.drawable.profile_bg)
-                .showImageOnFail(R.drawable.profile_bg)
-                .cacheOnDisk(true)
-                .cacheInMemory(true)
-                .displayer(new FadeInBitmapDisplayer(300))
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .resetViewBeforeLoading(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .build());
+       ImageLoader.getInstance().init(iml.build());
+
     }
 
     @Override
@@ -211,16 +224,16 @@ public class MainActivity extends FragmentActivity {
     private void selectItem(int pos) {
 
         switch (mDrawerList.get(pos).getId()) {
-            case 1:
+            case DRAWER_MY_PROFILE:
                 startProfileActivity();
                 break;
-            case 4:
+            case DRAWER_SETTINGS:
                 startSettingsActivity();
                 break;
-            case 5:
+            case DRAWER_LOGIN:
                 doLoginTask();
                 break;
-            case 6:
+            case DRAWER_LOGOUT:
                 doLogoutTask();
                 break;
 
