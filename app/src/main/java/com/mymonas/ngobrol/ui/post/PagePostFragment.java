@@ -94,7 +94,6 @@ public class PagePostFragment extends Fragment implements PostAdapter.OnEditPost
         Clog.d("");
 
         if(mCurrentPage == page) {
-            Clog.d("Run the fucking offset");
             mPostListView.setSelection(position);
         }
     }

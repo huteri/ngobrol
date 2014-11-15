@@ -21,10 +21,10 @@ import java.util.ArrayList;
  */
 public class InfoProfileFragment extends ScrollTabHolderFragment implements AbsListView.OnScrollListener {
 
+    private static final int INFO_POSITION = 0;
     private ArrayList<InfoProfileListItem> mListItems;
     private UserData mUserData;
     private ListView mListView;
-    private int mPosition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,6 @@ public class InfoProfileFragment extends ScrollTabHolderFragment implements AbsL
 
         Bundle args = getArguments();
         mUserData = (UserData) args.getSerializable(ProfileActivity.KEY_EXTRA_USER_DATA);
-        mPosition = args.getInt(ProfileActivity.KEY_EXTRA_POSITION);
 
         mListItems = new ArrayList<InfoProfileListItem>();
 
@@ -80,7 +79,7 @@ public class InfoProfileFragment extends ScrollTabHolderFragment implements AbsL
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
         if (mScrollTabHolder != null)
-            mScrollTabHolder.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount, mPosition);
+            mScrollTabHolder.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount, INFO_POSITION);
 
     }
 

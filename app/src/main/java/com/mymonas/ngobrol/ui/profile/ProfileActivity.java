@@ -109,6 +109,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
         args.putSerializable(KEY_EXTRA_USER_DATA, mUserData);
         mPagerAdapter.addPage(getString(R.string.profile_info), InfoProfileFragment.class, args);
         mPagerAdapter.addPage(getString(R.string.profile_tab_threads), ThreadProfileFragment.class, args);
+        mPagerAdapter.addPage("Posts", PostProfileFragment.class, args);
 
         mViewPager.setAdapter(mPagerAdapter);
 
@@ -291,6 +292,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount, int pagePosition) {
+        Clog.d("pagePosition : "+pagePosition + " mViewPager.getCurrentItem : "+mViewPager.getCurrentItem());
         if (mViewPager.getCurrentItem() == pagePosition) {
             int scrollY = getScrollY(view);
             mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
@@ -383,6 +385,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
             public Bundle getArgs() {
                 return args;
             }
+
         }
 
         public PagerAdapter(Context context, FragmentManager fm) {
@@ -414,9 +417,7 @@ public class ProfileActivity extends FragmentActivity implements ScrollTabHolder
 
         @Override
         public Fragment getItem(int position) {
-            Clog.d("");
             Bundle args = mPager.get(position).getArgs();
-            args.putInt(KEY_EXTRA_POSITION, position);
             ScrollTabHolderFragment fragment = (ScrollTabHolderFragment) Fragment.instantiate(mContext, mPager.get(position).getClss().getName(), args);
 
             mScrollTabHolders.put(position, fragment);

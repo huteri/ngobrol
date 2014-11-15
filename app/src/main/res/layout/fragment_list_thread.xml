@@ -11,6 +11,7 @@
         android:dividerHeight="5dp"
         android:divider="@android:color/transparent"
         android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="none"
         android:layout_height="match_parent" />
 
     <ProgressBar

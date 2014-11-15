@@ -47,6 +47,8 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
 
     private static final int NUM_POST_REQUEST = 0;
     public static final String KEY_EXTRA_THREAD_DATA = "thread_data";
+    public static final String KEY_EXTRA_SET_OFFSET_POST = "set_offset_post";
+    private static final int OFFSET_NULL = 0;
     private Integer mCurrentRequestedPage = 1;
     private Bundle mArgs;
     private ViewPager mViewPager;
@@ -64,6 +66,8 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
     private int mCurrentPage = 0;
 
     private OnSetOffsetListview mOnSetOffsetListener;
+    private int mOffsetPost = OFFSET_NULL;
+    private int mCurrentPost = 0;
 
     public void setOnSetOffsetListener(OnSetOffsetListview mOnSetOffsetListener) {
         this.mOnSetOffsetListener = mOnSetOffsetListener;
@@ -92,17 +96,20 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
         mIndicator.setFooterIndicatorStyle(TitlePageIndicator.IndicatorStyle.Triangle);
 
         mPostData = new ArrayList<PostData>();
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+
         mArgs = getArguments();
         mThreadData = (ThreadItem) mArgs.getSerializable(KEY_EXTRA_THREAD_DATA);
+
+        if (mArgs.get(KEY_EXTRA_SET_OFFSET_POST) != null && mArgs.getInt(KEY_EXTRA_SET_OFFSET_POST) > OFFSET_NULL)
+            mOffsetPost = mArgs.getInt(KEY_EXTRA_SET_OFFSET_POST);
+
         mThreadId = Integer.valueOf(mThreadData.getId());
         mUserUtils = new UserUtils(mContext);
-
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         mNumPostPerPage = PrefUtils.getNumPostsPerPage(mContext);
 
         changeActionBarColor();
         getCurrentPostData();
-
 
         return view;
     }
@@ -118,7 +125,7 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
         Clog.d("");
         if (mPostData.size() == 0 || mTotalPostData > mPostData.size()) {
             mProgressBar.setVisibility(View.VISIBLE);
-            RestClient.get().getPosts(mThreadId, NUM_POST_REQUEST, mCurrentRequestedPage, new RestCallback<PostCallback>(mContext) {
+            RestClient.get().getPosts(mThreadId, 0, NUM_POST_REQUEST, mCurrentRequestedPage, new RestCallback<PostCallback>(mContext) {
                 @Override
                 public void success(PostCallback postCallback, Response response) {
                     super.success(postCallback, response);
@@ -169,6 +176,10 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
 
     private void jumpToCurrentPage() {
         mViewPager.setCurrentItem(mCurrentPage);
+
+        if(mCurrentPost > 0) {
+            mOnSetOffsetListener.onSetOffset(mCurrentPage, mCurrentPost);
+        }
     }
 
     private ArrayList<PostData> getPostDataBasedOnCurrentPage(int pos) {
@@ -183,8 +194,13 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
 
         for (int j = offset; j < nextSet; j++) {
             PostData data = mPostData.get(j);
-            data.setIncrement(j+1);
+            data.setIncrement(j + 1);
             currentPostData.add(data);
+
+            if(mOffsetPost > 0 && data.getId() == mOffsetPost) {
+                mCurrentPage = pos;
+                mCurrentPost = j - offset;
+            }
         }
         return currentPostData;
     }
@@ -334,7 +350,7 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
             public void success(BaseCallback baseCallback, Response response) {
                 super.success(baseCallback, response);
                 pDialog.dismiss();
-                if(baseCallback.getSuccess() == 1) {
+                if (baseCallback.getSuccess() == 1) {
                     reloadTheFragment();
                     Toast.makeText(mContext, "Post succesfully deleted", Toast.LENGTH_SHORT).show();
                 }
@@ -362,6 +378,8 @@ public class PostFragment extends Fragment implements PostAdapter.OnEditPostList
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mContext = getActivity();
+
+
     }
 
     @Override

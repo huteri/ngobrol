@@ -32,7 +32,7 @@ public interface Api {
     // post
 
     @GET("/post.php?action=get_posts")
-    void getPosts(@Query("threadId") int threadId, @Query("limit") int limit, @Query("p") int page, RestCallback<PostCallback> callback);
+    void getPosts(@Query("threadId") int threadId, @Query("userId") int userId, @Query("limit") int limit, @Query("p") int page, RestCallback<PostCallback> callback);
 
     @FormUrlEncoded
     @POST("/post.php?action=submit_post")
