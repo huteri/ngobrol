@@ -13,4 +13,5 @@ public class Config {
     // Set default max file count for disk cache in image loader
     public static final int IMAGE_LOADER_DISK_CACHE_FILE_COUNT = 5;
 
+    public static String SERVER_NAME = "http://mymonas.com/forum";
 }
