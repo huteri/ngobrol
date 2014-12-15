@@ -1,5 +1,6 @@
 package com.mymonas.ngobrol.io;
 
+import com.mymonas.ngobrol.Config;
 import com.mymonas.ngobrol.util.Clog;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -12,7 +13,7 @@ import retrofit.client.OkClient;
 public class RestClient {
 
     private static Api REST_CLIENT;
-    private static String SERVER = "https://mymonas.com/forum";
+
     static {
         setupRestClient();
     }
@@ -26,7 +27,7 @@ public class RestClient {
 
     private static void setupRestClient() {
         RestAdapter.Builder builder = new RestAdapter.Builder()
-                .setEndpoint(SERVER)
+                .setEndpoint(Config.SERVER_NAME)
                 .setClient(new OkClient(new OkHttpClient()))
                 .setLogLevel(RestAdapter.LogLevel.NONE);
 
