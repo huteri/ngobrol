@@ -1,4 +1,4 @@
-Ngobrol - Platform for free discussions
+##Ngobrol - Platform for free discussions
 
 This project mainly for android is open source. Ngobrol is a mobile application (android specially) where we can discuss any topics from several categories. 
 
@@ -9,7 +9,10 @@ https://play.google.com/store/apps/details?id=com.mymonas.ngobrol
 
 Or download the apk https://www.dropbox.com/s/wrzoyieuxusj7fu/app-release.apk?dl=0
 
+Screenshots available here
+https://www.dropbox.com/sh/6xjxg04daw49633/AACx0vxQGxW2UXNalifAJzjra?dl=0
 
+```
 Copyright 2014 Huteri Manza
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,3 +26,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+```
